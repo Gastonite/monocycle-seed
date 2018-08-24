@@ -1,0 +1,23 @@
+{
+  "presets": [
+    "env",
+    "stage-3"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "."
+        ],
+        "alias": {
+          "component": "./src/component",
+          "components": "./src/components",
+          "utilities": "./src/utilities",
+          "assertions": "monocycle/assertions",
+          "style": "./src/style"
+        }
+      }
+    ]
+  ]
+}
