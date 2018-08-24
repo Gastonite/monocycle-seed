@@ -1,4 +1,4 @@
-const { ul, li } = require('@cycle/dom')
+const { ul } = require('@cycle/dom')
 
 
 module.exports = ul

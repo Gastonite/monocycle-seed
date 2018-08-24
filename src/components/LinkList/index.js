@@ -1,11 +1,8 @@
 const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const { classes } = require('typestyle')
-const { default: $ } = require('xstream')
 const isNotPlainObject = require('assertions/isNotPlainObject')
 const objOf = require('ramda/src/objOf')
 const when = require('ramda/src/when')
-const LinkListView = require('./view')
 const { makeLink } = require('components/Link')
 const { makeList } = require('components/List')
 const { mergeClasses } = require('utilities/style')
@@ -13,7 +10,7 @@ const { mergeClasses } = require('utilities/style')
 const WithLinkList = (options = {}) => {
 
   const {
-    View = LinkListView,
+    View,
     [Cycle.hasKey]: has = Cycle.Empty
   } = options = when(
     isNotPlainObject,
@@ -23,15 +20,10 @@ const WithLinkList = (options = {}) => {
 
   const classes = { LinkList: 'LinkList', ...options.classes }
 
-  Cycle.log('LinkList', { classes, has })
-  // const LinkList = Cycle({
-  //   View: View.bind(void 0, `.${classes.LinkList}`),
-  //   [Cycle.hasKey]: has
-  // })
-  // if (has.length === 1 && has[0].isLinkList)
-  //   return has[0]
+  // Cycle.log('WithLinkList()', { classes, has })
 
   const LinkList = makeList({
+    View,
     classes: mergeClasses(classes, {
       List: classes.LinkList
     }),

@@ -48,26 +48,23 @@
   },
   "_moduleAliases": {
     "component": "./src/component",
+    "drivers": "./drivers",
     "components": "./src/components",
-    "drivers": "./src/drivers",
     "utilities": "./src/utilities",
     "assertions": "./node_modules/monocycle/assertions",
     "style": "./src/style"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
+    "prod": "npm run build:prod && npm run start:prod",
     "start": "npm run start:dev",
     "start:dev": "node .",
-    "start:prod": "node server/index.js",
-    "dev": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
+    "start:prod": "NODE_ENV=production node server/index.js",
     "build": "browserify -e src/index.js -o public/bundle.js",
     "build:dev": "npm run build -- --debug",
-    "build:dev:html": "cp src/index.html public/",
     "build:prod": "npm run build -- -g uglifyify",
-    "dev2": "concurrently --kill-others npm:dev:*",
-    "dev:watch": "watchify -e src/index.js -o public/bundle.js -t babelify --debug",
-    "prebuild": "npm run clean",
-    "clean": "rm -fr public"
+    "prebuild": "rm -fr public",
+    "test": "echo \"Error: no tests for the moment :)\" && exit 1"
   },
   "author": "",
   "license": "ISC",

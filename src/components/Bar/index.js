@@ -1,5 +1,4 @@
 const Cycle = require('component')
-const { default: $ } = require('xstream')
 const isNotPlainObject = require('assertions/isNotPlainObject')
 const BarView = require('./view')
 const objOf = require('ramda/src/objOf')
@@ -21,10 +20,7 @@ const WithBar = (options = {}) => {
 
   const classes = { Bar: 'Bar', ...options.classes }
 
-  // Cycle.log('WithBar()', {
-  //   has
-  // })
-
+  // Cycle.log('WithBar()', { has  })
 
   return component => Cycle([
     component,

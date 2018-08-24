@@ -1,10 +1,7 @@
-const c = require('component')
+const Cycle = require('component')
 const stringify = require('utilities/stringify')
 const { pre } = require('@cycle/dom')
 const { default: $ } = require('xstream')
-const { rem, hsla } = require('csx')
-const { stylesheet } = require('typestyle')
-const { scroll, padding } = require('csstips')
 
 const makeDebug = ({
   classes = { Debug: 'Debug' },
@@ -17,7 +14,7 @@ const makeDebug = ({
       .map(pre.bind(void 0, `.${classes.Debug}`))
   })
 
-  return c(Debug)
+  return Cycle(Debug)
 }
 
 const DebugState = makeDebug({

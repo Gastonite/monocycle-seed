@@ -58,7 +58,7 @@ const WithRouter = ({
           ? pipe(
             match(resolver.resolve),
             x => {
-              console.log(`${kind}.resolve.match`, {
+              console.log(kind + '.resolve.match', {
                 i,
                 x,
                 resolver,
@@ -74,13 +74,16 @@ const WithRouter = ({
     })
   }
 
-  const RouterSinks = (sinks, sources) => ({
-    ...sinks,
-    path$: sources[historySinkName]
-      .map(prop('pathname'))
-      .compose(dropRepeats())
-      .debug(`${kind}.path`)
-  })
+  const RouterSinks = (sinks, sources) => {
+
+    return ({
+      ...sinks,
+      path$: sources[historySinkName]
+        .map(prop('pathname'))
+        .compose(dropRepeats())
+        .debug(kind + '.path')
+    })
+  }
 
 
   const StatefulRouterSinks = (sinks, sources) => {
@@ -126,38 +129,10 @@ const WithRouter = ({
         name: 'initRouter',
         reducer: (state = {}) => state.isRouter ? state : {
           ...state,
-          // ...KindReducer('Router')(state),
+          ...KindReducer('Router')(state),
           isRouter: true
         }
       })
-
-
-      // .listener({
-      //   from: (sinks, sources) => sources.DOM.select(':root a').events('click', {
-      //     preventDefault: true,
-      //     useCapture: true
-      //   })
-      //     // .map(e => e.preventEventDefault() || e)
-      //     // .map(stopEventPropagation)
-      //     .map(prop('target'))
-      //     .debug('target')
-      //     // .mapTo('/pwet'),
-      //     .map(Pathname),
-      //     // .compose(sources.Time.debounce(0)),
-      //   to: historySinkName,
-      //   combiner: $.merge,
-      // })
-
-
-  // .reducer({
-  //   name: 'navigate',
-  //   from: 'path$',
-  //   reducer: path => (state = {}) => state.isRouter ? state : {
-  //     ...state,
-  //     is: (state.is || []).concat(['Router']),
-  //     isRouter: true
-  //   }
-  // })
 }
 
 const makeRouter = options => WithRouter(options)()

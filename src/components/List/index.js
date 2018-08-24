@@ -1,6 +1,5 @@
 const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const { default: $ } = require('xstream')
 const isNotPlainObject = require('assertions/isNotPlainObject')
 const objOf = require('ramda/src/objOf')
 const when = require('ramda/src/when')
@@ -21,6 +20,7 @@ const WithList = (options = {}) => {
   const classes = { List: 'List', ...options.classes }
 
   // Cycle.log('List', { classes, has })
+
   const List = Cycle({
     View: View.bind(void 0, `.${classes.List}`),
     [Cycle.hasKey]: has === Cycle.Empty

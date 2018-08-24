@@ -29,8 +29,6 @@ const server = Hapi.server({
   }
 })
 
-
-
 const startServer = async ({ 
   exceptions
 } = {}) => {

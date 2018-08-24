@@ -1,6 +1,3 @@
-const { makeDOMDriver } = require('@cycle/dom')
+const { makeDOMDriver } = require('@cycle/dom/lib/cjs/makeDOMDriver')
 
-module.exports = ({ root } = {}) => {
-  
-  return makeDOMDriver(root)
-}
+module.exports = ({ root } = {}) => makeDOMDriver(root)

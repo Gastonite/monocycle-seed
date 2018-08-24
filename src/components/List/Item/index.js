@@ -1,6 +1,5 @@
 const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const { default: $ } = require('xstream')
 const isNotPlainObject = require('assertions/isNotPlainObject')
 const objOf = require('ramda/src/objOf')
 const when = require('ramda/src/when')

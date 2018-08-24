@@ -10,7 +10,6 @@ const isolatedOperator = require('./operators/isolated')
 const reducerOperator = require('./operators/reducer')
 
 
-
 const mergeViews = apply(merge)
 
 const Component = makeComponent({

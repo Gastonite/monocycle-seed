@@ -1,7 +1,6 @@
 const castArray = require('lodash.castarray')
 const Cycle = require('component')
 const { classes } = require('typestyle')
-const { default: $ } = require('xstream')
 const isFunction = require('assertions/isFunction')
 const isNotPlainObject = require('assertions/isNotPlainObject')
 const objOf = require('ramda/src/objOf')
@@ -24,11 +23,8 @@ const WithNavigation = (options = {}) => {
 
   const classes = { Navigation: 'Navigation', ...options.classes }
 
-  Cycle.log('Navigation', { classes, has })
-  // const Navigation = Cycle({
-  //   View: View.bind(void 0, `.${classes.Navigation}`),
-  //   [Cycle.hasKey]: has
-  // })
+  // Cycle.log('WithNavigation()', { classes, has })
+
   const Navigation = Cycle({
     View: NavigationView.bind(void 0, `.${classes.Navigation}`),
     [Cycle.hasKey]: has === Cycle.Empty
@@ -36,14 +32,6 @@ const WithNavigation = (options = {}) => {
       : castArray(has).map(x => isFunction(x) && x.isLinkList ? x : makeLinkList(x))
   })
 
-  const Navigatio = makeList({
-    classes: mergeClasses(classes, {
-      List: classes.Navigation
-    }),
-    [Cycle.hasKey]: has === Cycle.Empty
-      ? has
-      : castArray(has).map(makeLinkList)
-  })
   return component => Cycle([component, Navigation])
 }
 

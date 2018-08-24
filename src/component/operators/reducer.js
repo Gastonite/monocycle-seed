@@ -1,7 +1,8 @@
 const { default: $ } = require('xstream');
-const isString = require('assertions/isString')
-const isObject = require('assertions/isObject')
-const isFunction = require('assertions/isFunction')
+const isString = require('monocycle/assertions/isString')
+
+const isObject = require('monocycle/assertions/isObject')
+const isFunction = require('monocycle/assertions/isFunction')
 const identity = require('ramda/src/identity')
 const prop = require('ramda/src/prop')
 const WithListener = require('./listener')
