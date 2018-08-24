@@ -1,17 +1,20 @@
 # monocycle-seed
 
-Create a directory and initialize an empty Git repository:
-```
-mkdir myproject && cd myproject && git init
-```
-Add "seed" remote and fetch the commits:
-```
-git remote add seed https://github.com/gastonite/monocycle-seed.git
-git fetch seed
-```
-Finally merge the seed master branch to your current branch (master):
-```
-git merge seed/master
-```
+A seed to start developing an isomorphic application using [monocycle](https://github.com/gastonite/monocycle)
 
-And, here we go !
+## Start your project
+  Create a directory and initialize an empty Git repository:
+  ```
+  mkdir myproject && cd myproject && git init
+  ```
+  Add "seed" remote and fetch the commits:
+  ```
+  git remote add seed 
+  git fetch seed
+  ```
+  Finally add the "seed/master" commits to your current local branch (master):
+  ```
+  git merge seed/master
+  ```
+
+  And, here we go !
