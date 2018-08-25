@@ -8,12 +8,6 @@ const Pino = require('hapi-pino')
 const Routes = require('./routes')
 
 
-const _require = require
-global.require = (...args) => {
-  console.log('REQUIRE:', args)
-  return _require(...args)
-}
-
 
 const { NODE_ENV, PORT = 3000, HOST = 'localhost' } = process.env
 

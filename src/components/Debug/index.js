@@ -1,9 +1,11 @@
 const Cycle = require('component')
 const stringify = require('utilities/stringify')
 const { pre } = require('@cycle/dom')
+const always = require('ramda/src/always')
 const { default: $ } = require('xstream')
 
 const makeDebug = ({
+  View = pre,
   classes = { Debug: 'Debug' },
   from = $.empty
 } = {}) => {
@@ -11,10 +13,14 @@ const makeDebug = ({
   const Debug = sources => ({
     DOM: from(sources)
       .map(stringify)
-      .map(pre.bind(void 0, `.${classes.Debug}`))
+      .map(View.bind(void 0, `.${classes.Debug}`))
   })
 
-  return Cycle(Debug)
+  return Cycle(
+    process.env.NODE_ENV === 'production'
+      ? []
+      : [Debug]
+  )
 }
 
 const DebugState = makeDebug({

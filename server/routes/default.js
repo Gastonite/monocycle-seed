@@ -1,6 +1,6 @@
 const { default: $ } = require('xstream')
 const { run } = require('@cycle/run')
-const { makeWebPage } = require('components/WebPage')
+const { makeWebPage } = require('../components/WebPage')
 const { makeApp } = require('components/App')
 // const { makeServerHistoryDriver } = require('@cycle/history')
 const Classes = require('style')

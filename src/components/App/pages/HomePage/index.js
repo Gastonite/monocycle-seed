@@ -1,10 +1,9 @@
-const Component = require('component')
+const Cycle = require('component')
 const { default: $ } = require('xstream');
 const { section, h1, p } = require('@cycle/dom');
 
 const HomePageView = () => {
 
-  console.log('HomePageView()')
 
   return (
     section('.home', [
@@ -21,4 +20,4 @@ const HomePage = sources => {
   }
 }
 
-module.exports = Component(HomePage)
+module.exports = Cycle(HomePage)

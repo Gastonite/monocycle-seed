@@ -1,5 +1,5 @@
 const { default: $ } = require('xstream')
-const Component = require('component')
+const Cycle = require('component')
 const KindReducer = require('utilities/kind')
 const { WithSwitch } = require('components/Switch')
 const prop = require('ramda/src/prop')
@@ -10,23 +10,11 @@ const isRegExp = require('assertions/isRegExp')
 const { div } = require('@cycle/dom')
 const { default: dropRepeats } = require('xstream/extra/dropRepeats')
 
-
-const preventEventDefault = event => {
-  console.log('preventEventDefault()', event)
-
-  return event.preventDefault() || event
-}
-
-const stopEventPropagation = event => {
-  return event.stopPropagation() || event
-}
-
 const Pathname = ({ tagName, pathname, search, hash }) => {
   return tagName === 'A'
     ? pathname + search + (hash === void 0 ? '' : hash)
     : '/'
 }
-
 
 const WithRouter = ({
   kind = 'Router',
@@ -39,14 +27,14 @@ const WithRouter = ({
   Default = () => ({ DOM: $.of(div('No route found')) })
 } = {}) => {
 
-  // console.log('WithRouter()')
+  // Cycle.log('WithRouter()')
 
 
   if (isArray(resolve)) {
 
     resolve = resolve.map((resolver, i) => {
 
-      // console.log('Router.resolve', {
+      // Cycle.log('Router.resolve', {
       //   i,
       //   resolver,
       //   isRegExp: isRegExp(resolver.resolve)
@@ -58,7 +46,7 @@ const WithRouter = ({
           ? pipe(
             match(resolver.resolve),
             x => {
-              console.log(kind + '.resolve.match', {
+              Cycle.log(kind + '.resolve.match', {
                 i,
                 x,
                 resolver,
@@ -81,7 +69,7 @@ const WithRouter = ({
       path$: sources[historySinkName]
         .map(prop('pathname'))
         .compose(dropRepeats())
-        .debug(kind + '.path')
+        // .debug(kind + '.path')
     })
   }
 
@@ -102,7 +90,7 @@ const WithRouter = ({
     }
   }
 
-  const withRouter = f => Component(f)
+  const withRouter = f => Cycle(f)
     .after(isStateful ? StatefulRouterSinks : RouterSinks)
     .map(WithSwitch({
       first,
@@ -138,8 +126,6 @@ const WithRouter = ({
 const makeRouter = options => WithRouter(options)()
 
 module.exports = {
-  preventEventDefault,
-  stopEventPropagation,
   Pathname,
   WithRouter,
   makeRouter,

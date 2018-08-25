@@ -1,7 +1,7 @@
 {
-  "name": "isomorphic",
+  "name": "monocycle-seed",
   "version": "1.0.0",
-  "description": "",
+  "description": "A seed to start developing an isomorphic application using monocycle",
   "main": "server/index.js",
   "dependencies": {
     "@cycle/dom": "^20.4.0",
@@ -23,7 +23,7 @@
     "csx": "^9.0.0",
     "cycle-onionify": "^6.1.0",
     "cycle-restart": "^0.2.3",
-    "esm": "^3.0.80",
+    "envify": "^4.1.0",
     "hapi": "^17.5.3",
     "hapi-pino": "^5.0.1",
     "inert": "^5.1.0",
@@ -36,10 +36,6 @@
     "uglifyify": "^5.0.1",
     "watchify": "^3.11.0",
     "xstream": "^11.7.0"
-  },
-  "esm": {
-    "cjs": true,
-    "mode": "auto"
   },
   "browserify": {
     "transform": [
@@ -55,18 +51,19 @@
     "style": "./src/style"
   },
   "scripts": {
-    "dev": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
+    "watch": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
+    "dev": "npm run build:dev && npm run start:dev",
     "prod": "npm run build:prod && npm run start:prod",
     "start": "npm run start:dev",
     "start:dev": "node .",
     "start:prod": "NODE_ENV=production node server/index.js",
     "build": "browserify -e src/index.js -o public/bundle.js",
     "build:dev": "npm run build -- --debug",
-    "build:prod": "npm run build -- -g uglifyify",
+    "build:prod": "NODE_ENV=production npm run build -- -g uglifyify -g envify",
     "prebuild": "rm -fr public",
     "test": "echo \"Error: no tests for the moment :)\" && exit 1"
   },
-  "author": "",
+  "author": "Clément Pasquier <clement@n00sphere.net>",
   "license": "ISC",
   "devDependencies": {}
 }

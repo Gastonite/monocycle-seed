@@ -6,7 +6,6 @@ const { inlineBlock, normalize, setupPage, margin } = require('csstips')
 
 
 const defineStyle = ({ rootClass, definitions } = {}) => {
-  console.log('Classes()')
 
   reinit()
 

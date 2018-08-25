@@ -8,8 +8,6 @@ const RootElement = (className) => {
 
 module.exports = ({ className = 'root' } = {}) => {
   
-  console.log('insertRoot()')
-
   let root = document.querySelector(`.${className}`)
   
   root && root.parentNode.removeChild(root)

@@ -1,7 +1,12 @@
-const { html, head, style, title, body, div, script } = require('@cycle/dom')
+const { base, html, head, style, title: TitleView, body, div, script } = require('@cycle/dom')
 const { default: $ } = require('xstream')
 
-const makeWebPage = ({ classes, css, Content }) => {
+const makeWebPage = ({
+  title = 'Example',
+  classes,
+  css,
+  Content
+} = {}) => {
 
   const WebPage = sources => {
 
@@ -18,7 +23,8 @@ const makeWebPage = ({ classes, css, Content }) => {
           return (
             html([
               head([
-                title('Isomorphic example'),
+                TitleView(title),
+                base({ attrs: { href: '/' } }),
                 css && style(css)
               ]),
               body([
@@ -31,9 +37,7 @@ const makeWebPage = ({ classes, css, Content }) => {
             ])
           )
         })
-        // .last()
         .compose(sources.Time.debounce(200))
-        // .last()
     }
   }
 

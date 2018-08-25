@@ -1,5 +1,5 @@
 const { default: $ } = require('xstream')
-const Component = require('component')
+const Cycle = require('component')
 const { section, h1, p } = require('@cycle/dom')
 
 const ContactPageView = () => {
@@ -14,8 +14,8 @@ const ContactPageView = () => {
 
 const ContactPage = sources => {
   return {
-    DOM: $.of(ContactPageView()).debug('contact')
+    DOM: $.of(ContactPageView())
   }
 }
 
-module.exports = Component(ContactPage)
+module.exports = Cycle(ContactPage)

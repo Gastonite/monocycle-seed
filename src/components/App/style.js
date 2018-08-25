@@ -3,7 +3,6 @@ const { vertical, flex, layerParent, fillParent } = require('csstips/lib')
 
 module.exports = () => {
 
-  console.log('AppStyle()')
 
   return [
     // padding(em(2), em(8)),

@@ -1,5 +1,3 @@
-const Component = require('component')
-const Bar = require('components/Bar')
 const { default: $ } = require('xstream')
 const { ul, li, a } = require('@cycle/dom')
 

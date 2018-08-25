@@ -7,7 +7,7 @@ const assertObject = require('assertions/assertObject')
 const assertFunction = require('assertions/assertFunction')
 const isArray = require('lodash/isArray')
 const isFunction = require('lodash/isFunction')
-const c = require('component')
+const Cycle = require('component')
 const isString = require('assertions/isString')
 const { default: dropRepeats } = require('xstream/extra/dropRepeats')
 const Memoize = require('utilities/memoize')
@@ -63,7 +63,7 @@ const WithSwitch = ({
         let returned
         resolvers
           .some(x => (returned = _resolve(x), returned && (resolved = returned)))
-          console.log('resolve.resolved', returned)
+          Cycle.log('Switch.resolved', returned)
         return returned && resolved.value
       }
 
@@ -71,7 +71,7 @@ const WithSwitch = ({
         .map(_resolve)
         .filter(Boolean)
 
-      return resolved.length > 0 && c({
+      return resolved.length > 0 && Cycle({
         View,
         has: resolved.map(prop('value'))
       })
@@ -84,7 +84,7 @@ const WithSwitch = ({
   assertFunction(from, 'from')
   assertFunction(resolve, 'resolve')
 
-  return f => c(f)
+  return f => Cycle(f)
 
     .after((sinks, sources) => {
 

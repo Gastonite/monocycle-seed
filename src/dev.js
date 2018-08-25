@@ -1,6 +1,7 @@
 const { setup, run } = require('@cycle/run')
 const { rerunner, restartable } = require('cycle-restart')
 const { default: $ } = require('xstream')
+const Cycle = require('component')
 const insertRoot = require('./utilities/root')
 
 const requireStyle = () => require('./style')()
@@ -21,7 +22,7 @@ const withCounters = component => {
       .map(x => {
 
 
-        console.log('COUNTERS:', counters)
+        Cycle.log('COUNTERS:', counters)
       })
       .addListener(x => x)
 
@@ -58,10 +59,7 @@ const Rerun = ({ root } = {}) => rerunner(setup, () => {
       pauseSinksWhileReplaying: false
     })
   }
-});
-
-
-
+})
 
 
 let _classes = requireStyle()
@@ -70,10 +68,10 @@ const startApp = ({
   classes = { ..._classes },
   rootClass = 'root'
 } = {}) => {
-  // console.log('')
-  // console.log('===============================================================')
-  // console.log('')
-  console.clear()
+  // Cycle.log('')
+  // Cycle.log('===============================================================')
+  // Cycle.log('')
+  // 
 
   insertRoot()
 
@@ -89,17 +87,15 @@ if (module.hot) {
     './components/App',
     './drivers',
   ], () => {
-    console.log('hot1')
-
+    console.clear()
     startApp()
-  });
+  })
 
 
   module.hot.accept('./style', () => {
-    console.log('hot2')
     _classes = requireStyle()
+    console.clear()
     startApp()
-
-  });
+  })
 
 }

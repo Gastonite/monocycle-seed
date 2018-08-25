@@ -17,7 +17,7 @@ const prefixNameReducer = ({ kind } = {}, name) =>
     ? name
     : `(${kind.join(',')}) ${name}`
 
-const logState = curry((name, reducer) => {
+const logState = curry(({ log, name }, reducer) => {
 
   let noPrefix = false
 
@@ -39,7 +39,7 @@ const logState = curry((name, reducer) => {
     //   log: !equals(before, after)
     // })
 
-    !equals(before, after) && console.log(`%c${name}:`, [
+    !equals(before, after) && log(`%c${name}:`, [
       'color: #26c47d',
       'color: #32b87c',
       // 'font-weight: bold',
@@ -50,7 +50,7 @@ const logState = curry((name, reducer) => {
 })
 
 
-const WithReducer = (options = {}, override = false) => {
+const WithReducer = (options = {}, Cycle) => {
 
   options = !isFunction(options)
     ? options
@@ -62,7 +62,7 @@ const WithReducer = (options = {}, override = false) => {
     before = true
   } = options
 
-  // console.log('WithReducer()', options)
+  Cycle.log('WithReducer()', options)
 
   const from = isString(options.from)
     ? prop(options.from)
@@ -75,10 +75,13 @@ const WithReducer = (options = {}, override = false) => {
   return WithListener({
     kind: `${capitalize(name)}Reducer`,
     from: (sinks, sources) => {
-      // console.log('WithReducer()', 'from', sinks)
+      // Cycle.log('WithReducer()', 'from', sinks)
 
       const args = [
-        getReducer$(sinks, sources).map(logState(name)),
+        getReducer$(sinks, sources).map(logState({
+          name,
+          log: Cycle.log
+        })),
         sinks.onion || $.empty()
       ]
 

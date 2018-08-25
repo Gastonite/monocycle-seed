@@ -6,6 +6,7 @@ const { classes } = require('typestyle/lib');
 // const { isString } = require('util')
 const pipe = require('ramda/src/pipe')
 const { default: { createTagFunction } } = require('@cycle/dom/lib/cjs/hyperscript-helpers')
+const Cycle = require('component')
 const baseStyle = require('style')
 const { rem } = require('csx/lib')
 
@@ -16,9 +17,7 @@ const BarView = pipe(
     const { text } = vnode
     const { size, alignRight, props = {}, ...others } = vnode.data
 
-
-    console.error('BarView()', { alignRight, size, data: vnode.data, others })
-
+    Cycle.log('BarView()', { alignRight, size, data: vnode.data, others })
 
     return {
       ...vnode,

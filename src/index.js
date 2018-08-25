@@ -1,9 +1,8 @@
 const { run } = require('@cycle/run')
 const Drivers = require('./drivers')
 const Classes = require('style')
-const { default: CycleOnionify } = require('cycle-onionify')
+const Cycle = require('component')
 const { makeApp } = require('components/App')
-const { makeWebsite } = require('components/Website')
 const insertRoot = require('./utilities/root')
 const { default: $ } = require('xstream')
 
@@ -11,16 +10,14 @@ const { default: $ } = require('xstream')
 const withCounters = component => {
 
   return sources => {
-    const counters = {
-
-    }
+    const counters = {}
 
     $.of(null)
       .compose(sources.Time.delay(5000))
       .map(x => {
 
 
-        console.log('COUNTERS:', counters)
+        Cycle.log('COUNTERS:', counters)
       })
       .addListener(x => x)
 
