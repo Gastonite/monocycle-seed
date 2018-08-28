@@ -1,6 +1,6 @@
 const { default: $ } = require('xstream');
 const isString = require('monocycle/assertions/isString')
-
+const { Empty } = require('monocycle/component')
 const isObject = require('monocycle/assertions/isObject')
 const isFunction = require('monocycle/assertions/isFunction')
 const identity = require('ramda/src/identity')
@@ -10,12 +10,10 @@ const equals = require('ramda/src/equals')
 const curry = require('ramda/src/curry')
 const capitalize = require('monocycle/utilities/capitalize')
 
-
-
 const prefixNameReducer = ({ kind } = {}, name) =>
   !kind
     ? name
-    : `(${kind.join(',')}) ${name}`
+    : `${kind.length > 1 ? '(' + kind.join(',') + ')' : kind[0]} ${name}`
 
 const logState = curry(({ log, name }, reducer) => {
 
@@ -31,26 +29,20 @@ const logState = curry(({ log, name }, reducer) => {
 
     const after = reducer(before)
 
-
     if (!noPrefix && isObject(after))
       name = prefixNameReducer(after, name)
 
-    // console.log('logState()', {
-    //   log: !equals(before, after)
-    // })
-
     !equals(before, after) && log(`%c${name}:`, [
-      'color: #26c47d',
       'color: #32b87c',
-      // 'font-weight: bold',
     ].join(';'), { before, after })
 
     return after
   }
 })
 
+const WithReducer = (options, Cycle) => {
 
-const WithReducer = (options = {}, Cycle) => {
+  options = options || Empty
 
   options = !isFunction(options)
     ? options
@@ -62,7 +54,7 @@ const WithReducer = (options = {}, Cycle) => {
     before = true
   } = options
 
-  Cycle.log('WithReducer()', options)
+  // Cycle.log('WithReducer()', options)
 
   const from = isString(options.from)
     ? prop(options.from)
@@ -75,6 +67,7 @@ const WithReducer = (options = {}, Cycle) => {
   return WithListener({
     kind: `${capitalize(name)}Reducer`,
     from: (sinks, sources) => {
+
       // Cycle.log('WithReducer()', 'from', sinks)
 
       const args = [

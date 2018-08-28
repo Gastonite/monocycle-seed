@@ -1,7 +1,6 @@
 const Cycle = require('component')
-const stringify = require('utilities/stringify')
+const stringify = require('monocycle/utilities/stringify')
 const { pre } = require('@cycle/dom')
-const always = require('ramda/src/always')
 const { default: $ } = require('xstream')
 
 const makeDebug = ({

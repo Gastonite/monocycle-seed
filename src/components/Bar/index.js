@@ -1,36 +1,32 @@
 const Cycle = require('component')
-const isNotPlainObject = require('assertions/isNotPlainObject')
-const BarView = require('./view')
-const objOf = require('ramda/src/objOf')
-const when = require('ramda/src/when')
+const { WithLayout, makeLayout } = require('components/Layout')
+const { classes: mergeClasses } = require('typestyle')
+const merge = require('snabbdom-merge')
+const BarView = require('components/Bar/view')
+const { Selector } = require('utilities/style')
 
 const WithBar = (options = {}) => {
 
-
   const {
     View = BarView,
-    alignRight = false,
     size,
-    [Cycle.hasKey]: has = Cycle.Empty
-  } = options = when(
-    isNotPlainObject,
-    objOf(Cycle.hasKey),
-    options
-  )
+    [Cycle.hasKey]: has = Cycle.Empty,
+    ...layoutOptions
+  } = options = Cycle.coerce(options)
 
   const classes = { Bar: 'Bar', ...options.classes }
 
-  // Cycle.log('WithBar()', { has  })
+  // Cycle.log('Bar', { has  })
+
+  const Bar = Cycle({
+    View: View.bind(void 0, Selector(classes.Bar), { size }),
+    [Cycle.hasKey]: has,
+  }, 'Bar')
 
   return component => Cycle([
     component,
-    Cycle({
-      View: View.bind(void 0, `.${classes.Bar}`, {
-        alignRight,
-        size
-      }),
-      [Cycle.hasKey]: has
-    })
+    makeLayout(layoutOptions),
+    Bar
   ])
 }
 

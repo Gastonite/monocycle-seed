@@ -46,13 +46,13 @@ const WithRouter = ({
           ? pipe(
             match(resolver.resolve),
             x => {
-              Cycle.log(kind + '.resolve.match', {
-                i,
-                x,
-                resolver,
-                isRegExp: isRegExp(resolver.resolve),
-                returned: x.length > 0 ? x : false
-              })
+              // Cycle.log(kind + '.resolve.match', {
+              //   i,
+              //   x,
+              //   resolver,
+              //   isRegExp: isRegExp(resolver.resolve),
+              //   returned: x.length > 0 ? x : false
+              // })
 
               return x.length > 0 ? x : false
             }
@@ -90,7 +90,7 @@ const WithRouter = ({
     }
   }
 
-  const withRouter = f => Cycle(f)
+  const withRouter = (component = Cycle.Empty) => Cycle(component)
     .after(isStateful ? StatefulRouterSinks : RouterSinks)
     .map(WithSwitch({
       first,
@@ -103,7 +103,6 @@ const WithRouter = ({
   return !isStateful
     ? withRouter
     : f => withRouter(f)
-
       .reducer({
         name: 'selectRoute',
         from: 'path$',
@@ -112,7 +111,6 @@ const WithRouter = ({
           route
         })
       })
-
       .reducer({
         name: 'initRouter',
         reducer: (state = {}) => state.isRouter ? state : {

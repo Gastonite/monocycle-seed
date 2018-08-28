@@ -7,12 +7,12 @@ const Log = (options = {}) => {
     log = console.log.bind(console),
     scope = ''
   } = isString(options)
-    ? { scope: options }
-    : options
-    
+      ? { scope: options }
+      : options
+
   if (!scope || !isString(scope))
     return log
-    
+
   return (...args) => {
 
     let prefix = scope
@@ -23,11 +23,11 @@ const Log = (options = {}) => {
       prefix = '%c' + prefix + ' ' + args[0].slice(2)
       args.shift()
     }
-
-    return log(
+    log(
       prefix,
       ...args
     )
+    return args[0]
   }
 }
 

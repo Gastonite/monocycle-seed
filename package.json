@@ -27,6 +27,7 @@
     "inert": "^5.1.0",
     "module-alias": "^2.1.0",
     "monocycle": "github:Gastonite/monocycle#dev",
+    "ms": "^2.1.1",
     "ramda": "^0.25.0",
     "snabbdom-merge": "github:Gastonite/snabbdom-merge#dev",
     "typestyle": "^2.0.1",
@@ -47,6 +48,7 @@
     "style": "./src/style"
   },
   "scripts": {
+    "watch": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
     "start": "if-env NODE_ENV=production && npm run prod || npm run dev",
     "dev": "npm run build:dev && npm run start:dev",
     "prod": "npm run build:prod && npm run start:prod",
@@ -56,7 +58,6 @@
     "build:dev": "npm run build -- --debug",
     "build:prod": "NODE_ENV=production npm run build -- -g uglifyify -g envify",
     "prebuild": "rm -fr public",
-    "watch": "budo src/dev.js --pushstate --dir src --live=*.{html,css} --port 8080 -- -p browserify-hmr",
     "test": "echo \"Error: no tests for the moment :)\" && exit 1"
   },
   "author": "Clément Pasquier <clement@n00sphere.net>",

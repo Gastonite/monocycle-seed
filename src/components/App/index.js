@@ -1,88 +1,78 @@
 const { default: $ } = require('xstream')
 const Cycle = require('component')
 const { DebugState } = require('components/Debug')
-const { header, footer, div, ul, li, a, section, h1, p } = require('@cycle/dom')
+const { header, footer, div } = require('@cycle/dom')
 const { makeNavigation } = require('components/Navigation')
 const { makeBar } = require('components/Bar')
+const { makeLayout } = require('components/Layout')
+const { WithFlexible } = require('components/Flexible')
 const PathToRegexp = require('path-to-regexp')
-const { makeRouter } = require('components/Router')
+const { WithRouter } = require('components/Router')
 const HomePage = require('./pages/HomePage')
 const ContactPage = require('./pages/ContactPage')
 const ServicesPage = require('./pages/ServicesPage')
 
-const Header = sources => ({ DOM: $.of(header('Headerr')) })
+const Header = sources => ({ DOM: $.of(header()) })
 const Footer = sources => ({ DOM: $.of(footer('Footer')) })
 const Logo = sources => ({ DOM: $.of(div('Logo')) })
-
-
-
-
-
-const AppRouter = makeRouter({
-  isStateful: true,
-  historySinkName: 'History',
-  Default: HomePage.isolated({
-    DOM: 'HomePage',
-    '*': null
-  }),
-  resolve: [
-    {
-      resolve: PathToRegexp('/services/:path?'),
-      value: Cycle(ServicesPage).isolated('services')
-    },
-    {
-      resolve: PathToRegexp('/contact/:path?'),
-      value: Cycle(ContactPage).isolated('contact')
-    }
-  ],
-})
 
 const makeApp = ({ classes } = {}) => Cycle({
   View: div.bind(void 0, `.${classes.App}`),
   has: [
+    
     Cycle([
       makeBar({
         classes,
         size: 'big',
+        spaced: true,
         has: [
           Logo,
           makeNavigation({
-            // classes,
-            has: {
-
-              has: [
-                { href: '/', has: 'Accueil' },
-                { href: '/services', has: 'Services' },
-                { href: '/contact', has: 'Contact' },
-              ]
-            
-            }
-          }),
-
-          DebugState
-
+            classes,
+            fill: true,
+            spaced: true,
+            has: [
+              {
+                spaced: true,
+                end: true,
+                has: [
+                  { href: '/', has: 'Accueil' },
+                  { href: '/services', has: 'Services' },
+                  { href: '/contact', has: 'Contact' },
+                ]
+              }
+            ]
+          }).map(WithFlexible({ classes })),
         ]
       }),
       Header
     ]).isolated({ onion: 'route', '*': null }),
+
     DebugState,
-    AppRouter,
+
+    makeLayout({
+      direction: 'column',
+      classes,
+    }).map(WithRouter({
+      isStateful: true,
+      historySinkName: 'History',
+      Default: HomePage.isolated({ DOM: 'HomePage', '*': null }),
+      resolve: [
+        {
+          resolve: PathToRegexp('/services/:path?'),
+          value: Cycle(ServicesPage).isolated('services')
+        },
+        {
+          resolve: PathToRegexp('/contact/:path?'),
+          value: Cycle(ContactPage).isolated('contact')
+        }
+      ],
+    })),
+
     Footer
   ]
 })
-  // .after(sinks => Object.keys(sinks).reduce((before, key) => {
-  //   const sink = sinks[key]
-
-  //   return {
-  //     ...before,
-  //     [key]: sink.replaceError(err => console.error(err) || $.empty())
-  //   }
-  // }, {}))
-  .reducer(() => ({}))
-// .isolated({
-//   History: '/admin',
-//   '*': null
-// })
+  .reducer()
 
 module.exports = {
   default: makeApp,

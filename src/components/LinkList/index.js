@@ -1,8 +1,6 @@
 const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const isNotPlainObject = require('assertions/isNotPlainObject')
-const objOf = require('ramda/src/objOf')
-const when = require('ramda/src/when')
+const ListView = require('components/List/view')
 const { makeLink } = require('components/Link')
 const { makeList } = require('components/List')
 const { mergeClasses } = require('utilities/style')
@@ -10,13 +8,10 @@ const { mergeClasses } = require('utilities/style')
 const WithLinkList = (options = {}) => {
 
   const {
-    View,
+    View = ListView,
     [Cycle.hasKey]: has = Cycle.Empty
-  } = options = when(
-    isNotPlainObject,
-    objOf(Cycle.hasKey),
-    options
-  )
+  } = options = Cycle.coerce(options)
+
 
   const classes = { LinkList: 'LinkList', ...options.classes }
 

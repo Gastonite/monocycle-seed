@@ -28,7 +28,7 @@ const makeWebPage = ({
                 css && style(css)
               ]),
               body([
-                div(`.${classes.App}`, contentView),
+                div(`.root`, contentView),
                 script(`window.app = ${JSON.stringify({
                   classes
                 })}`),

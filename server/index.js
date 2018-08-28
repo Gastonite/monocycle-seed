@@ -7,8 +7,6 @@ const Inert = require('inert')
 const Pino = require('hapi-pino')
 const Routes = require('./routes')
 
-
-
 const { NODE_ENV, PORT = 3000, HOST = 'localhost' } = process.env
 
 const isProduction = NODE_ENV === 'production'
@@ -23,32 +21,32 @@ const server = Hapi.server({
   }
 })
 
-const startServer = async ({ 
+const startServer = async ({
   exceptions
 } = {}) => {
 
   await server.register(Inert)
 
-  server.route(Routes({
-    exceptions
-  }))
-  // server.route([])
+server.route(Routes({
+  declareMethod: server.method.bind(server),
+  exceptions
+}))
 
-  await server.register({
-    plugin: Pino,
-    options: {
-      prettyPrint: !isProduction,
-      mergeHapiLogData: true,
-      logEvents: [
-        // 'response',
-        // 'request-error'
-      ]
-    }
-  })
+await server.register({
+  plugin: Pino,
+  options: {
+    prettyPrint: !isProduction,
+    mergeHapiLogData: true,
+    logEvents: [
+      // 'response',
+      // 'request-error'
+    ]
+  }
+})
 
 
-  await server.start()
-  server.log(['server'],`Running at: ${server.info.uri}`)
+await server.start()
+server.log(['server'], `Running at: ${server.info.uri}`)
 }
 
 process.on('unhandledRejection', (err) => {

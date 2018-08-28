@@ -63,7 +63,7 @@ const WithSwitch = ({
         let returned
         resolvers
           .some(x => (returned = _resolve(x), returned && (resolved = returned)))
-          Cycle.log('Switch.resolved', returned)
+          // Cycle.log('Switch.resolved', returned)
         return returned && resolved.value
       }
 

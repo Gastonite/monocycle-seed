@@ -1,5 +1,6 @@
 const intersection = require('lodash/intersection')
-const { classes } = require('typestyle/lib/internal/utilities')
+const isNonEmptyString = require('assertions/isNonEmptyString')
+const { classes } = require('typestyle')
 
 
 const mergeClasses = (baseStyle = {}, ...args) => args.reduce((before, style = {}) => {
@@ -19,8 +20,13 @@ const bgMixin = background => ({ background })
 
 const colorMixin = color => ({ color })
 
+const Selector = input => isNonEmptyString(input)
+  ? '.' + input.replace(' ', '.')
+  : void 0
+
 module.exports = {
   mergeClasses,
   bgMixin,
-  colorMixin
+  colorMixin,
+  Selector
 }

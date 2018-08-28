@@ -1,7 +1,4 @@
 const Cycle = require('component')
-const isNotPlainObject = require('assertions/isNotPlainObject')
-const objOf = require('ramda/src/objOf')
-const when = require('ramda/src/when')
 const castArray = require('lodash.castarray')
 const isString = require('assertions/isString')
 const LinkView = require('./view')
@@ -24,11 +21,8 @@ const WithLink = (options = {}) => {
     View = LinkView,
     href = '',
     [Cycle.hasKey]: has = Cycle.Empty
-  } = options = when(
-    isNotPlainObject,
-    objOf(Cycle.hasKey),
-    options
-  )
+  } = options = Cycle.coerce(options)
+
 
   const classes = { Link: 'Link', ...options.classes }
 
@@ -36,12 +30,10 @@ const WithLink = (options = {}) => {
     View: View.bind(void 0, `.${classes.Link}`, {
       attrs: { href: prefixHref(sources.History.prefix, href) }
     }),
-    [Cycle.hasKey]: castArray(has).map(has => !isString(has) ? has : Cycle({
-      View: () => has
-    }))
+    [Cycle.hasKey]: has,
   })(sources)
 
-  return component => Cycle([component, Link])
+  return component => Cycle([component, Link], 'Link')
 }
 
 const makeLink = options => WithLink(options)()
