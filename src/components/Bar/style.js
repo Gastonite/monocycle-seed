@@ -1,22 +1,23 @@
 const { horizontal, center, centerCenter, verticallySpaced, horizontallySpaced, vertical, margin, padding } = require('csstips/lib')
-const { em } = require('csx/lib')
+const { rem } = require('csx/lib')
+const { fontFace } = require('typestyle')
 
 
 module.exports = ({
-  boxShadow,
-  gutterSize = em(1),
-  size = em(4),
-  smallHeight = em(2),
-  bigHeight = em(6),
-  backgroundColor = '#ccc'
+  gutterSize = rem(2.4),
+  size = rem(6.4),
+  smallHeight = rem(3.2),
+  bigHeight = rem(9.6),
+  colors = {},
+  ...options
 } = {}) => {
 
   return [
     center,
     {
+      ...options,
       $debugName: 'Bar',
-      backgroundColor,
-      boxShadow,
+      backgroundColor: colors.background,
       '&:not(.col)': {
         '&.spaced': padding(0, gutterSize),
         height: size,

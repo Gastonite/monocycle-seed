@@ -1,36 +1,47 @@
-const castArray = require('lodash.castarray')
+const lensProp = require('ramda/src/lensProp')
+const map = require('ramda/src/map')
+const unless = require('ramda/src/unless')
+const isFunction = require('lodash/isFunction')
+const over = require('ramda/src/over')
+const pipe = require('ramda/src/pipe')
+const prop = require('ramda/src/prop')
+const both = require('ramda/src/both')
 const Cycle = require('component')
-const ListView = require('./view')
 const { makeListItem } = require('components/ListItem')
-const isFunction = require('assertions/isFunction')
-const { Selector } = require('utilities/style')
-
+const { WithView } = require('components/View')
 
 const WithList = (options = {}) => {
 
   const {
-    View = ListView,
-    [Cycle.hasKey]: has = Cycle.Empty
-  } = options = Cycle.coerce(options)
+    kind = '',
+    href = '',
+    [Cycle.hasKey]: has,
+    ...viewOptions
+  } = parseOptions(options)
 
-
-  const classes = { List: 'List', ...options.classes }
-
-  // Cycle.log('List', { classes, has })
-
-  const List = Cycle({
-    View: View.bind(void 0, Selector(classes.List)),
-    [Cycle.hasKey]: has === Cycle.Empty
-      ? has
-      : castArray(has).map(x => isFunction(x) && x.isListItem ? x : makeListItem({
-        ...Cycle.coerce(x),
-        classes
-      }))
-      // : castArray(has).map(makeItem)
-  }, 'List')
-
-  return component => Cycle([component, List])
+  return WithView({
+    ...viewOptions,
+    classes: {
+      List: 'List',
+      ...(viewOptions.classes || {})
+    },
+    [Cycle.hasKey]: has,
+    kind: `ul${kind}`,
+  })
 }
+
+
+const parseOptions = pipe(
+  Cycle.coerce,
+  over(lensProp(Cycle.hasKey),
+    map(
+      unless(
+        both(isFunction, prop('isListItem')),
+        pipe(Cycle.coerce, makeListItem)
+      )
+    )
+  )
+)
 
 const makeList = options => WithList(options)()
 

@@ -1,58 +1,48 @@
-const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const isNotFunction = require('assertions/isNotFunction')
-const NavigationView = require('./view')
+const isFunction = require('lodash/isFunction')
+const { WithLayout, makeLayout } = require('components/Layout')
 const { makeLinkList } = require('components/LinkList')
-const { WithBar, makeBar } = require('components/Bar')
-const when = require('ramda/src/when')
+const unless = require('ramda/src/unless')
 const pipe = require('ramda/src/pipe')
 const { mergeClasses } = require('utilities/style')
 
 const WithNavigation = (options = {}) => {
 
   const {
-    View = NavigationView,
+    kind = '',
     [Cycle.hasKey]: has = Cycle.Empty,
-    ...barOptions
-  } = options = Cycle.coerce(options)
+    ...layoutOptions
+  } = Cycle.coerce(options)
 
   const classes = {
     Navigation: 'Navigation',
     Bar: 'Bar',
-    ...options.classes
+    ...layoutOptions.classes
   }
 
-  const Test = Cycle([
-    makeBar({ classes }),
-    makeLinkList({
-      classes
-    })
-  ])
+  Cycle.log('WithNavigation()', { classes, mergeClasses, has, layoutOptions })
 
-  Cycle.log('WithNavigation()', { classes, mergeClasses, has, Test })
-
-  return WithBar({
-    ...barOptions,
+  return WithLayout({
+    ...layoutOptions,
+    kind: 'nav' + kind,
     classes: mergeClasses(classes, {
-      Bar: classes.Navigation
+      Layout: classes.Navigation
     }),
-    [Cycle.hasKey]: has === Cycle.Empty
-      ? has
-      : castArray(has)
-        .map(when(isNotFunction, pipe(
-          Cycle.coerce,
-          ({ [Cycle.hasKey]: has, ...options }) =>
-            Cycle([
-              makeBar({
-                classes,
-                ...options,
-              }),
-              makeLinkList({
-                classes,
-                [Cycle.hasKey]: has
-              })
-            ])
-        )))
+    [Cycle.hasKey]: has
+      .map(unless(isFunction, pipe(
+        Cycle.coerce,
+        ({ [Cycle.hasKey]: has, ...layoutOptions }) =>
+          Cycle([
+            makeLayout({
+              classes,
+              ...layoutOptions,
+            }),
+            makeLinkList({
+              classes,
+              [Cycle.hasKey]: has
+            })
+          ])
+      )))
   })
 }
 

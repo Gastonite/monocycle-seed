@@ -59,6 +59,7 @@ process.on('unhandledRejection', (err) => {
 startServer({
   exceptions: [
     'bundle.js',
+    'logo.png',
     'favicon.ico',
   ]
 })

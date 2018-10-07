@@ -1,15 +1,13 @@
-const { horizontal, layerParent, fillParent } = require('csstips/lib')
-const { em } = require('csx/lib')
-
 
 module.exports = ({
-
+  colors = {},
+  ...override
 } = {}) => {
 
-  return [
-    // fillParent,
-    {
-      $debugName: 'Link',
-    }
-  ]
+  return {
+    $debugName: 'Link',
+    color: colors.default,
+    ...override
+  }
+
 }

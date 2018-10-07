@@ -14,7 +14,8 @@
           "component": "./src/component",
           "components": "./src/components",
           "utilities": "./src/utilities",
-          "assertions": "monocycle/assertions",
+          "assertions": "./src/assertions",
+          "predicates": "./src/predicates",
           "style": "./src/style"
         }
       }

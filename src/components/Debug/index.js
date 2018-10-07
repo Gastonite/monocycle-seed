@@ -1,5 +1,5 @@
 const Cycle = require('component')
-const stringify = require('monocycle/utilities/stringify')
+const stringify = require('utilities/stringify')
 const { pre } = require('@cycle/dom')
 const { default: $ } = require('xstream')
 

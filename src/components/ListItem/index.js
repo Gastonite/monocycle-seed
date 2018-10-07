@@ -1,13 +1,13 @@
-const castArray = require('lodash.castarray')
 const Cycle = require('component')
-const ListItemView = require('./view')
+const { makeView } = require('components/View')
 
 
 const WithListItem = (options = {}) => {
 
   const {
-    View = ListItemView,
-    [Cycle.hasKey]: has = Cycle.Empty
+    kind = '',
+    [Cycle.hasKey]: has,
+    ...viewOptions
   } = options = Cycle.coerce(options)
 
 
@@ -15,9 +15,10 @@ const WithListItem = (options = {}) => {
   
   // Cycle.log('ListItem', { classes, has })
 
-  const ListItem = Cycle({
-    View: View.bind(void 0, `.${classes.ListItem}`),
-    [Cycle.hasKey]: castArray(has)
+  const ListItem = makeView({
+    ...viewOptions,
+    kind: `li.${classes.ListItem}${kind}`,
+    [Cycle.hasKey]: has,
   })
 
   return component => Object.assign(

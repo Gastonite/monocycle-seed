@@ -3,86 +3,124 @@ const noop = require('lodash/noop')
 const identical = require('ramda/src/identical')
 const either = require('ramda/src/either')
 const always = require('ramda/src/always')
-const assertObject = require('assertions/assertObject')
-const assertFunction = require('assertions/assertFunction')
+const isBoolean = require('lodash/isBoolean')
+const isPlainObject = require('lodash/isPlainObject')
 const isArray = require('lodash/isArray')
 const isFunction = require('lodash/isFunction')
 const Cycle = require('component')
-const isString = require('assertions/isString')
-const { default: dropRepeats } = require('xstream/extra/dropRepeats')
+const isString = require('lodash/isString')
+const isObject = require('lodash/isObject')
+const dropRepeats = require('xstream/extra/dropRepeats').default
 const Memoize = require('utilities/memoize')
+const mapIndexed = require('ramda/src/addIndex')(require('ramda/src/map'))
+const defaultTo = require('ramda/src/defaultTo')
+const when = require('ramda/src/when')
 const prop = require('ramda/src/prop')
+const unless = require('ramda/src/unless')
+const pipe = require('ramda/src/pipe')
+const over = require('ramda/src/over')
+const lensProp = require('ramda/src/lensProp')
 const { div } = require('@cycle/dom')
+const { Empty } = require('monocycle/component')
+const assert = require('browser-assert')
 
+const NotFound = () => ({ DOM: $.of(div('No component found')) })
 
-const WithSwitch = ({
-  from,
-  SinksNames = Object.keys,
-  first = false,
-  View,
-  Default = () => ({ DOM: $.of(div('No component found')) }),
-  resolve = noop
-} = {}) => {
+const parseOptions = pipe(
+  unless(isPlainObject, Empty),
 
+  over(lensProp('from'), pipe(
+    when(isString, prop),
+    unless(isFunction, always(noop))
+  )),
 
-  const getDefault = always(Default)
+  over(lensProp('SinksNames'),
+    unless(isFunction, always(Object.keys))
+  ),
 
-  if (isArray(resolve)) {
+  over(lensProp('first'),
+    unless(isBoolean, always(false))
+  ),
 
-    const resolvers = resolve.map((resolver, i) => {
+  over(lensProp('Default'),
+    unless(isFunction, always(NotFound))
+  ),
+  options =>
+    over(lensProp('resolve'), pipe(
+      defaultTo(noop),
+      unless(isFunction, pipe(
+        when(isArray, pipe(
+          mapIndexed((resolver, i) => {
 
-      if (isFunction(resolver))
-      resolver = { resolve: i, value: resolver }
+            if (isFunction(resolver))
+              resolver = { resolve: i, value: resolver }
 
-      assertObject(resolver, `resolve[${i}]`)
+            assert(isObject(resolver), `'resolve[${i}]' must be an object`)
 
-      return {
-        ...resolver,
-        resolve: isFunction(resolver.resolve)
-          ? resolver.resolve
-          : identical(resolver.resolve)
-      }
-    })
+            return {
+              ...resolver,
+              resolve: isFunction(resolver.resolve)
+                ? resolver.resolve
+                : identical(resolver.resolve)
+            }
+          }),
+          resolvers => (path = '') => {
 
-    resolve = (path = '') => {
+            const _resolve = resolver => {
 
-      const _resolve = resolver => {
+              const returned = resolver.resolve(path)
 
-        const returned = resolver.resolve(path)
+              return returned && (resolved = {
+                resolved: returned,
+                value: resolver.value.isComponent
+                  ? resolver.value
+                  : resolver.value(returned)
+              })
+            }
 
-        return returned && (resolved = {
-          resolved: returned,
-          value: resolver.value.isComponent
-            ? resolver.value
-            : resolver.value(returned)
-        })
-      }
+            let resolved
+            if (options.first) {
+              let returned
+              resolvers
+                .some(x => (returned = _resolve(x), returned && (resolved = returned)))
+              // Cycle.log('Switch.resolved', returned)
+              return returned && resolved.value
+            }
 
-      let resolved
-      if (first) {
-        let returned
-        resolvers
-          .some(x => (returned = _resolve(x), returned && (resolved = returned)))
-          // Cycle.log('Switch.resolved', returned)
-        return returned && resolved.value
-      }
+            resolved = resolvers
+              .map(_resolve)
+              .filter(Boolean)
 
-      resolved = resolvers
-        .map(_resolve)
-        .filter(Boolean)
+            return resolved.length > 0 && Cycle({
+              View,
+              has: resolved.map(prop('value'))
+            })
+          }
+        )),
+        unless(isFunction, always(noop))
+      ))
+    ))(options),
+)
 
-      return resolved.length > 0 && Cycle({
-        View,
-        has: resolved.map(prop('value'))
-      })
-    }
-  }
+const WithSwitch = (options = {}) => {
 
-  if (isString(from))
-    from = prop(from)
+  const {
+    from,
+    SinksNames,
+    first,
+    View,
+    Default,
+    resolve = noop
+  } = parseOptions(options)
 
-  assertFunction(from, 'from')
-  assertFunction(resolve, 'resolve')
+  Cycle.log('WithSwitch()', {
+    from,
+    SinksNames,
+    first,
+    View,
+    Default,
+    resolve
+  })
 
   return f => Cycle(f)
 
@@ -92,7 +130,7 @@ const WithSwitch = ({
 
       const value$ = (from(sinks, sources) || $.empty())
         .compose(dropRepeats())
-        .map(either(resolve, getDefault))
+        .map(either(resolve, always(Default)))
         .map(memoize)
         .remember()
 

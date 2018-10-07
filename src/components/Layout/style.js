@@ -7,41 +7,66 @@ const {
   layerParent,
   padding,
   fillParent,
-  startJustified,
-  endJustified
 } = require('csstips/lib')
-const { em } = require('csx/lib')
+const { rem } = require('csx/lib')
+const { media } = require('typestyle')
 
 
 module.exports = ({
-  gutterSize = em(1),
+  gutterSize = rem(2.4),
+  colors = {},
+  breakpoint = 900
 } = {}) => {
 
   const noPadding = padding(0)
+
+  const columnStyle = {
+    ...vertical,
+    '&.spaced': {
+      ...verticallySpaced(gutterSize),
+      margin: 0,
+      // ...padding(gutterSize, 0),
+      '.spaced + &': {
+        // paddingTop: 0,
+      },
+    }
+  }
+
+  const rowStyle = {
+    ...horizontal,
+    '&.spaced': {
+      '&:not(.col)': {
+        ...horizontallySpaced(gutterSize),
+        margin: 0,
+        // ...padding(gutterSize),
+      },
+      // 
+      '.spaced + &': {
+        // paddingLeft: 0,
+      },
+    }
+  }
+
   return [
     layerParent,
+    media({ minWidth: 0, maxWidth: breakpoint }, columnStyle),
+    media({ minWidth: breakpoint }, rowStyle),
     {
       $debugName: 'Layout',
+      backgroundColor: colors.background,
+      // ...rowStyle,
       '&.fill': fillParent,
-      ...startJustified,
-      '&.end': endJustified,
-      '&:not(.col)': {
-        ...horizontal,
-        '&.spaced': {
-          ...horizontallySpaced(gutterSize),
-          ...padding(0, gutterSize),
-        },
-        '&.spaced > &.spaced': noPadding,
-      },
-      '&.col': {
-        ...vertical,
-        '&.spaced': {
-          ...verticallySpaced(gutterSize),
-          ...padding(gutterSize, 0),
-        },
-        '&.spaced > &.spaced': noPadding,
-      },
+      // // '&.spaced': {
+      // //   ...horizontallySpaced(gutterSize),
+      //   ...padding(gutterSize),
+      // //   // '& > .spaced': noPadding,
+      // // },
+      // ...rowStyle,
+      '&.col': columnStyle,
       '& > *': content,
+      //   ...content,
+      //   // height: '100%'
+      // },
     }
   ]
 }

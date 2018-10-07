@@ -1,33 +1,34 @@
 const Cycle = require('component')
-const { WithLayout, makeLayout } = require('components/Layout')
-const { classes: mergeClasses } = require('typestyle')
-const merge = require('snabbdom-merge')
-const BarView = require('components/Bar/view')
-const { Selector } = require('utilities/style')
+const pipe = require('ramda/src/pipe')
+const { WithLayout } = require('components/Layout')
 
 const WithBar = (options = {}) => {
 
   const {
-    View = BarView,
+    kind = '',
     size,
+    dockTo,
     [Cycle.hasKey]: has = Cycle.Empty,
     ...layoutOptions
   } = options = Cycle.coerce(options)
 
   const classes = { Bar: 'Bar', ...options.classes }
+  Cycle.log('Bar', { has, classes, layoutOptions })
 
-  // Cycle.log('Bar', { has  })
+  return pipe(
+    WithLayout({
+      ...layoutOptions,
+      kind: kind + '.' + classes.Bar,
+      classes,
+      class: {
+        ...(layoutOptions.class || {}),
+        big: size === 'big',
+        small: size === 'small',
+      },
+      [Cycle.hasKey]: has,
+    }),  
+  )
 
-  const Bar = Cycle({
-    View: View.bind(void 0, Selector(classes.Bar), { size }),
-    [Cycle.hasKey]: has,
-  }, 'Bar')
-
-  return component => Cycle([
-    component,
-    makeLayout(layoutOptions),
-    Bar
-  ])
 }
 
 const makeBar = options => WithBar(options)()

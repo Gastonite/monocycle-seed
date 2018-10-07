@@ -9,7 +9,9 @@ const makeApp = ({ classes }) => makeLayout({
       classes,
       direction: 'column',
       spaced: true,
-      end: true,
+      style: {
+        justifyContent: 'flex-end',
+      },
       has: [
         makeDiv('Link1'),
         makeDiv('Link2'),

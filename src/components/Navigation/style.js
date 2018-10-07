@@ -1,19 +1,18 @@
-const { padding, horizontal } = require('csstips/lib')
+const { padding } = require('csstips/lib')
 
-const { em } = require('csx/lib')
 
 module.exports = ({
-  LinkList
+  colors = {},
 } = {}) => {
 
   return [
     {
       $debugName: 'Navigation',
+      backgroundColor: colors.background,
       '& > ul': {
-      // [`& > .${LinkList}`]: {
-        ...horizontal,
         listStyle: 'none',
         ...padding(0),
+        fontSize: '1.2em'
       }
     }
   ]

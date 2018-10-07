@@ -5,10 +5,10 @@ const { WithSwitch } = require('components/Switch')
 const prop = require('ramda/src/prop')
 const match = require('ramda/src/match')
 const pipe = require('ramda/src/pipe')
-const isArray = require('assertions/isArray')
-const isRegExp = require('assertions/isRegExp')
+const isArray = require('lodash/isArray')
+const isRegExp = require('lodash/isRegExp')
 const { div } = require('@cycle/dom')
-const { default: dropRepeats } = require('xstream/extra/dropRepeats')
+const dropRepeats = require('xstream/extra/dropRepeats').default
 
 const Pathname = ({ tagName, pathname, search, hash }) => {
   return tagName === 'A'
@@ -103,7 +103,7 @@ const WithRouter = ({
   return !isStateful
     ? withRouter
     : f => withRouter(f)
-      .reducer({
+      .transition({
         name: 'selectRoute',
         from: 'path$',
         reducer: route => (state = {}) => ({
@@ -111,7 +111,7 @@ const WithRouter = ({
           route
         })
       })
-      .reducer({
+      .transition({
         name: 'initRouter',
         reducer: (state = {}) => state.isRouter ? state : {
           ...state,

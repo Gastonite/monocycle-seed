@@ -1,4 +1,5 @@
-const assertFunction = require('assertions/assertFunction')
+const assert = require('browser-assert')
+const isFunction = require('lodash/isFunction')
 
 const Memoize = (...args) => {
 
@@ -8,7 +9,7 @@ const Memoize = (...args) => {
 
   const memoize = (func, key) => {
     
-    assertFunction(func, 'func')
+    assert(isFunction(func), `'func' must be a function`)
 
     key = key || func
 

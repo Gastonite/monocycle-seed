@@ -1,10 +1,10 @@
 const { default: $ } = require('xstream')
 const { makeComponent, defaultOperators } = require('monocycle/component')
 const merge = require('snabbdom-merge/merge-all')
-const listenerOperator = require('./operators/listener')
+const { WithListener } = require('./operators/listener')
 const { Log } = require('utilities/log')
 const isolatedOperator = require('./operators/isolated')
-const reducerOperator = require('./operators/reducer')
+const { WithTransition } = require('./operators/transition')
 
 
 const mergeViews = (views) => merge(...views.filter(Boolean))
@@ -14,24 +14,22 @@ const isProduction = process.env.NODE_ENV === "production"
 const operators = {
   ...defaultOperators,
   isolated: isolatedOperator,
-  reducer: reducerOperator,
-  listener: listenerOperator
+  transition: WithTransition,
+  listener: WithListener
 }
-
-const log = Log('[Monocycle]')
 
 const Component = makeComponent({
   hasKey: 'has',
   enforceName: !isProduction,
   fromString: string => {
 
-    const Text = sources => ({ DOM: $.of(string) })
+    const Text = () => ({ DOM: $.of(string) })
 
     return Text
   },
-  log: isProduction ? void 0 : log,
+  log: isProduction ? void 0 : Log('[Cycle]'),
   operators,
-  Combiners: ({ kind, View = mergeViews, has }) => ({
+  Combiners: ({ View = mergeViews }) => ({
     DOM: streams =>
       $.combine(...streams)
         .map(View)

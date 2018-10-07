@@ -1,5 +1,5 @@
 const intersection = require('lodash/intersection')
-const isNonEmptyString = require('assertions/isNonEmptyString')
+const isNonEmptyString = require('predicates/isNonEmptyString')
 const { classes } = require('typestyle')
 
 

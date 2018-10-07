@@ -1,35 +1,29 @@
 const Cycle = require('component')
-const FlexibleView = require('./view')
+const { WithView } = require('components/View')
+const concat = require('ramda/src/concat')
 
 const WithFlexible = (options = {}) => {
 
   const {
-    View = FlexibleView,
-    factor = 1,
-    [Cycle.hasKey]: has = Cycle.Empty
+    [Cycle.hasKey]: has = Cycle.Empty,
+    kind = '',
+    ...viewOptions
   } = options = Cycle.coerce(options)
+
+  const factor = !options.factor
+    ? 1
+    : +options.factor
 
   const classes = { Flexible: 'Flexible', ...options.classes }
 
-  // Cycle.log('WithFlexible()', { has  })
-
-  const Flexible = Cycle({
-    View: View.bind(void 0, `.${classes.Flexible}`, {
-      factor: parseInt(factor, 10)
-    }),
+  Cycle.log('WithFlexible()', { has  })
+  
+  return WithView({
+    ...viewOptions,
+    kind: concat(`.${classes.Flexible}`, kind),
+    factor,
     [Cycle.hasKey]: has
-  }, 'Flexible')
-
-
-  return component => {
-
-    const WithFlexible = Cycle([
-      component,
-      Flexible
-    ])
-
-    return WithFlexible
-  }
+  })
 }
 
 const makeFlexible = options => WithFlexible(options)()
@@ -37,5 +31,5 @@ const makeFlexible = options => WithFlexible(options)()
 module.exports = {
   default: makeFlexible,
   makeFlexible,
-  WithFlexible
+  WithFlexible,
 }

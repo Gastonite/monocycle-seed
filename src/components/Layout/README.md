@@ -27,7 +27,7 @@
 ```
 const makeDiv = has => Cycle({ View: div, has})
 
-const makeAp = ({ classes }) => makeLayout({
+const makeApp = ({ classes }) => makeLayout({
   classes,
   fill: true,
   has: [
@@ -35,7 +35,9 @@ const makeAp = ({ classes }) => makeLayout({
       classes,
       direction: 'column',
       spaced: true,
-      end: true,
+      style: {
+        justifyContent: 'flex-end',
+      },
       has: [
         makeDiv('Link1'),
         makeDiv('Link2'),
@@ -51,7 +53,6 @@ const makeAp = ({ classes }) => makeLayout({
             makeBar({
               classes,
               spaced: true,
-              // end: true,
               fill: true,
               direction: 'column',
               has: [
@@ -80,4 +81,52 @@ const makeAp = ({ classes }) => makeLayout({
   ]
 })
 
+```
+
+```
+const makeApp = ({ classes }) => {
+
+    return makeLayout({
+      classes,
+      direction: 'column',
+      gutter: false,
+      spaced: true,
+      has: [
+
+        makeView({
+          kind: 'span',
+          style: {
+            backgroundColor: 'red'
+          },
+          has: 'ga'
+        }),
+
+        makeView({
+          kind: 'span',
+          style: {
+            backgroundColor: 'red'
+          },
+          has: 'bu'
+        }),
+
+        makeView({
+          kind: 'span',
+          style: {
+            backgroundColor: 'red'
+          },
+          has: 'zo'
+        }),
+
+        makeView({
+          kind: 'span',
+          style: {
+            backgroundColor: 'red'
+          },
+          has: 'meu'
+        }),
+
+      ]
+    })
+  }
+  
 ```
