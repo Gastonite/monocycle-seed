@@ -57,32 +57,33 @@ const WithView = (options = {}) => {
   const View = _View.bind(void 0, kind)
 
   const ViewComponent = from
-    ? makeView(snabbdomOptions)
-      .listener({
-        from: (sinks, sources) => (from(sinks, sources) || $.empty())
+    ? Cycle(
+      makeView(snabbdomOptions, 'ReactiveView')
+        .listener({
+          from: (sinks, sources) => (from(sinks, sources) || $.empty())
 
-          .map(options => {
+            .map(options => {
 
-            log('ReactiveView()', kind, options)
+              log('ReactiveView()', kind, options)
 
-            const {
-              [Cycle.hasKey]: has,
-              ...mergedOptions
-            } = pipe(
-              Cycle.coerce,
-              log.partial('ReactiveView1'),
-              mergeDeepRight(snabbdomOptions),
-              log.partial('ReactiveView2'),
-            )(options)
+              const {
+                [Cycle.hasKey]: has,
+                ...mergedOptions
+              } = pipe(
+                Cycle.coerce,
+                mergeDeepRight(snabbdomOptions),
+              )(options)
 
-            return View(mergedOptions, has)
-          }),
-        to: 'DOM'
-      })
+              return View(mergedOptions, has)
+            }),
+          to: 'DOM'
+        }),
+      'ReactiveView'
+    )
     : Cycle({
       View: View.bind(void 0, snabbdomOptions),
       [Cycle.hasKey]: has,
-    })
+    }, 'View')
 
   return component => Cycle([component, ViewComponent])
 }

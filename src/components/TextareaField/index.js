@@ -1,4 +1,4 @@
-const { WithField } = require('components/Field')
+const { WithField } = require('components/Form/Field')
 const { makeTextareaFieldInput } = require('./Input')
 const Cycle = require('component')
 const Factory = require('utilities/factory')

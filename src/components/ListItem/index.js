@@ -1,6 +1,6 @@
 const Cycle = require('component')
 const { makeView } = require('components/View')
-
+const Factory = require('utilities/factory')
 
 const WithListItem = (options = {}) => {
 
@@ -13,7 +13,7 @@ const WithListItem = (options = {}) => {
 
   const classes = { ListItem: 'ListItem', ...options.classes }
   
-  // Cycle.log('ListItem', { classes, has })
+  Cycle.log('WithListItem()', { classes, has })
 
   const ListItem = makeView({
     ...viewOptions,
@@ -27,7 +27,7 @@ const WithListItem = (options = {}) => {
   )
 }
 
-const makeListItem = options => WithListItem(options)()
+const makeListItem = Factory(WithListItem)
 
 module.exports = {
   default: makeListItem,

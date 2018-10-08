@@ -5,6 +5,7 @@ const { makeLinkList } = require('components/LinkList')
 const unless = require('ramda/src/unless')
 const pipe = require('ramda/src/pipe')
 const { mergeClasses } = require('utilities/style')
+const Factory = require('utilities/factory')
 
 const WithNavigation = (options = {}) => {
 
@@ -20,7 +21,12 @@ const WithNavigation = (options = {}) => {
     ...layoutOptions.classes
   }
 
-  Cycle.log('WithNavigation()', { classes, mergeClasses, has, layoutOptions })
+  Cycle.log('WithNavigation()', {
+    classes,
+    mergeClasses,
+    has,
+    layoutOptions
+  })
 
   return WithLayout({
     ...layoutOptions,
@@ -46,7 +52,7 @@ const WithNavigation = (options = {}) => {
   })
 }
 
-const makeNavigation = options => WithNavigation(options)()
+const makeNavigation = Factory(WithNavigation)
 
 module.exports = {
   default: makeNavigation,

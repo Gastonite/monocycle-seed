@@ -23,6 +23,7 @@ const lensProp = require('ramda/src/lensProp')
 const { div } = require('@cycle/dom')
 const { Empty } = require('monocycle/component')
 const assert = require('browser-assert')
+const Factory = require('utilities/factory')
 
 const NotFound = () => ({ DOM: $.of(div('No component found')) })
 
@@ -81,9 +82,10 @@ const parseOptions = pipe(
             let resolved
             if (options.first) {
               let returned
+              
               resolvers
                 .some(x => (returned = _resolve(x), returned && (resolved = returned)))
-              // Cycle.log('Switch.resolved', returned)
+
               return returned && resolved.value
             }
 
@@ -143,7 +145,7 @@ const WithSwitch = (options = {}) => {
 
 const Case = (resolve, value) => ({ resolve, value })
 
-const makeSwitch = options => WithSwitch(options)()
+const makeSwitch = Factory(WithSwitch)
 
 module.exports = {
   default: makeSwitch,

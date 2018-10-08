@@ -11,6 +11,7 @@ const always = require('ramda/src/always')
 const isString = require('lodash/isString')
 const isFunction = require('lodash/isFunction')
 const log = require('utilities/log').Log('Link')
+const Factory = require('utilities/factory')
 
 const prefixHref = (prefix, href = '') =>
   href.startsWith('http') || href.startsWith('//')
@@ -21,32 +22,6 @@ const prefixHref = (prefix, href = '') =>
         : href,
       !prefix ? href : (prefix + (href === '/' ? '' : href))
     )
-
-/* 
-  const WithLinkOld = (options = {}) => {
-
-    const {
-      View = LinkView,
-      href = '',
-      [Cycle.hasKey]: has = Cycle.Empty
-    } = options = Cycle.coerce(options)
-
-
-    const classes = { Link: 'Link', ...options.classes }
-
-    const Link = sources => {
-
-      return Cycle({
-        View: View.bind(void 0, `.${classes.Link}`, {
-          attrs: { href: prefixHref(sources.History.prefix, href) }
-        }),
-        [Cycle.hasKey]: has,
-      })(sources)
-    }
-    return component => Cycle([component, Link], 'Link')
-  }
-*/
-
 
 const parseOptions = pipe(
   Cycle.coerce,
@@ -64,7 +39,6 @@ const WithLink = (options = {}) => {
     kind = '',
     href = '',
     from,
-
     [Cycle.hasKey]: has,
     ...viewOptions
   } = parseOptions(options)
@@ -76,7 +50,6 @@ const WithLink = (options = {}) => {
 
   return WithView({
     ...viewOptions,
-
     from: from && ((sinks, sources) => (from(sinks, sources) || $.empty())
       .map(Cycle.coerce)
       .map(log.partial('WithLink.coucou'))
@@ -94,8 +67,6 @@ const WithLink = (options = {}) => {
     },
     attrs: {
       href,
-      //   ...(options.attrs || {}),
-      //   href: prefixHref(sources.History.prefix, href)
     },
     [Cycle.hasKey]: has,
     kind: `a${kind}`,
@@ -103,7 +74,7 @@ const WithLink = (options = {}) => {
 }
 
 
-const makeLink = options => WithLink(options)()
+const makeLink = Factory(WithLink)
 
 module.exports = {
   default: makeLink,

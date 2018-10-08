@@ -9,6 +9,7 @@ const both = require('ramda/src/both')
 const Cycle = require('component')
 const { makeListItem } = require('components/ListItem')
 const { WithView } = require('components/View')
+const Factory = require('utilities/factory')
 
 const WithList = (options = {}) => {
 
@@ -43,7 +44,7 @@ const parseOptions = pipe(
   )
 )
 
-const makeList = options => WithList(options)()
+const makeList = Factory(WithList)
 
 module.exports = {
   default: makeList,

@@ -1,6 +1,7 @@
 const Cycle = require('component')
 const pipe = require('ramda/src/pipe')
 const { WithLayout } = require('components/Layout')
+const Factory = require('utilities/factory')
 
 const WithBar = (options = {}) => {
 
@@ -31,7 +32,7 @@ const WithBar = (options = {}) => {
 
 }
 
-const makeBar = options => WithBar(options)()
+const makeBar = Factory(WithBar)
 
 module.exports = {
   makeBar,

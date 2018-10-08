@@ -9,6 +9,7 @@ const isArray = require('lodash/isArray')
 const isRegExp = require('lodash/isRegExp')
 const { div } = require('@cycle/dom')
 const dropRepeats = require('xstream/extra/dropRepeats').default
+const Factory = require('utilities/factory')
 
 const Pathname = ({ tagName, pathname, search, hash }) => {
   return tagName === 'A'
@@ -17,45 +18,26 @@ const Pathname = ({ tagName, pathname, search, hash }) => {
 }
 
 const WithRouter = ({
-  kind = 'Router',
   first = true,
   isStateful = false,
   resolve,
   View,
-  basePath,
   historySinkName = 'History',
   Default = () => ({ DOM: $.of(div('No route found')) })
 } = {}) => {
 
-  // Cycle.log('WithRouter()')
-
+  Cycle.log('WithRouter()')
 
   if (isArray(resolve)) {
 
     resolve = resolve.map((resolver, i) => {
-
-      // Cycle.log('Router.resolve', {
-      //   i,
-      //   resolver,
-      //   isRegExp: isRegExp(resolver.resolve)
-      // })
 
       return {
         ...resolver,
         resolve: isRegExp(resolver.resolve)
           ? pipe(
             match(resolver.resolve),
-            x => {
-              // Cycle.log(kind + '.resolve.match', {
-              //   i,
-              //   x,
-              //   resolver,
-              //   isRegExp: isRegExp(resolver.resolve),
-              //   returned: x.length > 0 ? x : false
-              // })
-
-              return x.length > 0 ? x : false
-            }
+            x => x.length > 0 ? x : false
           )
           : resolver.resolve
       }
@@ -69,7 +51,6 @@ const WithRouter = ({
       path$: sources[historySinkName]
         .map(prop('pathname'))
         .compose(dropRepeats())
-        // .debug(kind + '.path')
     })
   }
 
@@ -121,7 +102,7 @@ const WithRouter = ({
       })
 }
 
-const makeRouter = options => WithRouter(options)()
+const makeRouter = Factory(WithRouter)
 
 module.exports = {
   Pathname,

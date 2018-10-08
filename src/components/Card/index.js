@@ -6,19 +6,17 @@ const Factory = require('utilities/factory')
 const WithCard = (options = {}) => {
 
   const {
-    kind = '',
     classes,
     [Cycle.hasKey]: has,
     ...viewOptions
   } = options = Cycle.coerce(options)
 
   return WithLayout({
+    direction: 'column',
     ...viewOptions,
     classes: mergeClasses({ Card: 'Card' }, classes, {
       Layout: classes.Card
     }),
-    kind,
-    direction: 'column',
     [Cycle.hasKey]: has,
   })
 }

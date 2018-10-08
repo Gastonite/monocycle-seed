@@ -1,8 +1,8 @@
-const castArray = require('lodash/castArray')
 const Cycle = require('component')
 const { makeLink } = require('components/Link')
 const { makeList } = require('components/List')
 const { mergeClasses } = require('utilities/style')
+const Factory = require('utilities/factory')
 
 const WithLinkList = (options = {}) => {
 
@@ -31,7 +31,7 @@ const WithLinkList = (options = {}) => {
   )
 }
 
-const makeLinkList = options => WithLinkList(options)()
+const makeLinkList = Factory(WithLinkList)
 
 module.exports = {
   default: makeLinkList,
