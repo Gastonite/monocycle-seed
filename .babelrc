@@ -14,7 +14,6 @@
           "component": "./src/component",
           "components": "./src/components",
           "utilities": "./src/utilities",
-          "assertions": "./src/assertions",
           "predicates": "./src/predicates",
           "style": "./src/style"
         }

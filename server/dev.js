@@ -37,6 +37,4 @@ Budo('./src/dev.js', {
 }).on('connect', function (ev) {
 
   console.log('connected')
-
-
 })

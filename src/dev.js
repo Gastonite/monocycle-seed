@@ -4,6 +4,18 @@ const { default: $ } = require('xstream')
 const Cycle = require('component')
 const insertRoot = require('./utilities/root')
 
+
+
+const _req = require
+global.require = (...args) => {
+
+  const ret = _req(...args)
+
+  if (ret && ret.__esModule)
+    throw new Error('YOO', args)
+
+  return ret
+}
 const requireStyle = () => require('./style')()
 const requireDrivers = ({ root } = {}) => require('./drivers')({
   root

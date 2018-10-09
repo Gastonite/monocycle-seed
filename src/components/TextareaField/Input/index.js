@@ -1,4 +1,4 @@
-const dropRepeats = require('xstream/extra/dropRepeats').default
+const dropRepeats = require('xstream/extra/dropRepeats').default.default
 const Cycle = require('component')
 const { WithTextarea } = require('components/Textarea')
 const { rem } = require('csx/lib')

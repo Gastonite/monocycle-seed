@@ -15,13 +15,16 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "babelify": "^8.0.0",
+    "brfs": "^2.0.1",
     "browser-assert": "^1.2.1",
     "browserify": "^16.2.2",
     "browserify-hmr": "^0.3.6",
+    "codemirror": "^5.40.2",
     "csstips": "^0.3.0",
     "csx": "^9.0.0",
     "cycle-onionify": "^6.1.0",
     "envify": "^4.1.0",
+    "font-awesome-svg-png": "^1.2.2",
     "handlebars": "^4.0.12",
     "hapi": "^17.5.3",
     "hapi-pino": "^5.0.1",
@@ -43,7 +46,8 @@
   },
   "browserify": {
     "transform": [
-      "babelify"
+      "babelify",
+      "brfs"
     ]
   },
   "_moduleAliases": {
@@ -51,7 +55,6 @@
     "drivers": "./drivers",
     "components": "./src/components",
     "utilities": "./src/utilities",
-    "assertions": "./src/assertions",
     "predicates": "./src/predicates",
     "style": "./src/style"
   },

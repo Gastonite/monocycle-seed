@@ -1,4 +1,4 @@
-const dropRepeats = require('xstream/extra/dropRepeats').default
+const dropRepeats = require('xstream/extra/dropRepeats').default.default
 const Cycle = require('component')
 const { WithInput } = require('components/Input')
 const Factory = require('utilities/factory')

@@ -13,6 +13,8 @@ const { makeLink } = require('components/Link')
 const { WithFlexible } = require('components/Flexible')
 const { makeLayoutPage } = require('./LayoutPage')
 const { makeFormsPage } = require('./FormsPage')
+const { makeEditor } = require('components/Editor')
+const { makeCodemirror } = require('components/Codemirror')
 
 
 const Footer = () => ({ DOM: $.of(footer()) })
@@ -25,6 +27,7 @@ const makeApp = ({ classes } = {}) =>
     direction: 'column',
     kind: `.${classes.App}`,
     has: [
+
       makeHeader(
         makeNavigation({
           classes,
@@ -132,7 +135,7 @@ const makeApp = ({ classes } = {}) =>
   }).transition()
 
 module.exports = {
-  default: makeApp,
+  default: makeCodemirror,
   makeApp
 }
 

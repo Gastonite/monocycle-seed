@@ -1,6 +1,6 @@
 const { Stream: $ } = require('xstream')
 const Cycle = require('component')
-const dropRepeats = require('xstream/extra/dropRepeats').default
+const dropRepeats = require('xstream/extra/dropRepeats').default.default
 const Factory = require('utilities/factory')
 
 

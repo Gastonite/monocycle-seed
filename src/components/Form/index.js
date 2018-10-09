@@ -1,4 +1,4 @@
-const $ = require('xstream').default
+const { Stream: $ } = require('xstream').default
 const { div } = require('@cycle/dom')
 const Cycle = require('component')
 const unless = require('ramda/src/unless')
@@ -21,7 +21,7 @@ const { WithValidable } = require('components/Validable')
 const { WithClickableButton } = require('components/ClickableButton')
 const { makeBar } = require('components/Bar')
 const clone = require('ramda/src/clone')
-const dropRepeats = require('xstream/extra/dropRepeats').default
+const dropRepeats = require('xstream/extra/dropRepeats').default.default
 const KindReducer = require('utilities/kind')
 const { Log } = require('utilities/log')
 const isPlainObject = require('lodash/isPlainObject')
