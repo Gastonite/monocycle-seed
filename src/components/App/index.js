@@ -57,7 +57,6 @@ const makeApp = ({ classes } = {}) =>
           ]
         })
       ),
-      DebugState,
 
       makeLayout({
         kind: `.${classes.Layout}.container`,
@@ -92,6 +91,8 @@ const makeApp = ({ classes } = {}) =>
           ]
         })
       }).map(WithFlexible({ classes })),
+
+      DebugState,
 
       makeNavigation({
         classes,
