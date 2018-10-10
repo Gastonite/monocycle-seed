@@ -1,20 +1,32 @@
 const Cycle = require('component')
-const { WithView } = require('components/View')
+const { makeClickable } = require('components/Clickable')
+const { WithDumbButton } = require('components/DumbButton')
 const Factory = require('utilities/factory')
+const __ = require('ramda/src/__')
+const merge = require('ramda/src/merge')
 
 const WithButton = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has,
+    [Cycle.hasKey]: has = `I'm a Button`,
   } = options = Cycle.coerce(options)
 
-  const classes = { Button: '', ...options.classes }
+  // const classes = { Button: '',  }
 
-  return WithView({
-    ...options,
-    kind: 'button.' + classes.Button,
-    [Cycle.hasKey]: has,
-  })
+  const Button = makeClickable()
+    .map(WithDumbButton({
+      ...options,
+      [Cycle.hasKey]: has,
+    }))
+    .isolated({
+      DOM: 'Button',
+      '*': null
+    })
+
+  return component => Cycle([
+    component,
+    Button
+  ], 'Button')
 }
 
 const makeButton = Factory(WithButton)

@@ -27,7 +27,7 @@ const Component = makeComponent({
 
     return Text
   },
-  log: isProduction ? void 0 : Log('[Cycle]'),
+  log: isProduction ? void 0 : Log('(Cycle)'),
   operators,
   Combiners: ({ View = mergeViews }) => ({
     DOM: streams =>

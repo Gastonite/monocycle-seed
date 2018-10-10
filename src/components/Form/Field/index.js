@@ -1,6 +1,6 @@
 const { Stream: $ } = require('xstream')
 const Cycle = require('component')
-const dropRepeats = require('xstream/extra/dropRepeats').default.default
+const dropRepeats = require('xstream/extra/dropRepeats').default
 const prop = require('ramda/src/prop')
 const lensProp = require('ramda/src/lensProp')
 const over = require('ramda/src/over')

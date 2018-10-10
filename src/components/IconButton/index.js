@@ -1,37 +1,47 @@
 const Cycle = require('component')
-const pipe = require("ramda/src/pipe")
 const prop = require('ramda/src/prop')
 const always = require("ramda/src/always")
 const { WithButton } = require("components/Button")
-const { makeButtonView } = require("components/Button/view")
+const { makeButtonView } = require("components/DumbButton/view")
 const { style } = require("typestyle")
 const isString = require("lodash/isString")
+const pipe = require("ramda/src/pipe")
+const when = require("ramda/src/when")
+const objOf = require("ramda/src/objOf")
 const SvgIconView = require('components/SvgIcon/view').default
-const { padding } = require('csstips/lib')
+const { makeSvgIcon } = require('components/SvgIcon')
+const { makeButton } = require('components/Button')
+const Factory = require('utilities/factory')
 
-export const WithIconButton = (options = {}) => {
+
+const parseOptions = pipe(
+  when(isString, objOf('icon')),
+  Cycle.coerce
+)
+const WithIconButton = (options = {}) => {
 
   const {
-    icon
-  } = isString(options)
-      ? { icon: options }
-      : options
+    icon,
+    classes,
+    [Cycle.hasKey]: has,
+    ...buttonOptions
+  } = parseOptions(options)
 
-  const renderContent = icon
-    ? always(SvgIconView(icon))
-    : pipe(prop('content'), SvgIconView)
-
-  return f => Cycle(f, 'IconButton')
+  return f => Cycle(f)
     .map(WithButton({
-      style: {
-        Button: style(padding(0))
-      },
-      View: makeButtonView({
-        renderContent
+      classes,
+      has: makeSvgIcon({
+        ...buttonOptions,
+        classes,
+        [Cycle.hasKey]: has
       })
     }))
 }
 
-export const makeIconButton = options => WithIconButton(options)()
+const makeIconButton = Factory(WithIconButton)
 
-export default makeIconButton()
+module.exports = {
+  default: makeIconButton,
+  makeIconButton,
+  WithIconButton
+}

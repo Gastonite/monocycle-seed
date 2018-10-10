@@ -16,6 +16,7 @@ const WithList = (options = {}) => {
   const {
     kind = '',
     href = '',
+    ordered = false,
     [Cycle.hasKey]: has,
     ...viewOptions
   } = parseOptions(options)
@@ -27,7 +28,7 @@ const WithList = (options = {}) => {
       ...(viewOptions.classes || {})
     },
     [Cycle.hasKey]: has,
-    kind: `ul${kind}`,
+    kind: `${ordered ? 'o' : 'u'}l${kind}`,
   })
 }
 

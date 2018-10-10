@@ -8,7 +8,7 @@ const pipe = require('ramda/src/pipe')
 const isArray = require('lodash/isArray')
 const isRegExp = require('lodash/isRegExp')
 const { div } = require('@cycle/dom')
-const dropRepeats = require('xstream/extra/dropRepeats').default.default
+const dropRepeats = require('xstream/extra/dropRepeats').default
 const Factory = require('utilities/factory')
 
 const Pathname = ({ tagName, pathname, search, hash }) => {

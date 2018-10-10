@@ -7,9 +7,6 @@ module.exports = ({
   },
   Layout
 } = {}) => {
-  console.log('CardStyle()', {
-    Layout
-  })
 
   return [
     {

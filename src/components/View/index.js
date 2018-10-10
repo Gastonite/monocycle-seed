@@ -1,5 +1,5 @@
 const { Stream: $ } = require('xstream')
-const dropRepeats = require('xstream/extra/dropRepeats').default.default
+const dropRepeats = require('xstream/extra/dropRepeats').default
 
 const Cycle = require('component')
 const { h } = require('snabbdom/h')

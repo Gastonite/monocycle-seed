@@ -19,9 +19,10 @@ const FieldLabelStyle = require('components/Form/Field/Label/style')
 const FieldMessageStyle = require('components/Form/Field/Message/style')
 const LinkListStyle = require('components/LinkList/style')
 const ListItemStyle = require('components/ListItem/style')
-const ButtonStyle = require('./components/Button/style').default
+const ButtonStyle = require('./components/DumbButton/style').default
 const CardStyle = require('components/Card/style')
 const ImageStyle = require('components/Image/style')
+const SvgIconStyle = require('components/SvgIcon/style').default
 const NavigationStyle = require('components/Navigation/style')
 const TextareaFieldStyle = require('./components/TextareaField/style').default
 const { normalize, fillParent, attachToBottom, margin } = require('csstips')
@@ -159,6 +160,7 @@ const definitions = [
   { name: 'FieldInput', Styles: FieldInputStyle },
   { name: 'FieldMessage', Styles: FieldMessageStyle },
   { name: 'TextareaField', Styles: TextareaFieldStyle },
+  { name: 'SvgIcon', Styles: SvgIconStyle },
 
   { name: 'Image', Styles: ImageStyle },
   { name: 'Button', Styles: ButtonStyle },

@@ -12,10 +12,8 @@ Budo('./src/dev.js', {
   browserify: {
     plugin: 'browserify-hmr'
   },
-  middleware: function (req, res, next) {
+  middleware: (req, res, next) => {
     
-    console.log('middleware1', req.method)
-
     if (req.method !== 'POST')
       return next()
 
@@ -32,9 +30,8 @@ Budo('./src/dev.js', {
 
     res.statusCode = 200
     res.end(`{"message": "message sent"}`)
-
   }
-}).on('connect', function (ev) {
+}).on('connect', event => {
 
   console.log('connected')
 })

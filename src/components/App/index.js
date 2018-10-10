@@ -15,7 +15,13 @@ const { makeLayoutPage } = require('./LayoutPage')
 const { makeFormsPage } = require('./FormsPage')
 const { makeEditor } = require('components/Editor')
 const { makeCodemirror } = require('components/Codemirror')
+const { makeDumbButton } = require('components/DumbButton')
+const { makeButton } = require('components/Button')
+const { makeIconButton } = require('components/IconButton')
+const { makeSvgIcon, WithSvgIcon } = require('components/SvgIcon')
 
+var fs = require('fs');
+var boldIcon = fs.readFileSync(require.resolve('font-awesome-svg-png/black/svg/bold.svg'), 'utf8');
 
 const Footer = () => ({ DOM: $.of(footer()) })
 
@@ -27,7 +33,6 @@ const makeApp = ({ classes } = {}) =>
     direction: 'column',
     kind: `.${classes.App}`,
     has: [
-
       makeHeader(
         makeNavigation({
           classes,

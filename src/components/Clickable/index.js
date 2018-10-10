@@ -2,7 +2,7 @@ const { Stream: $ } = require('xstream')
 const Cycle = require('component')
 const pipe = require('ramda/src/pipe')
 const Factory = require('utilities/factory')
-const dropRepeats = require('xstream/extra/dropRepeats').default.default
+const dropRepeats = require('xstream/extra/dropRepeats').default
 const { WithView } = require('components/View')
 const parseOptions = pipe(
   Cycle.coerce,

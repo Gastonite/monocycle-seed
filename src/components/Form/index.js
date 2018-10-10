@@ -18,10 +18,10 @@ const always = require('ramda/src/always')
 const { makeFlexible } = require('components/Flexible')
 const { WithView } = require('components/View')
 const { WithValidable } = require('components/Validable')
-const { WithClickableButton } = require('components/ClickableButton')
+const { WithButton } = require('components/Button')
 const { makeBar } = require('components/Bar')
 const clone = require('ramda/src/clone')
-const dropRepeats = require('xstream/extra/dropRepeats').default.default
+const dropRepeats = require('xstream/extra/dropRepeats').default
 const KindReducer = require('utilities/kind')
 const { Log } = require('utilities/log')
 const isPlainObject = require('lodash/isPlainObject')
@@ -78,7 +78,7 @@ const WithForm = (options = {}) => {
         [Cycle.hasKey]: [
 
           makeFlexible({ classes })
-            .map(WithClickableButton({
+            .map(WithButton({
               classes,
               attrs: {
                 type: 'reset'
@@ -91,7 +91,7 @@ const WithForm = (options = {}) => {
             }),
 
           makeFlexible({ classes })
-            .map(WithClickableButton({
+            .map(WithButton({
               classes,
               attrs: {
                 type: 'submit'

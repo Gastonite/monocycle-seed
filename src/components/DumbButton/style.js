@@ -1,5 +1,6 @@
 const { keyframes } = require('typestyle/lib')
 const { horizontal, centerCenter } = require('csstips/lib')
+const { rem } = require('csx/lib')
 
 
 const raised = 'waves-float'
@@ -13,7 +14,11 @@ const baseBgColors = {
   // raisedPrimary: 'white',
   // raisedSecondary: colors.primary.toString(),
 }
-const ButtonStyle = ({ color = {}, bgColor = {} } = {}) => {
+const ButtonStyle = ({ 
+  color = {}, 
+  bgColor = {},
+  minHeight = rem(4)
+} = {}) => {
 
   color = { ...baseColors, ...color }
   bgColor = { ...baseBgColors, ...bgColor }
@@ -36,9 +41,9 @@ const ButtonStyle = ({ color = {}, bgColor = {} } = {}) => {
 
   return [horizontal, centerCenter, {
     $debugName: 'Button',
-    height: '100%',
+    // height: '100%',
     // minWi: '100%',
-
+    minHeight,
     position: 'relative',
     // display: 'inline-block',
     padding: '0 2em',
