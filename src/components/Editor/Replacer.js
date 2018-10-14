@@ -1,10 +1,11 @@
 const { Stream: $ } = require('xstream')
-import { WithSetReducer } from "./SetReducer"
-import { WithTypeWatcher, hasTokenType } from "./TypeWatcher"
+const { WithSetReducer } = require("./SetReducer")
+const { WithTypeWatcher, hasTokenType } = require("./TypeWatcher")
 const { WithClickable } = require('components/Clickable')
 const Component = require('component')
+const Factory = require('utilities/factory')
 
-export const WithReplacer = ({ type, start, end } = {}) => {
+const WithReplacer = ({ type, start, end } = {}) => {
 
   return f => Component(f)
     .map(WithClickable())
@@ -73,6 +74,11 @@ export const WithReplacer = ({ type, start, end } = {}) => {
       }).flatten()
     })
 }
-export const makeReplacer = options => WithReplacer(options)()
 
-export default makeReplacer
+const makeReplacer = Factory(WithReplacer)
+
+module.exports = {
+  default: makeReplacer,
+  makeReplacer,
+  WithReplacer,
+}

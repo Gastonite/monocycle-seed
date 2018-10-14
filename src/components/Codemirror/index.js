@@ -2,20 +2,15 @@ const { Stream: $ } = require('xstream')
 const complement = require('ramda/src/complement')
 const Component = require('component')
 const prop = require("ramda/src/prop")
-const Codemirror = require('codemirror')
-require("codemirror/addon/edit/continuelist.js")
-require("codemirror/addon/display/fullscreen.js")
-require("codemirror/mode/markdown/markdown.js")
-require("codemirror/addon/mode/overlay.js")
-require("codemirror/addon/display/placeholder.js")
-require("codemirror/addon/selection/mark-selection.js")
-require("codemirror/mode/gfm/gfm.js")
-require("codemirror/mode/xml/xml.js")
 const dropRepeats = require('xstream/extra/dropRepeats').default
 const { div, textarea } = require('@cycle/dom')
 const { FromEvent } = require("utilities/fromEvent")
+const log = require("utilities/log").Log('Codemirror')
+const Codemirror = require("utilities/codemirror")
+const Factory = require('utilities/factory')
+const { WithTextarea } = require('components/Textarea')
 
-export const fromEvent = FromEvent({
+const fromEvent = FromEvent({
   on: 'on',
   off: 'off'
 })
@@ -23,14 +18,18 @@ export const fromEvent = FromEvent({
 const DefaultTextarea = sources => ({
   DOM: $.of(textarea()),
 })
+
 const DefaultCodemirrorView = (...args) => div(`.codemirror`, ...args)
 
-export const WithCodemirror = ({
+const WithCodemirror = ({
   View = DefaultCodemirrorView,
   Textarea = DefaultTextarea,
   // Toolbar = DefaultToolbar,
-  ...codemirrorOptions,
+  ...codemirrorOptions
 } = {}) => {
+
+  if (typeof navigator === 'undefined')
+    return WithTextarea()
 
   return component => Component(component)
     .concat(Textarea, { View })
@@ -39,16 +38,15 @@ export const WithCodemirror = ({
       const codemirror$ = sources.DOM.select('textarea').element()
         .compose(dropRepeats((x, y) => x === y))
         .filter(complement(prop('editor')))
-        .map(textarea => console.log('biip.textarea', { editor: textarea.editor }) || textarea)
+        .map(log.partial('textarea'))
         .map(textarea => textarea.editor = Codemirror.fromTextArea(textarea, {
           mode: 'gfm',
           lineNumbers: true,
-          theme: 'darcula',
           ...codemirrorOptions
         }))
-        .replaceError(err => console.error('Cannot instanciate Codemirror editor', err))
         .compose(sources.Time.debounce(0))
         .map(instance => instance.refresh() || instance)
+        .replaceError(err => console.error('Cannot create editor because:', err.stack) || $.of())
         .compose(dropRepeats())
         .remember()
 
@@ -61,6 +59,11 @@ export const WithCodemirror = ({
     })
 }
 
-export const makeCodemirror = options => WithCodemirror(options)()
+const makeCodemirror = Factory(WithCodemirror)
 
-export default makeCodemirror
+module.exports = {
+  default: makeCodemirror,
+  makeCodemirror,
+  WithCodemirror,
+  fromEvent
+}

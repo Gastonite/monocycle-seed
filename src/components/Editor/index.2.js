@@ -1,7 +1,7 @@
 const { Stream: $ } = require('xstream')
 const complement = require('ramda/src/complement')
 const Component = require('component')
-import prop from "ramda/src/prop"
+const prop = require("ramda/src/prop")
 const Codemirror = require('codemirror')
 import "codemirror/addon/edit/continuelist.js"
 import "codemirror/addon/display/fullscreen.js"
@@ -14,7 +14,7 @@ import "codemirror/mode/xml/xml.js"
 const dropRepeats = require('xstream/extra/dropRepeats').default
 const { div, textarea } = require('@cycle/dom')
 const DefaultToolbar = require('./Toolbar')
-import { FromEvent } from "utilities/fromEvent"
+const { FromEvent } = require("utilities/fromEvent")
 
 export const fromEvent = FromEvent({
   on: 'on',

@@ -30,37 +30,6 @@ const isArray = require('lodash/isArray')
 const identity = require('ramda/src/identity')
 const all = require('ramda/src/all')
 
-const parseOptions = pipe(
-  Cycle.coerce,
-  over(lensProp(Cycle.hasKey),
-    pipe(
-      defaultTo([]),
-      filter(Boolean),
-      map(unless(isFunction, makeValidable))
-    )
-  ),
-  over(lensProp('lens'),
-    unless(isFunction, always(void 0))
-  ),
-  over(lensProp('ItemScope'),
-    unless(isFunction, always(identity))
-  ),
-  over(lensProp('valueKey'),
-    unless(isNonEmptyString, always('value'))
-  ),
-  over(lensProp('from'), pipe(
-    defaultTo('validate$'),
-    when(isString, prop),
-    unless(isFunction, always($.empty))
-  )),
-  over(lensProp('validate'),
-    unless(isFunction, defaultTo(True))
-  ),
-  over(lensProp('message'),
-    unless(isNonEmptyString, defaultTo('Invalid field'))
-  ),
-)
-
 const WithValidable = (options = {}) => {
 
   const {
@@ -217,6 +186,38 @@ const WithValidable = (options = {}) => {
 }
 
 const makeValidable = Factory(WithValidable)
+
+
+const parseOptions = pipe(
+  Cycle.coerce,
+  over(lensProp(Cycle.hasKey),
+    pipe(
+      defaultTo([]),
+      filter(Boolean),
+      map(unless(isFunction, makeValidable))
+    )
+  ),
+  over(lensProp('lens'),
+    unless(isFunction, always(void 0))
+  ),
+  over(lensProp('ItemScope'),
+    unless(isFunction, always(identity))
+  ),
+  over(lensProp('valueKey'),
+    unless(isNonEmptyString, always('value'))
+  ),
+  over(lensProp('from'), pipe(
+    defaultTo('validate$'),
+    when(isString, prop),
+    unless(isFunction, always($.empty))
+  )),
+  over(lensProp('validate'),
+    unless(isFunction, defaultTo(True))
+  ),
+  over(lensProp('message'),
+    unless(isNonEmptyString, defaultTo('Invalid field'))
+  ),
+)
 
 module.exports = {
   default: makeValidable,

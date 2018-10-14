@@ -1,16 +1,16 @@
-const { WithReplacer } = require('../Replacer')
-const { makeIconButton } = require('components/IconButton')
-var fs = require('fs');
-var imageIcon = fs.readFileSync(require.resolve('font-awesome-svg-png/black/svg/image.svg'), 'utf8');
+const { makeReplacer } = require('../Replacer')
+const { WithIconButton } = require('components/IconButton')
+const imageIcon = require('fs').readFileSync(require.resolve('font-awesome-svg-png/black/svg/image.svg'), 'utf8');
 
-const DrawImageButton = makeIconButton(imageIcon)
-  .map(WithReplacer({
+const makeDrawImageButton = ({ classes } = {}) =>
+  makeReplacer({
     type: 'image',
     start: '![',
     end: ']()',
-  }))
+  })
+    .map(WithIconButton({ classes, has: imageIcon }))
 
 module.exports = {
-  default: DrawImageButton,
-  DrawImageButton,
+  default: makeDrawImageButton,
+  makeDrawImageButton,
 }

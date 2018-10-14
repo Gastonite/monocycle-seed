@@ -1,17 +1,18 @@
-const Component = require('component')
+const { default: $ } = require('xstream')
+const Cycle = require('component')
 const { WithClickable } = require('components/Clickable')
 const { WithSetReducer } = require('./SetReducer')
 const { WithTypeWatcher, hasTokenType } = require('./TypeWatcher')
 
-export const WithBlockToggler = ({ type, delimiter, patterns = {} }) => {
+const WithBlockToggler = ({ type, delimiter, patterns = {} }) => {
 
-  return f => Component(f)
+  return f => Cycle(f)
     .map(WithClickable())
     .map(WithTypeWatcher({ type }))
     .map(WithSetReducer({ key: 'active', from: 'isTypeActive$' }))
     .listener({
       kind: 'EditorBlockToggler',
-      from: (sinks, { codemirror$ }) => codemirror$.map(editor => {
+      from: (sinks, { codemirror$ = $.empty() }) => codemirror$.map(editor => {
         return sinks.click$
           .debug('click')
           .map(event => {
@@ -30,7 +31,6 @@ export const WithBlockToggler = ({ type, delimiter, patterns = {} }) => {
               startPoint = word.anchor
               endPoint = word.head
             }
-
 
             if (text.replace(/\s/g, '').length < 1 || text === delimiter)
               return
@@ -74,6 +74,10 @@ export const WithBlockToggler = ({ type, delimiter, patterns = {} }) => {
     })
 }
 
-export const makeBlockToggler = options => WithBlockToggler(options)()
+const makeBlockToggler = options => WithBlockToggler(options)()
 
-export default makeBlockToggler
+module.exports = {
+  default: makeBlockToggler,
+  makeBlockToggler,
+  WithBlockToggler
+}

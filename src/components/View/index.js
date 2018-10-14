@@ -1,29 +1,24 @@
 const { Stream: $ } = require('xstream')
-const dropRepeats = require('xstream/extra/dropRepeats').default
-
+const isFunctor = require('@f/is-functor')
 const Cycle = require('component')
 const { h } = require('snabbdom/h')
 const pipe = require('ramda/src/pipe')
+const path = require('ramda/src/path')
 const lensProp = require('ramda/src/lensProp')
 const over = require('ramda/src/over')
 const concat = require('ramda/src/concat')
-const castArray = require('lodash/castArray')
-const isPlainObject = require('lodash/isPlainObject')
 const Factory = require('utilities/factory')
-const isNumber = require('lodash/isNumber')
-const isInteger = require('lodash/isInteger')
 const isString = require('lodash/isString')
 const isFunction = require('lodash/isFunction')
 const startsWith = require('ramda/src/startsWith')
-const join = require('ramda/src/join')
-const objOf = require('ramda/src/objOf')
-const prepend = require('ramda/src/prepend')
+const map = require('ramda/src/map')
 const when = require('ramda/src/when')
 const unless = require('ramda/src/unless')
 const prop = require('ramda/src/prop')
 const always = require('ramda/src/always')
 const mergeDeepRight = require('ramda/src/mergeDeepRight')
 const log = require('utilities/log').Log('View')
+const { WithListener } = require('component/operators/listener')
 
 const parseOptions = pipe(
   Cycle.coerce,
@@ -56,36 +51,33 @@ const WithView = (options = {}) => {
 
   const View = _View.bind(void 0, kind)
 
-  const ViewComponent = from
-    ? Cycle(
-      makeView(snabbdomOptions, 'ReactiveView')
-        .listener({
-          from: (sinks, sources) => (from(sinks, sources) || $.empty())
-
-            .map(options => {
-
-              log('ReactiveView()', kind, options)
-
-              const {
-                [Cycle.hasKey]: has,
-                ...mergedOptions
-              } = pipe(
-                Cycle.coerce,
-                mergeDeepRight(snabbdomOptions),
-              )(options)
-
-              return View(mergedOptions, has)
-            }),
-          to: 'DOM'
-        }),
-      'ReactiveView'
-    )
-    : Cycle({
+  if (!from)
+    return component => Cycle([component, Cycle({
       View: View.bind(void 0, snabbdomOptions),
       [Cycle.hasKey]: has,
-    }, 'View')
+    }, 'View')])
 
-  return component => Cycle([component, ViewComponent])
+  const render = ({ [Cycle.hasKey]: has, ...options }) => View(options, has)
+
+  return pipe(
+    WithView(snabbdomOptions, 'ReactiveView'),
+    WithListener({
+      from: pipe(
+        from,
+        unless(
+          pipe(path(['addListener']), isFunction),
+          $.empty
+        ),
+        map(pipe(
+          Cycle.coerce,
+          mergeDeepRight(snabbdomOptions),
+          log.partial(['ReactiveView()', kind, options]),
+          render
+        ))
+      ),
+      to: 'DOM'
+    })
+  )
 }
 
 const makeView = Factory(WithView)

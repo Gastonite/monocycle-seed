@@ -1,3 +1,4 @@
+const { Stream: $ } = require('xstream')
 const Time = require('drivers/Time')
 const StateDriver = require('drivers/State')
 const { makeHTMLDriver } = require('@cycle/html')
@@ -8,6 +9,9 @@ module.exports = ({ path, render } = {}) => ({
   Time,
   DOM: makeHTMLDriver(render),
   onion: StateDriver(),
+  HTTP: () => ({
+    select: $.empty
+  }),
   History: withIsolatedHistory(makeServerHistoryDriver({
     initialEntries: [`/${path}`],
     initialIndex: 0

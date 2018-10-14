@@ -4,11 +4,11 @@ const { style } = require('typestyle')
 // const { rem } = require('csx')
 
 
-export const defaultColors = {
+const defaultColors = {
   default: 'gray',
   active: 'white'
 }
-export default ({
+const SvgIconStyle = ({
   size = 36,
   colors = defaultColors
 } = {}) => {
@@ -24,8 +24,8 @@ export default ({
     // margin: rem(SPACE_SIZE / 2),
     display: 'block',
     'svg': {
-      width: '100%',
-      height: '100%',
+      maxWidth: '100%',
+      maxHeight: '100%',
       'path, polygon, circle': {
         fill: colors.default,
         // fill: colors.primary.darken(.18).toString()
@@ -48,4 +48,9 @@ export default ({
     // }
     // }
   }
+}
+
+module.exports = {
+  default: SvgIconStyle,
+  defaultColors
 }

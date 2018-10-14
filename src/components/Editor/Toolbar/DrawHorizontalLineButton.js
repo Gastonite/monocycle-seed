@@ -1,18 +1,17 @@
-var fs = require('fs');
-var minusIcon = fs.readFileSync(require.resolve('font-awesome-svg-png/black/svg/minus.svg'), 'utf8');
-
-const { WithInserter } = require('../Inserter')
-const { makeIconButton } = require('components/IconButton')
+const { makeInserter } = require('../Inserter')
+const { WithIconButton } = require('components/IconButton')
+const minusIcon = require('fs').readFileSync(require.resolve('font-awesome-svg-png/black/svg/minus.svg'), 'utf8');
 
 
-const DrawHorizontalLineButton = makeIconButton(minusIcon)
-  .map(WithInserter({
+const makeDrawHorizontalLineButton = ({ classes } = {}) =>
+  makeInserter({
     type: 'horizontalRule',
     delimiter: '\n\n-----\n\n'
-  }))
+  })
+    .map(WithIconButton({ classes, has: minusIcon }))
 
 
 module.exports = {
-  default: DrawHorizontalLineButton,
-  DrawHorizontalLineButton,
+  default: makeDrawHorizontalLineButton,
+  makeDrawHorizontalLineButton,
 }

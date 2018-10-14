@@ -2,7 +2,7 @@
 const Classes = require('style')
 const { getStyles } = require('typestyle')
 const { makeWebPage } = require('../components/WebPage')
-const { makeApp } = require('components/App')
+const { default: makeApp } = require('components/App')
 const Ms = require('ms')
 const Drivers = require('../drivers')
 const { run } = require('@cycle/run')

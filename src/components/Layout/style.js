@@ -18,7 +18,6 @@ module.exports = ({
   breakpoint = 900
 } = {}) => {
 
-  const noPadding = padding(0)
 
   const columnStyle = {
     ...vertical,
@@ -49,12 +48,16 @@ module.exports = ({
 
   return [
     layerParent,
-    media({ minWidth: 0, maxWidth: breakpoint }, columnStyle),
-    media({ minWidth: breakpoint }, rowStyle),
+    media({ minWidth: 0, maxWidth: breakpoint }, {
+      '&:not(.noAdapt)': columnStyle
+    }),
+    media({ minWidth: breakpoint }, {
+      '&:not(.noAdapt)': rowStyle
+    }),
     {
       $debugName: 'Layout',
       backgroundColor: colors.background,
-      // ...rowStyle,
+      ...rowStyle,
       '&.fill': fillParent,
       // // '&.spaced': {
       // //   ...horizontallySpaced(gutterSize),

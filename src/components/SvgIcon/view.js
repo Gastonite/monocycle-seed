@@ -39,4 +39,4 @@ const SvgIconView = pipe(
   }
 )
 
-export default SvgIconView
+module.exports = SvgIconView

@@ -25,6 +25,8 @@ const ImageStyle = require('components/Image/style')
 const SvgIconStyle = require('components/SvgIcon/style').default
 const NavigationStyle = require('components/Navigation/style')
 const TextareaFieldStyle = require('./components/TextareaField/style').default
+const CodemirrorStyle = require('./components/Codemirror/style').default
+const EditorStyle = require('./components/Editor/style')
 const { normalize, fillParent, attachToBottom, margin } = require('csstips')
 const { rem } = require('csx/lib')
 
@@ -164,6 +166,8 @@ const definitions = [
 
   { name: 'Image', Styles: ImageStyle },
   { name: 'Button', Styles: ButtonStyle },
+  { name: 'Codemirror', Styles: CodemirrorStyle },
+  { name: 'Editor', Styles: EditorStyle },
   {
     name: 'Card',
     Styles: CardStyle,

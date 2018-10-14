@@ -1,6 +1,6 @@
 const { Stream: $ } = require('xstream')
-import { FromEvent } from "utilities/fromEvent"
-import dropRepeats from "xstream/extra/dropRepeats"
+const { FromEvent } = require("utilities/fromEvent")
+const dropRepeats = require("xstream/extra/dropRepeats").default
 const castArray = require('lodash/castArray')
 const returnTrue = require('ramda/src/T')
 const Component = require('component')
@@ -10,7 +10,7 @@ const fromEvent = FromEvent({
   off: 'off'
 })
 
-export const WithTypeWatcher = ({
+const WithTypeWatcher = ({
   to = 'isTypeActive$',
   type,
   check = returnTrue
@@ -38,12 +38,17 @@ export const WithTypeWatcher = ({
     }))
 }
 
-export const hasTokenType = (token, type, check = returnTrue) => {
+const hasTokenType = (token, type, check = returnTrue) => {
   const types = (token.type || '').split(' ')
 
   return castArray(type).some(type => types.includes(type) && check(type))
 }
 
-export const makeTypeWatcher = options => WithTypeWatcher(options)()
+const makeTypeWatcher = options => WithTypeWatcher(options)()
 
-export default makeTypeWatcher()
+module.exports = {
+  default: makeTypeWatcher(),
+  makeTypeWatcher,
+  WithTypeWatcher,
+  hasTokenType,
+}

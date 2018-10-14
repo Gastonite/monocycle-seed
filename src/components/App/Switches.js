@@ -4,9 +4,9 @@ const { WithFlexible } = require('components/Flexible')
 const { makeParagraph } = require('components/Paragraph')
 const Factory = require('utilities/factory')
 
-const WithLayoutPage = ({ classes }) => {
+const WithSwitchesPage = ({ classes }) => {
 
-  console.log('WithLayoutPage()')
+  console.log('WithSwitchesPage()')
   return WithLayout({
     classes,
     direction: 'column',
@@ -130,10 +130,10 @@ const WithLayoutPage = ({ classes }) => {
   })
 }
 
-const makeLayoutPage = Factory(WithLayoutPage)
+const makeSwitchesPage = Factory(WithSwitchesPage)
 
 module.exports = {
-  default: makeLayoutPage,
-  makeLayoutPage,
-  WithLayoutPage
+  default: makeSwitchesPage,
+  makeSwitchesPage,
+  WithSwitchesPage
 }

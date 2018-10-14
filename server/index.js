@@ -1,5 +1,4 @@
 'use strict'
-require('module-alias/register')
 
 const Path = require('path')
 const Hapi = require('hapi')

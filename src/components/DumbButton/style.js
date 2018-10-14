@@ -14,8 +14,8 @@ const baseBgColors = {
   // raisedPrimary: 'white',
   // raisedSecondary: colors.primary.toString(),
 }
-const ButtonStyle = ({ 
-  color = {}, 
+const ButtonStyle = ({
+  color = {},
   bgColor = {},
   minHeight = rem(4)
 } = {}) => {
@@ -39,113 +39,116 @@ const ButtonStyle = ({
   })
 
 
-  return [horizontal, centerCenter, {
-    $debugName: 'Button',
-    // height: '100%',
-    // minWi: '100%',
-    minHeight,
-    position: 'relative',
-    // display: 'inline-block',
-    padding: '0 2em',
-    // padding: 0,
-    border: 'none',
-    background: 'none',
-    color: '#286aab',
-    // fontSize: '1.4em',
-    overflow: 'visible',
-    // -webkit-transition: 'color 0.7s',
-    transition: 'color 0.7s',
-    // -webkit-tap-highlight-color: 'rgba(0, 0, 0, 0)',
-    overflow: 'hidden',
+  return [
+    horizontal,
+    centerCenter,
+    {
+      $debugName: 'Button',
+      // height: '100%',
+      // minWi: '100%',
+      minHeight,
+      position: 'relative',
+      // display: 'inline-block',
+      // padding: '0 2rem',
+      // padding: 0,
+      border: 'none',
+      background: 'none',
+      color: '#286aab',
+      // fontSize: '1.4em',
+      overflow: 'visible',
+      // -webkit-transition: 'color 0.7s',
+      transition: 'color 0.7s',
+      // -webkit-tap-highlight-color: 'rgba(0, 0, 0, 0)',
+      overflow: 'hidden',
       outline: 'none',
       color: '#3c8ddc',
       border: 0,
 
 
-    outline: 'none',
-    '&:hover, &:active, &:focus': {
-      // border: 0,
-
-
       outline: 'none',
-    },
-    '&.click': {
+      '&:hover, &:active, &:focus': {
+        // border: 0,
 
 
-      // Sanja 
+        outline: 'none',
+      },
+      '&.click': {
+
+
+        // Sanja 
+        '&::after': {
+          animation: `${sanjaAnimationName} 1s ease-out `,
+          opacity: 1,
+          // transform: 'scale3d(1, 1, 1)'
+        },
+      },
+
       '&::after': {
-        animation: `${sanjaAnimationName} 1s ease-out `,
-        opacity: 1,
-        // transform: 'scale3d(1, 1, 1)'
+        // transition: 'opacity .2s ease-out',
+        // transform: 'scale3d(0.5, 0.5, 1)',
+
+        position: 'absolute',
+        margin: 'auto',
+        // top: '50%',
+        // left: '50%',
+        // bottom: 0,
+        // right: 0,
+        // width: 'calc(100% * 1px)',
+        // height: 'auto',
+        width: '100%',
+        paddingTop: '100%',
+        // height: '70px',
+        borderRadius: '50%',
+        content: '""',
+        opacity: 0,
+        pointerEvents: 'none',
+
+        // animation: `${sanjaAnimationName} 1s ease-out forwards`,
+
+
+        // Sanja 
+        background: 'rgba(111,148,182,0.05)'
+
       },
-    },
 
-    '&::after': {
-      // transition: 'opacity .2s ease-out',
-      // transform: 'scale3d(0.5, 0.5, 1)',
-
-      position: 'absolute',
-      margin: 'auto',
-      // top: '50%',
-      // left: '50%',
-      // bottom: 0,
-      // right: 0,
-      // width: 'calc(100% * 1px)',
-      // height: 'auto',
-      width: '100%',
-      paddingTop: '100%',
-      // height: '70px',
-      borderRadius: '50%',
-      content: '""',
-      opacity: 0,
-      pointerEvents: 'none',
-
-      // animation: `${sanjaAnimationName} 1s ease-out forwards`,
-
-
-      // Sanja 
-      background: 'rgba(111,148,182,0.05)'
-
-    },
-
-    '&:hover': {
-      color: color.hover,
-      backgroundColor: bgColor.hover,
-    },
-    '&.primary': {
-      color: color.primary,
-      backgroundColor: bgColor.primary,
       '&:hover': {
-        color: color.hoverPrimary,
-        backgroundColor: bgColor.hoverPrimary,
+        color: color.hover,
+        backgroundColor: bgColor.hover,
       },
-      [`&.${raised}`]: {
-        color: color.raisedPrimary,
-        backgroundColor: bgColor.raisedPrimary,
-      }
-    },
-    '&.secondary': {
-      color: color.secondary,
-      backgroundColor: bgColor.secondary,
-      '&:hover': {
-        color: color.hoverSecondary,
-        backgroundColor: bgColor.hoverSecondary,
+      '&.primary': {
+        color: color.primary,
+        backgroundColor: bgColor.primary,
+        '&:hover': {
+          color: color.hoverPrimary,
+          backgroundColor: bgColor.hoverPrimary,
+        },
+        [`&.${raised}`]: {
+          color: color.raisedPrimary,
+          backgroundColor: bgColor.raisedPrimary,
+        }
       },
-      [`&.${raised}`]: {
-        color: color.raisedSecondary,
-        backgroundColor: bgColor.raisedSecondary,
+      '&.secondary': {
+        color: color.secondary,
+        backgroundColor: bgColor.secondary,
+        '&:hover': {
+          color: color.hoverSecondary,
+          backgroundColor: bgColor.hoverSecondary,
+        },
+        [`&.${raised}`]: {
+          color: color.raisedSecondary,
+          backgroundColor: bgColor.raisedSecondary,
+        }
+      },
+      '&.disabled': {
+        $debugName: 'disabled',
+        color: color.disabled,
+        backgroundColor: bgColor.disabled,
+        [`&.${raised}`]: {
+          color: color.raisedDisabled,
+          backgroundColor: bgColor.raisedDisabled,
+        }
       }
-    },
-    '&.disabled': {
-      $debugName: 'disabled',
-      color: color.disabled,
-      backgroundColor: bgColor.disabled,
-      [`&.${raised}`]: {
-        color: color.raisedDisabled,
-        backgroundColor: bgColor.raisedDisabled,
-      }
-    }
-  }]
+    }]
 
   // return ({
   //   raised,

@@ -11,7 +11,7 @@ const makeWebPage = ({
   const WebPage = sources => {
 
     const contentView$ = Content(sources).DOM
-    const contentReducer$ = Content(sources).onion
+    const contentReducer$ = Content(sources).onion || $.empty()
 
     // const css = getStyles()const { getStyles } = require('typestyle')
 

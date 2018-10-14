@@ -22,13 +22,14 @@ const WithLayout = (options = {}) => {
     fill,
     spaced,
     gutter,
+    adapt,
     [Cycle.hasKey]: has,
     ...viewOptions
   } = options = parseOptions(options)
 
   const classes = { Layout: 'Layout', ...options.classes }
 
-  Cycle.log('WithLayout()', { kind, spaced })
+  Cycle.log('WithLayout()', { kind, spaced, adapt })
 
   return WithView({
     kind: concat(kind, `.${classes.Layout}`),
@@ -38,6 +39,7 @@ const WithLayout = (options = {}) => {
       col: ['col', 'column', 'vertical'].includes(direction),
       fill,
       spaced,
+      noAdapt: adapt === false,
     },
     style: {
       ...(viewOptions.style || {}),
@@ -46,7 +48,6 @@ const WithLayout = (options = {}) => {
     [Cycle.hasKey]: has
   })
 }
-
 
 const parseOptions = pipe(
   Cycle.coerce,
@@ -62,6 +63,10 @@ const parseOptions = pipe(
     defaultTo(false),
     Boolean
   )),
+  // over(lensProp('adapt'), pipe(
+  //   defaultTo(false),
+  //   Boolean
+  // )),
   over(lensProp('fill'), pipe(
     defaultTo(false),
     Boolean

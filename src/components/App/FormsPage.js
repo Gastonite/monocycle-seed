@@ -5,9 +5,11 @@ const { makeHeading } = require('components/Heading')
 const { makeCard } = require('components/Card')
 const { makeBar } = require('components/Bar')
 const { makeLayout, WithLayout } = require('components/Layout')
-const { makeView } = require('components/View')
+const { makeEditor } = require('components/Editor')
+const { makeList } = require('components/List')
 const { makeFlexible } = require('components/Flexible')
 const { makeParagraph } = require('components/Paragraph')
+const { makeCodemirror } = require('components/Codemirror')
 const { makeContactForm } = require('./ContactForm')
 const unless = require('ramda/src/unless')
 const pipe = require('ramda/src/pipe')
@@ -46,13 +48,25 @@ const WithFormsPage = ({
             classes,
             // spaced: true,
             has: [
+
               makeCard({
                 classes,
                 has: [
-                  makeParagraph([`Quae dum ita struuntur, indicatum est apud Tyrum indumentum regale textum occulte, `, 
-                  `incertum quo locante vel cuius usibus apparatum. ideoque rector provinciae tunc pater Apollinaris `, 
-                  `eiusdem nominis ut conscius ductus est aliique congregati sunt ex diversis civitatibus multi, `, 
-                  `qui atrocium criminum ponderibus urgebantur.`])
+                  makeParagraph([
+                    `Components/Behaviors used:`,
+                  ]),
+                  makeList([
+                    'Form',
+                    'FieldGroup',
+                    'Field',
+                    'Button',
+                    'Clickable',
+                    'Validable',
+                    'Focusable',
+                    'Codemirror',
+                    'Editor',
+                    '(to be continued)',
+                  ]),
                 ]
               }).map(WithLayout({
                 classes,
@@ -60,24 +74,50 @@ const WithFormsPage = ({
                 spaced: true,
               })),
 
+              makeHeading('Codemirror', 2),
               makeCard({
                 classes,
-                kind: 'address',
-                style: {
-                  fontSize: '2.8rem',
-                },
+                gutter: false,
                 has: [
-            
-                      makeParagraph(`Carebears Inc.`),
-                      makeParagraph(`42 hapiness road`),
-                      makeParagraph(`84354 TendresseVille`)
+                  
+                  makeCodemirror().isolated({
+                    DOM: 'Codemirror',
+                    '*': null,
+                  })
+                ]
+              }),
+
+              makeHeading('Editor', 2),
+              makeCard({
+                classes,
+                gutter: false,
+                has: [
+                  makeEditor({ classes }).isolated({
+                    DOM: 'Codemirror2',
+                    '*': null,
+                  })
            
                 ]
-              }).map(WithLayout({
-                classes,
-                direction: 'column',
-                spaced: true,
-              }))
+              }),
+
+              // makeCard({
+              //   classes,
+              //   kind: 'address',
+              //   style: {
+              //     fontSize: '2.8rem',
+              //   },
+              //   has: [
+
+              //     makeParagraph(`Carebears Inc.`),
+              //     makeParagraph(`42 hapiness road`),
+              //     makeParagraph(`84354 TendresseVille`)
+
+              //   ]
+              // }).map(WithLayout({
+              //   classes,
+              //   direction: 'column',
+              //   spaced: true,
+              // }))
             ]
           }).map(WithLayout({
             classes,
@@ -89,11 +129,9 @@ const WithFormsPage = ({
             classes,
             has: [
 
-              makeCard({
-                classes,
-                has: makeParagraph(`Quae dum ita struuntur, indicatum est apud Tyrum indumentum regale textum occulte`),
-              }),
-  
+            
+              makeHeading('Contact form', 2),
+
               makeCard({
                 gutter: false,
                 classes,

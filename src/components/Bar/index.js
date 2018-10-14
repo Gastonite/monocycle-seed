@@ -21,6 +21,7 @@ const WithBar = (options = {}) => {
       ...layoutOptions,
       kind: kind + '.' + classes.Bar,
       classes,
+      adapt: false,
       class: {
         ...(layoutOptions.class || {}),
         big: size === 'big',

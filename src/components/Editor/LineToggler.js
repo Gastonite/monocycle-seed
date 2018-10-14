@@ -1,12 +1,12 @@
 const { Stream: $ } = require('xstream')
 const Component = require('component')
 const range = require('ramda/src/range')
-import { WithSetReducer } from "./SetReducer"
-import { WithClickable } from "components/Clickable"
-import { WithTypeWatcher, hasTokenType } from "./TypeWatcher"
+const { WithSetReducer } = require("./SetReducer")
+const { WithClickable } = require("components/Clickable")
+const { WithTypeWatcher, hasTokenType } = require("./TypeWatcher")
 
 
-export const WithLineToggler = ({
+const WithLineToggler = ({
   type,
   delimiter = '',
   pattern
@@ -61,6 +61,10 @@ export const WithLineToggler = ({
     })
 }
 
-export const makeLineToggler = options => WithLineToggler(options)()
+const makeLineToggler = options => WithLineToggler(options)()
 
-export default makeLineToggler
+module.exports = {
+  default: makeLineToggler,
+  makeLineToggler,
+  WithLineToggler,
+}

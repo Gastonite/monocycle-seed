@@ -1,4 +1,4 @@
-const { Stream: $ } = require('xstream').default
+const { Stream: $ } = require('xstream')
 const { div } = require('@cycle/dom')
 const Cycle = require('component')
 const unless = require('ramda/src/unless')

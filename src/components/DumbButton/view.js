@@ -4,12 +4,12 @@ const { mergeClasses } = require('utilities/style')
 const prop = require('ramda/src/prop')
 const isFunction = require('lodash/isFunction')
 const isObject = require('lodash/isObject')
-import { button } from "@cycle/dom"
+const { button } = require("@cycle/dom")
 const pipe = require('ramda/src/pipe')
 
-export const attachWavesHook = vnode => { } //Waves.attach(vnode.elm) || vnode
+const attachWavesHook = vnode => { } //Waves.attach(vnode.elm) || vnode
 
-export const makeButtonView = ({
+const makeButtonView = ({
   renderContent = prop('content'),
   defaultHooks = {
     insert: attachWavesHook,
@@ -98,4 +98,8 @@ export const makeButtonView = ({
   }
 }
 
-export default makeButtonView()
+module.exports = {
+  default: makeButtonView(),
+  makeButtonView,
+  attachWavesHook
+}

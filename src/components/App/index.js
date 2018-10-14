@@ -13,12 +13,14 @@ const { makeLink } = require('components/Link')
 const { WithFlexible } = require('components/Flexible')
 const { makeLayoutPage } = require('./LayoutPage')
 const { makeFormsPage } = require('./FormsPage')
+const { makeBoldButton } = require('components/Editor/Toolbar/BoldButton')
+const { makeEditorToolbar } = require('components/Editor/Toolbar')
 const { makeEditor } = require('components/Editor')
-const { makeCodemirror } = require('components/Codemirror')
-const { makeDumbButton } = require('components/DumbButton')
-const { makeButton } = require('components/Button')
-const { makeIconButton } = require('components/IconButton')
-const { makeSvgIcon, WithSvgIcon } = require('components/SvgIcon')
+// const { makeCodemirror } = require('components/Codemirror')
+// const { makeDumbButton } = require('components/DumbButton')
+// const { makeButton } = require('components/Button')
+// const { makeIconButton } = require('components/IconButton')
+// const { makeSvgIcon, WithSvgIcon } = require('components/SvgIcon')
 
 var fs = require('fs');
 var boldIcon = fs.readFileSync(require.resolve('font-awesome-svg-png/black/svg/bold.svg'), 'utf8');
@@ -94,7 +96,7 @@ const makeApp = ({ classes } = {}) =>
                 has: makeFormsPage({
                   classes,
                 })
-              }).isolated('pageB')
+              }).isolated('formsPage')
             },
           ]
         })
@@ -140,7 +142,13 @@ const makeApp = ({ classes } = {}) =>
   }).transition()
 
 module.exports = {
-  default: makeCodemirror,
+  // default: ({ classes }) =>  makeBoldButton({ classes }).isolated({
+  //   DOM: 'boldButton',
+  //   '*': null
+  // }),
+  // default: makeEditor,
+  default: makeApp,
+
   makeApp
 }
 

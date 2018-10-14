@@ -2,7 +2,7 @@ const { Stream: $ } = require('xstream')
 const { WithClickable } = require('components/Clickable')
 const Component = require('component')
 
-export const WithInserter = ({
+const WithInserter = ({
   type,
   delimiter,
   pattern
@@ -25,6 +25,10 @@ export const WithInserter = ({
     })
 }
 
-export const makeInserter = options => WithInserter(options)()
+const makeInserter = options => WithInserter(options)()
 
-export default makeInserter
+module.exports = {
+  default: makeInserter,
+  makeInserter,
+  WithInserter,
+}

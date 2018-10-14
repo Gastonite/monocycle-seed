@@ -1,12 +1,12 @@
 const Cycle = require('component')
-const { WithLayout } = require('components/Layout')
+const { WithLayout } = require('../Layout')
 const { mergeClasses } = require('utilities/style')
 const Factory = require('utilities/factory')
 
 const WithCard = (options = {}) => {
 
   const {
-    classes,
+    classes = {},
     [Cycle.hasKey]: has,
     ...viewOptions
   } = options = Cycle.coerce(options)

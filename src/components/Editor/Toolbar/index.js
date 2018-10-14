@@ -1,46 +1,45 @@
-const Component = require('component')
+const Cycle = require('component')
 const { makeBar } = require('components/Bar')
-const { ToggleBoldButton } = require('./ToggleBoldButton')
-const { ToggleItalicButton } = require('./ToggleItalicButton')
-const { ToggleStrikethroughButton } = require('./ToggleStrikethroughButton')
-const { ToggleHeadingButton } = require('./ToggleHeadingButton')
-const { ToggleUnorderedListButton } = require('./ToggleUnorderedListButton')
-const { ToggleOrderedListButton } = require('./ToggleOrderedListButton')
-const { ToggleQuoteButton } = require('./ToggleQuoteButton')
-const { DrawLinkButton } = require('./DrawLinkButton')
-const { DrawImageButton } = require('./DrawImageButton')
-const { DrawHorizontalLineButton } = require('./DrawHorizontalLineButton')
-
+const { makeBoldButton } = require('./BoldButton')
+const { makeItalicButton } = require('./ItalicButton')
+const { makeStrikethroughButton } = require('./StrikethroughButton')
+const { makeHeadingButton } = require('./HeadingButton')
+const { makeUnorderedListButton } = require('./UnorderedListButton')
+const { makeOrderedListButton } = require('./OrderedListButton')
+const { makeQuoteButton } = require('./QuoteButton')
+const { makeDrawLinkButton } = require('./DrawLinkButton')
+const { DebugState } = require('components/Debug')
+const { makeDrawImageButton } = require('./DrawImageButton')
+const { makeDrawHorizontalLineButton } = require('./DrawHorizontalLineButton')
+const { WithBar } = require('components/Bar')
 
 const WithEditorToolbar = ({
-  View,
-  components = [
-    ToggleBoldButton.isolated('toggleBoldButton'),
-    ToggleItalicButton.isolated('toggleItalicButton'),
-    ToggleStrikethroughButton.isolated('toggleStrikethroughButton'),
-    ToggleHeadingButton.isolated('toggleHeadingButton'),
-    ToggleUnorderedListButton.isolated('toggleUnorderedListButton'),
-    ToggleOrderedListButton.isolated('toggleOrderedListButton'),
-    ToggleQuoteButton.isolated('toggleQuoteButton'),
-    DrawLinkButton.isolated('drawLinkButton'),
-    DrawImageButton.isolated('drawImageButton'),
-    DrawHorizontalLineButton.isolated('drawHorizontalLineButton')
-  ]
-} = {}) => {
+  classes = {}
+} = {} = {}) => {
 
-  return component => Component([
-    component,
-    makeBar({
-      View,
-      components
-    })
-  ])
+  return WithBar({
+    classes,
+    noAdapt: true,
+    has: [
+      // DebugState,
+      makeBoldButton({ classes }).isolated('boldButton'),
+      makeItalicButton({ classes }).isolated('italicButton'),
+      makeStrikethroughButton({ classes }).isolated('strikethroughButton'),
+      makeHeadingButton({ classes }).isolated('headingButton'),
+      makeUnorderedListButton({ classes }).isolated('unorderedListButton'),
+      makeOrderedListButton({ classes }).isolated('orderedListButton'),
+      makeQuoteButton({ classes }).isolated('quoteButton'),
+      makeDrawLinkButton({ classes }).isolated('drawLinkButton'),
+      makeDrawImageButton({ classes }).isolated('drawImageButton'),
+      makeDrawHorizontalLineButton({ classes }).isolated('drawHorizontalLineButton')
+    ]
+  })
 }
 
 const makeEditorToolbar = options => WithEditorToolbar(options)()
 
 module.exports = {
-  default: makeEditorToolbar(),
+  default: makeEditorToolbar,
   makeEditorToolbar,
   WithEditorToolbar
 }

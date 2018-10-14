@@ -43,6 +43,6 @@ const EditorTextareaView = ({
   ])
 }
 
-export default makeFieldView({
+module.exports = makeFieldView({
   InputView: EditorTextareaView
 })

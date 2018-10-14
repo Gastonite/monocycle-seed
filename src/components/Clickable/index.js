@@ -22,26 +22,31 @@ const WithClickable = (options = {}) => {
   const classes = { Clickable: '', ...options.classes }
 
   const Clickable = Cycle()
+    .listener({
+      from: (sinks, sources) => sources.DOM.events(down.name, down.options)
+        .compose(dropRepeats())
+        .mapTo(true),
+      to: 'click$'
+    })
     .map(WithView({
       kind: '.' + classes.Clickable,
-      from: (sinks, sources) => $.merge(
-        sources.DOM.events(down.name, down.options)
-          .compose(dropRepeats())
-          .mapTo(true),
+      from: (sinks, sources) =>
         $.merge(
-          // sources.DOM.events(up.name, up.options)
-          //   .compose(dropRepeats()),
-          sources.DOM.events('animationend', {})
-            .compose(dropRepeats())
+          sinks.click$,
+          $.merge(
+            // sources.DOM.events(up.name, up.options)
+            //   .compose(dropRepeats()),
+            sources.DOM.events('animationend', {})
+              .compose(dropRepeats())
+          )
+            .mapTo(false)
         )
-          .mapTo(false)
-      )
-        .startWith(false)
-        .map(click => ({
-          class: {
-            click
-          }
-        }))
+          .startWith(false)
+          .map(click => ({
+            class: {
+              click
+            }
+          }))
     }))
 
   return component => Cycle([
