@@ -7,7 +7,7 @@ const WithCard = (options = {}) => {
 
   const {
     classes = {},
-    [Cycle.hasKey]: has,
+    has,
     ...viewOptions
   } = options = Cycle.coerce(options)
 
@@ -17,7 +17,7 @@ const WithCard = (options = {}) => {
     classes: mergeClasses({ Card: 'Card' }, classes, {
       Layout: classes.Card
     }),
-    [Cycle.hasKey]: has,
+    has,
   })
 }
 

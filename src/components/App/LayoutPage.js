@@ -4,14 +4,15 @@ const { WithFlexible } = require('components/Flexible')
 const { makeParagraph } = require('components/Paragraph')
 const Factory = require('utilities/factory')
 
+
 const WithLayoutPage = ({ classes }) => {
 
-  console.log('WithLayoutPage()')
   return WithLayout({
     classes,
     direction: 'column',
     gutter: false,
     has: [
+
       makeLayout({
         classes,
         fill: true,
@@ -22,47 +23,54 @@ const WithLayoutPage = ({ classes }) => {
           spaced: true,
           fill: true,
           has: [
+
             makeCard({
               classes,
-              kind: 'span',
+              sel: 'span',
               has: 'bu'
             }),
-              makeCard({
-                classes,
-                has: makeParagraph(`Quae dum ita struuntur, indicatum est apud Tyrum indumentum regale textum occulte`),
-              }),
             makeCard({
               classes,
-              kind: 'span',
+              has: makeParagraph(`Quae dum ita struuntur, indicatum est apud Tyrum indumentum regale textum occulte`),
+            }),
+            makeCard({
+              classes,
+              sel: 'span',
               style: {
                 backgroundColor: 'red'
               },
               has: 'zo'
             }),
+
             makeCard({
               classes,
               direction: 'row',
-              kind: 'span',
+              sel: 'span',
               spaced: true,
               has: [
+
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
+
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
+
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }).map(WithFlexible({ classes })),
+
+
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 })
               ]
@@ -75,7 +83,7 @@ const WithLayoutPage = ({ classes }) => {
               has: [
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   style: {
                     backgroundColor: '#bada55'
                   },
@@ -86,7 +94,7 @@ const WithLayoutPage = ({ classes }) => {
                 })),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   style: {
                     backgroundColor: '#bada55'
                   },
@@ -98,27 +106,28 @@ const WithLayoutPage = ({ classes }) => {
             makeCard({
               classes,
               // direction: 'row',
-              kind: 'span',
+              sel: 'span',
               spaced: true,
               has: [
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }).map(WithFlexible({ classes })),
+
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 })
               ]

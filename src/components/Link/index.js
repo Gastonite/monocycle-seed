@@ -36,10 +36,10 @@ const parseOptions = pipe(
 const WithLink = (options = {}) => {
 
   const {
-    kind = '',
+    sel = '',
     href = '',
     from,
-    [Cycle.hasKey]: has,
+    has,
     ...viewOptions
   } = parseOptions(options)
 
@@ -55,7 +55,7 @@ const WithLink = (options = {}) => {
       .map(log.partial('WithLink.coucou'))
       .map(from => ({
         ...from,
-        [Cycle.hasKey]: from[Cycle.hasKey] ||  has,
+        has: from.has ||  has,
         attrs: {
           ...(from.attrs || {}),
           href: prefixHref(sources.History.prefix, href)
@@ -68,8 +68,8 @@ const WithLink = (options = {}) => {
     attrs: {
       href,
     },
-    [Cycle.hasKey]: has,
-    kind: `a${kind}`,
+    has,
+    sel: `a${sel}`,
   })
 }
 

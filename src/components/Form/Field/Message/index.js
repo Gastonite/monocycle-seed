@@ -8,15 +8,12 @@ const Factory = require('utilities/factory')
 const WithFieldMessage = (options = {}, ...rest) => {
 
 
-  const {
-    kind = '',
-    [Cycle.hasKey]: has = rest[0],
-  } = options = Cycle.coerce(options)
+  options = Cycle.coerce(options)
 
   const classes = { FieldMessage: 'FieldMessage', ...options.classes }
 
   return WithView({
-    kind: '.' + classes.FieldMessage,
+    sel: '.' + classes.FieldMessage,
     from: (sinks, sources) => sources.onion.state$
       .map(either(path(['error', 'message']), always(''))),
     ...options,

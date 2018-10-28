@@ -5,8 +5,8 @@ const Factory = require('utilities/factory')
 const WithListItem = (options = {}) => {
 
   const {
-    kind = '',
-    [Cycle.hasKey]: has,
+    sel = '',
+    has,
     ...viewOptions
   } = options = Cycle.coerce(options)
 
@@ -17,8 +17,8 @@ const WithListItem = (options = {}) => {
 
   const ListItem = makeView({
     ...viewOptions,
-    kind: `li.${classes.ListItem}${kind}`,
-    [Cycle.hasKey]: has,
+    sel: `li.${classes.ListItem}${sel}`,
+    has,
   })
 
   return component => Object.assign(

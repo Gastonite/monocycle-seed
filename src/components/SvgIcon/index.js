@@ -15,15 +15,15 @@ const log = require('utilities/log').Log('SvgIcon')
 
 const parseOptions = pipe(
   Cycle.coerce,
-  unless(isPlainObject, objOf(Cycle.hasKey)),
-  over(lensProp(Cycle.hasKey), when(isUndefined, always(`I'm an empty SvgIcon`)))
+  unless(isPlainObject, objOf('has')),
+  over(lensProp('has'), when(isUndefined, always(`I'm an empty SvgIcon`)))
 )
 
 const WithSvgIcon = (options = {}) => {
 
   const {
-    kind = '',
-    [Cycle.hasKey]: has,
+    sel = '',
+    has,
   } = options = parseOptions(options)
 
   const classes = { SvgIcon: 'SvgIcon', ...options.classes }
@@ -32,7 +32,7 @@ const WithSvgIcon = (options = {}) => {
   
   const SvgIcon = Cycle([
     makeView({
-      kind: concat('i.', classes.SvgIcon, kind),
+      sel: concat('i.', classes.SvgIcon, sel),
       props: {
         innerHTML: has
       }

@@ -31,7 +31,7 @@ const WithLineToggler = ({
     }))
     .map(WithSetReducer({ key: 'active', from: 'isTypeActive$' }))
     .listener({
-      kind: 'EditorLineToggler',
+      name: 'EditorLineToggler',
       from: (sinks, { codemirror$ = $.empty() }) => codemirror$.map(editor => {
         return sinks.click$
           // .debug('click')

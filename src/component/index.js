@@ -1,11 +1,119 @@
 const { default: $ } = require('xstream')
 const { makeComponent, defaultOperators } = require('monocycle/component')
 const merge = require('snabbdom-merge/merge-all')
-const { WithListener } = require('./operators/listener')
-const { Log } = require('utilities/log')
-const isolatedOperator = require('./operators/isolated')
-const { WithTransition } = require('./operators/transition')
+const { Log } = require('../utilities/log')
+const pipe = require('ramda/src/pipe')
+const when = require('ramda/src/when')
+const over = require('ramda/src/over')
+const both = require('ramda/src/both')
+const path = require('ramda/src/path')
+const applyTo = require('ramda/src/applyTo')
+const map = require('ramda/src/map')
+const complement = require('ramda/src/complement')
+const defaultTo = require('ramda/src/defaultTo')
+const lensIndex = require('ramda/src/lensIndex')
+const either = require('ramda/src/either')
+const objOf = require('ramda/src/objOf')
+const always = require('ramda/src/always')
+const filter = require('ramda/src/filter')
+const apply = require('ramda/src/apply')
+const ifElse = require('ramda/src/ifElse')
+const unless = require('ramda/src/unless')
+const mapObjIndexed = require('ramda/src/mapObjIndexed')
+const lensProp = require('ramda/src/lensProp')
+const isEmpty = require('ramda/src/isEmpty')
+const identity = require('ramda/src/identity')
+const prop = require('ramda/src/prop')
+const castArray = require('lodash/castArray')
+const isUndefined = require('lodash/isUndefined')
+const isFunction = require('lodash/isFunction')
+const isString = require('lodash/isString')
+const isPlainObject = require('lodash/isPlainObject')
 
+const { WithIsolation } = require('monocycle/operators/isolation')
+const { WithTransition } = require('monocycle-state/Transition')
+
+const WithParse = (options) => Cycle => {
+
+  const {
+    functions
+  } = pipe(
+    defaultTo({}),
+    over(lensProp('functions'), pipe(
+      mapObjIndexed(either(isFunction, (v, key) => {
+
+        throw new Error(`${key} is not a function`)
+      }))
+    ))
+  )(options)
+
+
+  const parse = pipe(
+    // path(['has', 0, 'has', 0]),
+    // when(isString, objOf('kind')),
+    Cycle.coerce,
+
+
+    over(lensProp('kind'), unless(isFunction,
+      pipe(Cycle.get, prop('make')),
+    )),
+    over(lensProp('with'), pipe(
+      castArray,
+      filter(Boolean),
+      map(pipe(
+        castArray,
+        over(lensIndex(0), either(pipe(Cycle.get, prop('With')), kind => {
+          throw new Error(`'${kind}' component is not defined`)
+        })),
+        ([Behavior, options]) => {
+          return Behavior(options)
+        }
+      )),
+      ifElse(isEmpty, always(identity), apply(pipe))
+
+
+      // mapObjIndexed((value, key) => pipe(
+      //   get,
+      //   prop('With'),
+      //   applyTo(value)
+      // )(key))
+      // either(pipe(get, prop('with')), kind => {
+      //   throw new Error(`'${kind}' component is not defined`)
+      // })
+    )),
+
+    over(lensProp('has'), pipe(
+      castArray,
+      map(
+        when(isPlainObject, (x) => parse(x))
+      )
+    )),
+    ({ kind, scope, with: behavior, ...options }) => {
+
+      // console.log('YYYY', {
+      //   behavior,
+      //   kind,
+      //   options
+      //   // ret: kind(options)
+      // })
+      // // let component = kind(options)
+
+      // // component = pipe(...behaviors)(component)
+
+      // const ga = behavior(kind(options))
+      // console.log('là', ga)
+
+
+      const component = behavior(kind(options))
+
+      return !scope ? component : component.isolation(scope)
+    }
+  )
+
+  return Object.assign(Cycle, {
+    parse
+  });
+}
 
 const mergeViews = (views) => merge(...views.filter(Boolean))
 
@@ -13,13 +121,10 @@ const isProduction = process.env.NODE_ENV === "production"
 
 const operators = {
   ...defaultOperators,
-  isolated: isolatedOperator,
   transition: WithTransition,
-  listener: WithListener
 }
 
 const Component = makeComponent({
-  hasKey: 'has',
   enforceName: !isProduction,
   fromString: string => {
 
@@ -30,10 +135,18 @@ const Component = makeComponent({
   log: isProduction ? void 0 : Log('(Cycle)'),
   operators,
   Combiners: ({ View = mergeViews }) => ({
-    DOM: streams =>
+    DOM: (streams = []) =>
       $.combine(...streams)
         .map(View)
   })
 })
 
-module.exports = Component
+
+
+module.exports = pipe(
+  WithParse({
+    functions: {
+
+    }
+  })
+)(Component)

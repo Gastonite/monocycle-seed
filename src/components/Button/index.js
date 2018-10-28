@@ -12,7 +12,7 @@ const defaultScope = {
 const WithButton = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has = `I'm a Button`,
+    has = `I'm a Button`,
     scope = defaultScope
   } = options = Cycle.coerce(options)
 
@@ -21,9 +21,9 @@ const WithButton = (options = {}) => {
   const Button = makeClickable()
     .map(WithDumbButton({
       ...options,
-      [Cycle.hasKey]: has,
+      has,
     }))
-    // .isolated(scope)
+    // .isolation(scope)
 
   return component => Cycle([
     component,

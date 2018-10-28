@@ -5,17 +5,17 @@ const Factory = require('utilities/factory')
 const WithImage = (options = {}) => {
 
   const {
-    kind = '',
-    [Cycle.hasKey]: has,
+    sel = '',
+    has,
     ...viewOptions
   } = Cycle.coerce(options)
 
   const classes = { Image: 'Image', ...options.classes }
 
   return WithView({
-    kind: 'img.' + classes.Image +  kind,
+    sel: 'img.' + classes.Image +  sel,
     ...viewOptions,
-    [Cycle.hasKey]: has
+    has 
   })
 }
 

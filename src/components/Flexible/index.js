@@ -18,8 +18,8 @@ const parseOptions = pipe(
 const WithFlexible = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has = Cycle.Empty,
-    kind = '',
+    has = Cycle.Empty,
+    sel = '',
     grow,
     shrink,
     basis,
@@ -32,13 +32,13 @@ const WithFlexible = (options = {}) => {
 
   return WithView({
     ...viewOptions,
-    kind: concat(`.${classes.Flexible}`, kind),
+    sel: concat(`.${classes.Flexible}`, sel),
     style: {
       flexGrow: grow,
       flexShrink: shrink,
       flexBasis: basis,
     },
-    [Cycle.hasKey]: has
+    has 
   })
 }
 

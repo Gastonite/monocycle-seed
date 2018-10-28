@@ -47,7 +47,7 @@ const WithContactForm = (options = {}) => {
 
   const {
     classes,
-    [Cycle.hasKey]: has,
+    shas,
     ...formOptions
   } = options = parseOptions(options)
 
@@ -65,10 +65,10 @@ const WithContactForm = (options = {}) => {
       },
       {
         from: 'sendMessageResponse$',
-        combiner: $.merge,
         to: 'resetForm$'
       }
     ])
+    
     .map(WithForm({
       ...formOptions,
       classes,

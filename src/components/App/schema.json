@@ -1,0 +1,31 @@
+{
+  "kind": "View",
+  "has": [
+    {
+      "kind": "View",
+      "has": [
+        {
+          "kind": "Button",
+          "has": "-",
+          "scope": "removeButton"
+        },
+        {
+          "kind": "Button",
+          "has": "+",
+          "scope": "addButton"
+        }
+      ],
+      "with": [
+        ["Transition", [
+          "return 0",
+          {
+            "from": ["sinks", "return $.merge(sinks.add$, sinks.remove$)"],
+            "reducer": ["change", "return change => total => total + change"],
+            "name": "update"
+          }
+        ]]
+      ]
+    },
+    "Counter"
+  ]
+}

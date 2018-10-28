@@ -16,15 +16,14 @@ const { makeFieldInput } = require('./Input')
 const { makeFieldLabel } = require('./Label')
 const { makeFieldMessage } = require('./Message')
 const { WithView } = require('components/View')
-const { WithTransition } = require('component/operators/transition')
+const { WithTransition } = require('monocycle-state/Transition')
 const { WithFocusable } = require('components/Focusable')
 const isNonEmptyString = require('predicates/isNonEmptyString')
-const { Empty } = require('monocycle/component')
 const Factory = require('utilities/factory')
 const KindReducer = require('utilities/kind')
 const always = require('ramda/src/always')
 
-
+const Empty = () => ({})
 
 const parseOptions = pipe(
   unless(isPlainObject, Empty),
@@ -44,7 +43,6 @@ const parseOptions = pipe(
 const WithField = options => {
 
   const {
-    kind = 'Field',
     name,
     label,
     makeInput,
@@ -60,7 +58,6 @@ const WithField = options => {
 
   Cycle.log('WithField()', {
     ...options,
-    kind,
     getFocusEvent$,
     getBlurEvent$,
     makeLabelIsDefault: makeFieldLabel === makeLabel
@@ -115,17 +112,16 @@ const WithField = options => {
               active: isFocused || viewValue,
               valid: isValid && isDirty,
               invalid: !isValid && isDirty
-            },
+            }
           }
-        }),
-
+        })
     }),
 
     WithView({
       classes,
-      kind: `.${classes.Field}`,
+      sel: `.${classes.Field}`,
       ...viewOptions,
-      [Cycle.hasKey]: [
+      has: [
         makeLabel({
           classes,
         }),

@@ -38,23 +38,24 @@ const WithFormsPage = ({
 
       makeLayout({
         classes,
-        // fill: true,
         style: {
           justifyContent: 'center',
           alignItems: 'center',
         },
         has: [
+
           makeFlexible({
             classes,
-            // spaced: true,
             has: [
 
               makeCard({
                 classes,
                 has: [
+
                   makeParagraph([
                     `Components/Behaviors used:`,
                   ]),
+
                   makeList([
                     'Form',
                     'FieldGroup',
@@ -75,12 +76,13 @@ const WithFormsPage = ({
               })),
 
               makeHeading('Codemirror', 2),
+
               makeCard({
                 classes,
                 gutter: false,
                 has: [
                   
-                  makeCodemirror().isolated({
+                  makeCodemirror().isolation({
                     DOM: 'Codemirror',
                     '*': null,
                   })
@@ -88,36 +90,17 @@ const WithFormsPage = ({
               }),
 
               makeHeading('Editor', 2),
+
               makeCard({
                 classes,
                 gutter: false,
                 has: [
-                  makeEditor({ classes }).isolated({
-                    DOM: 'Codemirror2',
+                  makeEditor({ classes }).isolation({
+                    DOM: 'Editor',
                     '*': null,
                   })
-           
                 ]
               }),
-
-              // makeCard({
-              //   classes,
-              //   kind: 'address',
-              //   style: {
-              //     fontSize: '2.8rem',
-              //   },
-              //   has: [
-
-              //     makeParagraph(`Carebears Inc.`),
-              //     makeParagraph(`42 hapiness road`),
-              //     makeParagraph(`84354 TendresseVille`)
-
-              //   ]
-              // }).map(WithLayout({
-              //   classes,
-              //   direction: 'column',
-              //   spaced: true,
-              // }))
             ]
           }).map(WithLayout({
             classes,
@@ -129,7 +112,6 @@ const WithFormsPage = ({
             classes,
             has: [
 
-            
               makeHeading('Contact form', 2),
 
               makeCard({
@@ -137,7 +119,7 @@ const WithFormsPage = ({
                 classes,
                 has: makeFlexible({
                   classes,
-                  kind: '.contact-form',
+                  sel: '.contact-form',
                   has: [
 
                     makeBar({
@@ -163,7 +145,7 @@ const WithFormsPage = ({
 
                     makeContactForm({
                       classes
-                    }).isolated('form'),
+                    }).isolation('form'),
                   ]
                 })
 
@@ -210,7 +192,8 @@ const WithFormsPage = ({
             classes,
             direction: 'column',
             spaced: true
-          })),
+          }))
+          
         ]
       })
     ]

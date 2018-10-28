@@ -6,10 +6,10 @@ const Factory = require('utilities/factory')
 const WithBar = (options = {}) => {
 
   const {
-    kind = '',
+    sel = '',
     size,
     dockTo,
-    [Cycle.hasKey]: has = Cycle.Empty,
+    has = Cycle.Empty,
     ...layoutOptions
   } = options = Cycle.coerce(options)
 
@@ -19,7 +19,7 @@ const WithBar = (options = {}) => {
   return pipe(
     WithLayout({
       ...layoutOptions,
-      kind: kind + '.' + classes.Bar,
+      sel: sel + '.' + classes.Bar,
       classes,
       adapt: false,
       class: {
@@ -27,7 +27,7 @@ const WithBar = (options = {}) => {
         big: size === 'big',
         small: size === 'small',
       },
-      [Cycle.hasKey]: has,
+      has,
     }),  
   )
 

@@ -22,14 +22,16 @@ const WithClickable = (options = {}) => {
   const classes = { Clickable: '', ...options.classes }
 
   const Clickable = Cycle()
+  
     .listener({
       from: (sinks, sources) => sources.DOM.events(down.name, down.options)
         .compose(dropRepeats())
         .mapTo(true),
       to: 'click$'
     })
+    
     .map(WithView({
-      kind: '.' + classes.Clickable,
+      sel: '.' + classes.Clickable,
       from: (sinks, sources) =>
         $.merge(
           sinks.click$,

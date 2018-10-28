@@ -45,24 +45,24 @@ const WithFieldGroup = (options = {}) => {
 
   const {
     ItemScope = identity,
-    [Cycle.hasKey]: has
+    has 
   } = parseOptions(options)
 
 
   return component => Cycle(component)
 
     .map(WithView({
-      [Cycle.hasKey]: has
+      has 
         .filter(Boolean)
         .map((field, i) =>
-          field.isolated(ItemScope('' + i, field))
+          field.isolation(ItemScope('' + i, field))
         )
     }))
 
-    .isolated({
+    .isolation({
       onion: {
         get: (state = {}) => pipe(
-          prop(Cycle.hasKey),
+          prop('has'),
           defaultTo(Array(has.length).fill(void 0)),
           map(when(prop('isField'), (field = {}) => {
 
@@ -102,7 +102,7 @@ const WithFieldGroup = (options = {}) => {
             )(before)
           }, state, fields),
 
-          [Cycle.hasKey]: fields,
+          has: fields,
           isValid: all(prop('isValid'))(fields)
         })
       },
@@ -118,7 +118,7 @@ const WithFieldGroup = (options = {}) => {
       reducer: () => pipe(
         KindReducer('FieldGroup'),
         assoc('isFieldGroup', true),
-        over(lensProp(Cycle.hasKey), pipe(
+        over(lensProp('has'), pipe(
           castArray,
           unless(
             all(prop('isField')),

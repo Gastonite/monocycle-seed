@@ -21,7 +21,7 @@ const WithHeading = (options = {}, ...rest) => {
 
   const {
     level = rest[0],
-    [Cycle.hasKey]: has,
+    has,
   } = options = pipe(
     Cycle.coerce,
     over(lensProp('level'),
@@ -41,8 +41,8 @@ const WithHeading = (options = {}, ...rest) => {
 
   return WithView({
     ...options,
-    [Cycle.hasKey]: has,
-    kind: `h${level}`
+    has,
+    sel: `h${level}`
   })
 }
 

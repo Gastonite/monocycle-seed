@@ -11,7 +11,7 @@ const WithBlockToggler = ({ type, delimiter, patterns = {} }) => {
     .map(WithTypeWatcher({ type }))
     .map(WithSetReducer({ key: 'active', from: 'isTypeActive$' }))
     .listener({
-      kind: 'EditorBlockToggler',
+      name: 'EditorBlockToggler',
       from: (sinks, { codemirror$ = $.empty() }) => codemirror$.map(editor => {
         return sinks.click$
           .debug('click')
