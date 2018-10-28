@@ -14,10 +14,10 @@ const Factory = require('utilities/factory')
 const WithList = (options = {}) => {
 
   const {
-    kind = '',
+    sel = '',
     href = '',
     ordered = false,
-    [Cycle.hasKey]: has,
+    has,
     ...viewOptions
   } = parseOptions(options)
 
@@ -27,15 +27,15 @@ const WithList = (options = {}) => {
       List: 'List',
       ...(viewOptions.classes || {})
     },
-    [Cycle.hasKey]: has,
-    kind: `${ordered ? 'o' : 'u'}l${kind}`,
+    has,
+    sel: `${ordered ? 'o' : 'u'}l${sel}`,
   })
 }
 
 
 const parseOptions = pipe(
   Cycle.coerce,
-  over(lensProp(Cycle.hasKey),
+  over(lensProp('has'),
     map(
       unless(
         both(isFunction, prop('isListItem')),

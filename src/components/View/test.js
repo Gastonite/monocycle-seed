@@ -11,7 +11,7 @@ const SnabbdomToHTML = require('snabbdom-to-html')
 suite('View', () => {
   const Time = mockTimeSource()
 
-  const MockedView = (...args) => {
+  const make = (...args) => {
 
     const View = makeView(...args)
 
@@ -19,9 +19,10 @@ suite('View', () => {
 
     return View
   }
+
   test('render a div element when no params passed', done => {
 
-    const view = MockedView()({
+    const view = make()({
       DOM: mockDOMSource({
         // '.add': {
         //   click: addClick$
@@ -39,10 +40,34 @@ suite('View', () => {
     Time.run(done)
   })
 
+  test('render a div element with snabbdom options', done => {
+
+    const view = make({
+      style: {
+        background: 'blue'
+      }
+    })({
+      DOM: mockDOMSource({
+        // '.add': {
+        //   click: addClick$
+        // },
+      })
+    })
+
+    Time.assertEqual(
+      view.DOM.map(SnabbdomToHTML).debug('pwet'),
+      Time.diagram(`(A|)`, {
+        A: '<div style="background: blue"></div>'
+      })
+    )
+
+    Time.run(done)
+  })
+
   test('render a div element with specific classes', done => {
 
-    const view = MockedView({
-      kind: '.ga.bu'
+    const view = make({
+      sel: '.ga.bu'
     })({
       DOM: mockDOMSource({
         // '.add': {
@@ -63,8 +88,8 @@ suite('View', () => {
 
   test('render a specific element with specific classes', done => {
 
-    const view = MockedView({
-      kind: 'super-element.cool-class.another-class'
+    const view = make({
+      sel: 'super-element.cool-class.another-class'
     })({
       DOM: mockDOMSource({
         // '.add': {
@@ -85,8 +110,8 @@ suite('View', () => {
 
   test('render a div element with children', done => {
 
-    const view = MockedView({
-      kind: '.ga.bu'
+    const view = make({
+      sel: '.ga.bu'
     })({
       DOM: mockDOMSource({})
     })
@@ -106,7 +131,7 @@ suite('View', () => {
     
     test('does not render anything when "from" does not return a functor', done => {
 
-      const view = MockedView({
+      const view = make({
         from: () => 42
       })({
         DOM: mockDOMSource({})
@@ -122,7 +147,7 @@ suite('View', () => {
 
     test('does not render anything when "from" does not return a functor', done => {
 
-      const view = MockedView({
+      const view = make({
         from: () => [42]
       })({
         DOM: mockDOMSource({})
@@ -136,10 +161,9 @@ suite('View', () => {
       Time.run(done)
     })
 
-
     test('does render an element in reaction to an event', done => {
 
-      const view = MockedView({
+      const view = make({
         from: () => Time.diagram('---1---2----------34--5-|')
       })({
         DOM: mockDOMSource({})
@@ -161,13 +185,15 @@ suite('View', () => {
 
     test('does override view options', done => {
 
-      const view = MockedView({
+      const view = make({
         style: {
           background: 'blue'
         },
-        from: () => Time.diagram('--a---b|', {
+        from: () => Time.diagram('--a---b------c|', {
           a: { style: { background: 'green' }, has: 'ga' },
-          b: { style: { background: 'red' }, has: 'bu' },
+          b: { class: { yeah: true }, has: 'bu' },
+          c: ['zo'],
+          c: 'meu',
         })
       })({
         DOM: mockDOMSource({})
@@ -175,9 +201,11 @@ suite('View', () => {
 
       Time.assertEqual(
         view.DOM.map(SnabbdomToHTML),
-        Time.diagram('--a---b|', {
+        Time.diagram('--a---b------c|', {
           a: '<div style="background: green">ga</div>',
-          b: `<div style="background: red">bu</div>`,
+          b: `<div class="yeah" style="background: blue">bu</div>`,
+          c: `<div style="background: blue">zo</div>`,
+          c: `<div style="background: blue">meu</div>`,
         }),
       )
 

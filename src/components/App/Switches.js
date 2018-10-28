@@ -24,7 +24,7 @@ const WithSwitchesPage = ({ classes }) => {
           has: [
             makeCard({
               classes,
-              kind: 'span',
+              sel: 'span',
               has: 'bu'
             }),
               makeCard({
@@ -33,7 +33,7 @@ const WithSwitchesPage = ({ classes }) => {
               }),
             makeCard({
               classes,
-              kind: 'span',
+              sel: 'span',
               style: {
                 backgroundColor: 'red'
               },
@@ -42,27 +42,27 @@ const WithSwitchesPage = ({ classes }) => {
             makeCard({
               classes,
               direction: 'row',
-              kind: 'span',
+              sel: 'span',
               spaced: true,
               has: [
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }).map(WithFlexible({ classes })),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 })
               ]
@@ -75,7 +75,7 @@ const WithSwitchesPage = ({ classes }) => {
               has: [
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   style: {
                     backgroundColor: '#bada55'
                   },
@@ -86,7 +86,7 @@ const WithSwitchesPage = ({ classes }) => {
                 })),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   style: {
                     backgroundColor: '#bada55'
                   },
@@ -98,27 +98,27 @@ const WithSwitchesPage = ({ classes }) => {
             makeCard({
               classes,
               // direction: 'row',
-              kind: 'span',
+              sel: 'span',
               spaced: true,
               has: [
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 }).map(WithFlexible({ classes })),
                 makeCard({
                   classes,
-                  kind: 'span',
+                  sel: 'span',
                   has: 'ga'
                 })
               ]

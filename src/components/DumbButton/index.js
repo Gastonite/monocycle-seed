@@ -10,7 +10,7 @@ const parseOptions = pipe(
 const WithDumbButton = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has = `I'm a dumb Button`,
+    has = `I'm a dumb Button`,
   } = options = parseOptions(options)
 
   const classes = { Button: '', ...options.classes }
@@ -21,8 +21,8 @@ const WithDumbButton = (options = {}) => {
   
   return WithView({
     ...options,
-    kind: 'button.' + classes.Button,
-    [Cycle.hasKey]: has,
+    sel: 'button.' + classes.Button,
+    has,
   })
 }
 

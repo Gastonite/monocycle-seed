@@ -56,7 +56,7 @@ const WithEditor1 = ({
 const WithEditor = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has,
+    has,
     classes,
     ...codemirrorOptions
   } = WithEditor.parseOptions(options)
@@ -65,7 +65,7 @@ const WithEditor = (options = {}) => {
 
     .concat(makeEditorToolbar({
       classes,
-      [Cycle.hasKey]: has
+      has 
     }))
 
     .after((sinks, sources) => ({

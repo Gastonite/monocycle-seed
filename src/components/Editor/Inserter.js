@@ -11,7 +11,7 @@ const WithInserter = ({
   return f => Component(f)
     .map(WithClickable())
     .listener({
-      kind: 'EditorInserter',
+      name: 'EditorInserter',
       from: (sinks, { codemirror$ = $.of({}) }) =>
         sinks.click$
           .mapTo(codemirror$)

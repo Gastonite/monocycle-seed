@@ -20,14 +20,14 @@ const syncHeightHandler = function () {
 const WithTextareaFieldInput = options => {
 
   const {
-    [Cycle.hasKey]: has
+    has 
   } = options = Cycle.coerce(options)
 
   const classes = { FieldInput: 'FieldInput', ...options.classes }
 
   return component => Cycle(component)
     .map(WithTextarea({
-      kind: '.' + classes.FieldInput,
+      sel: '.' + classes.FieldInput,
       from: (sinks, sources) =>
         sources.onion.state$
           .compose(dropRepeats())

@@ -7,7 +7,7 @@ const Factory = require('utilities/factory')
 const WithLinkList = (options = {}) => {
 
   const {
-    [Cycle.hasKey]: has = Cycle.Empty
+    has = Cycle.Empty
   } = options = Cycle.coerce(options)
 
 
@@ -19,10 +19,12 @@ const WithLinkList = (options = {}) => {
     classes: mergeClasses(classes, {
       List: classes.LinkList
     }),
-    [Cycle.hasKey]: has.map(Cycle.coerce).map(options => makeLink({
-        ...options,
-        classes
-      }))
+    has: has
+    .map(Cycle.coerce)
+        .map(options => makeLink({
+          ...options,
+          classes
+        }))
   })
 
   return component => Object.assign(

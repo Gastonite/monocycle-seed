@@ -22,16 +22,16 @@ const WithEditorToolbar = ({
     noAdapt: true,
     has: [
       // DebugState,
-      makeBoldButton({ classes }).isolated('boldButton'),
-      makeItalicButton({ classes }).isolated('italicButton'),
-      makeStrikethroughButton({ classes }).isolated('strikethroughButton'),
-      makeHeadingButton({ classes }).isolated('headingButton'),
-      makeUnorderedListButton({ classes }).isolated('unorderedListButton'),
-      makeOrderedListButton({ classes }).isolated('orderedListButton'),
-      makeQuoteButton({ classes }).isolated('quoteButton'),
-      makeDrawLinkButton({ classes }).isolated('drawLinkButton'),
-      makeDrawImageButton({ classes }).isolated('drawImageButton'),
-      makeDrawHorizontalLineButton({ classes }).isolated('drawHorizontalLineButton')
+      makeBoldButton({ classes }).isolation('boldButton'),
+      makeItalicButton({ classes }).isolation('italicButton'),
+      makeStrikethroughButton({ classes }).isolation('strikethroughButton'),
+      makeHeadingButton({ classes }).isolation('headingButton'),
+      makeUnorderedListButton({ classes }).isolation('unorderedListButton'),
+      makeOrderedListButton({ classes }).isolation('orderedListButton'),
+      makeQuoteButton({ classes }).isolation('quoteButton'),
+      makeDrawLinkButton({ classes }).isolation('drawLinkButton'),
+      makeDrawImageButton({ classes }).isolation('drawImageButton'),
+      makeDrawHorizontalLineButton({ classes }).isolation('drawHorizontalLineButton')
     ]
   })
 }

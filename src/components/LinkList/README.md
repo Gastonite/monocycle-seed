@@ -8,6 +8,6 @@ makeLinkList({
       })
     }
   ]
-}).isolated('hello')
+}).isolation('hello')
 
 ```

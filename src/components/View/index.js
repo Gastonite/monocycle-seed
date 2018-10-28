@@ -18,7 +18,7 @@ const prop = require('ramda/src/prop')
 const always = require('ramda/src/always')
 const mergeDeepRight = require('ramda/src/mergeDeepRight')
 const log = require('utilities/log').Log('View')
-const { WithListener } = require('component/operators/listener')
+const { WithListener } = require('monocycle/operators/listener')
 
 const parseOptions = pipe(
   Cycle.coerce,
@@ -27,7 +27,7 @@ const parseOptions = pipe(
     when(isString, prop),
     unless(isFunction, always(void 0)),
   )),
-  over(lensProp('kind'), pipe(
+  over(lensProp('sel'), pipe(
     unless(isString, always('div')),
     when(startsWith('.'), concat('div')),
   )),
@@ -36,28 +36,28 @@ const parseOptions = pipe(
 const WithView = (options = {}) => {
 
   const {
-    kind = 'div',
-    [Cycle.hasKey]: has,
+    sel = 'div',
+    has,
     from,
     View: _View = h,
     ...snabbdomOptions
   } = options = parseOptions(options)
 
   Cycle.log('WithView()', {
-    kind,
+    sel,
     from,
     View: _View,
   })
 
-  const View = _View.bind(void 0, kind)
+  const View = _View.bind(void 0, sel)
 
   if (!from)
     return component => Cycle([component, Cycle({
       View: View.bind(void 0, snabbdomOptions),
-      [Cycle.hasKey]: has,
+      has,
     }, 'View')])
 
-  const render = ({ [Cycle.hasKey]: has, ...options }) => View(options, has)
+  const render = ({ has, ...options }) => View(options, has)
 
   return pipe(
     WithView(snabbdomOptions, 'ReactiveView'),
@@ -71,7 +71,7 @@ const WithView = (options = {}) => {
         map(pipe(
           Cycle.coerce,
           mergeDeepRight(snabbdomOptions),
-          log.partial(['ReactiveView()', kind, options]),
+          // log.partial(['ReactiveView()', sel, options]),
           render
         ))
       ),
@@ -82,18 +82,18 @@ const WithView = (options = {}) => {
 
 const makeView = Factory(WithView)
 
-const ViewHelper = (kind) => {
+const ViewHelper = (sel) => {
   return (options = {}) => {
 
     const {
-      kind: _kind = '',
-      [Cycle.hasKey]: has,
+      sel: _sel = '',
+      has,
     } = options = Cycle.coerce(options)
 
     return WithView({
       ...options,
-      [Cycle.hasKey]: has,
-      kind: kind + _kind
+      has,
+      sel: sel + _sel
     })
   }
 }

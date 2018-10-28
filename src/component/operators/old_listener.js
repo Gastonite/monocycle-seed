@@ -11,10 +11,9 @@ const either = require('ramda/src/either')
 const objOf = require('ramda/src/objOf')
 const castArray = require('lodash/castArray')
 const assert = require('assert')
-const capitalize = require('monocycle/utilities/capitalize')
 const isFunction = require('lodash/isFunction')
 const isString = require('lodash/isString')
-const Factory = require('utilities/factory')
+const Factory = require('../../utilities/factory')
 
 const coerceOptions = when(either(isFunction, isString), objOf('from'))
 
@@ -30,7 +29,6 @@ const WithListener = (options = {}) => {
         defaultListener = identity,
         combiner = (before, sink$) => sink$,
         to = '',
-        kind,
       } = pipe(
         coerceOptions,
         over(lensProp('from'), when(isString, prop))
@@ -38,10 +36,6 @@ const WithListener = (options = {}) => {
 
       assert(isFunction(from), `'from' must be a function`)
       assert(isString(to), `'to' must be a function`)
-
-      console.log('WithListener()', kind)
-
-      kind = kind || `${capitalize(to)}Listener`
 
       return component => {
 
@@ -55,7 +49,7 @@ const WithListener = (options = {}) => {
             : (event$.addListener(defaultListener) || sinks)
         }
 
-        return Object.assign(Listener, { kind })
+        return Listener
       }
     }),
     apply(pipe)

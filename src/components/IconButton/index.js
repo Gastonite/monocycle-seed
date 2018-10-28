@@ -19,7 +19,7 @@ const WithIconButton = (options = {}) => {
 
   const {
     classes,
-    [Cycle.hasKey]: has,
+    has,
     ...buttonOptions
   } = parseOptions(options)
 
@@ -31,7 +31,7 @@ const WithIconButton = (options = {}) => {
       classes,
       has: makeSvgIcon({
         classes,
-        [Cycle.hasKey]: has
+        has 
       })
     }))
 }

@@ -18,7 +18,7 @@ const WithReplacer = ({ type, start, end } = {}) => {
       from: 'isTypeActive$'
     }))
     .listener({
-      kind: 'EditorReplacer',
+      name: 'EditorReplacer',
       from: (sinks, { codemirror$ = $.empty() }) => codemirror$.map(editor => {
         return sinks.click$
           .map(event => {

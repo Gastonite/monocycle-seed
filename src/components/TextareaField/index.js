@@ -7,7 +7,6 @@ const { mergeClasses } = require('utilities/style')
 const WithTextareaField = (options = {}) => {
 
   const {
-    kind = '',
     classes,
     ...fieldOptions
   } = options = Cycle.coerce(options)

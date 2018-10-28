@@ -39,7 +39,7 @@ const WithValidable = (options = {}) => {
     lens,
     ItemScope,
     valueKey,
-    [Cycle.hasKey]: has,
+    has,
     ...componentOptions
   } = options = parseOptions(options)
 
@@ -102,16 +102,16 @@ const WithValidable = (options = {}) => {
 
   const Validables = Cycle({
     ...componentOptions,
-    [Cycle.hasKey]: has
+    has: has
       .filter(Boolean)
       .map((field, i) =>
-        field.isolated(ItemScope('' + i, field))
+        field.isolation(ItemScope('' + i, field))
       )
   })
-    .isolated({
+    .isolation({
       onion: {
         get: (state = {}) => pipe(
-          prop(Cycle.hasKey),
+          prop('has'),
           defaultTo(
             Array(has.length).fill(void 0)
           ),
@@ -119,7 +119,7 @@ const WithValidable = (options = {}) => {
         get: (state = {}) => {
 
           const {
-            [Cycle.hasKey]: validables = []
+            has: validables = []
           } = state
 
           return addIndex(map)((lens, i) => {
@@ -136,7 +136,7 @@ const WithValidable = (options = {}) => {
 
           const ret = ({
             ...state,
-            [Cycle.hasKey]: validables,
+            has: validables,
             [valueKey]: addIndex(reduce)(
               (before, lens, i) => {
 
@@ -161,7 +161,7 @@ const WithValidable = (options = {}) => {
         sources.onion.state$
           .filter(complement(prop('isValidables')))
           .filter(pipe(
-            prop(Cycle.hasKey),
+            prop('has'),
             both(
               isArray,
               all(prop('isValidable'))
@@ -190,7 +190,7 @@ const makeValidable = Factory(WithValidable)
 
 const parseOptions = pipe(
   Cycle.coerce,
-  over(lensProp(Cycle.hasKey),
+  over(lensProp('has'),
     pipe(
       defaultTo([]),
       filter(Boolean),

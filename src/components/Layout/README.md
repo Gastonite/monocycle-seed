@@ -94,7 +94,7 @@ const makeApp = ({ classes }) => {
       has: [
 
         makeView({
-          kind: 'span',
+          sel: 'span',
           style: {
             backgroundColor: 'red'
           },
@@ -102,7 +102,7 @@ const makeApp = ({ classes }) => {
         }),
 
         makeView({
-          kind: 'span',
+          sel: 'span',
           style: {
             backgroundColor: 'red'
           },
@@ -110,7 +110,7 @@ const makeApp = ({ classes }) => {
         }),
 
         makeView({
-          kind: 'span',
+          sel: 'span',
           style: {
             backgroundColor: 'red'
           },
@@ -118,7 +118,7 @@ const makeApp = ({ classes }) => {
         }),
 
         makeView({
-          kind: 'span',
+          sel: 'span',
           style: {
             backgroundColor: 'red'
           },

@@ -36,7 +36,7 @@ export const WithEditor = ({
 
   return component => Component(component)
     .concat(Toolbar
-      .isolated('toolbar')
+      .isolation('toolbar')
       .concat(Textarea, { View })
       .after((sinks, sources) => ({
         ...sinks,

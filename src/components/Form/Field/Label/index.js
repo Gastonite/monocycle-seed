@@ -14,14 +14,14 @@ const Factory = require('utilities/factory')
 const WithFieldLabel = (options = {}, ...rest) => {
 
   const {
-    [Cycle.hasKey]: has = rest[0],
+    has = rest[0],
   } = options = Cycle.coerce(options)
 
   const classes = { FieldLabel: 'FieldLabel', ...options.classes }
 
   return WithLabel({
     ...options,
-    kind: '.' + classes.FieldLabel,
+    sel: '.' + classes.FieldLabel,
     from: (sinks, sources) => sources.onion.state$
       .map(either(
         either(

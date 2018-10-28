@@ -17,22 +17,22 @@ const isString = require('lodash/isString')
 const WithLayout = (options = {}) => {
 
   const {
-    kind = '',
+    sel = '',
     direction,
     fill,
     spaced,
     gutter,
     adapt,
-    [Cycle.hasKey]: has,
+    has,
     ...viewOptions
   } = options = parseOptions(options)
 
   const classes = { Layout: 'Layout', ...options.classes }
 
-  Cycle.log('WithLayout()', { kind, spaced, adapt })
+  Cycle.log('WithLayout()', { sel, spaced, adapt })
 
   return WithView({
-    kind: concat(kind, `.${classes.Layout}`),
+    sel: concat(sel, `.${classes.Layout}`),
     ...viewOptions,
     class: {
       ...(viewOptions.class || {}),
@@ -45,7 +45,7 @@ const WithLayout = (options = {}) => {
       ...(viewOptions.style || {}),
       padding: rem(+gutter)
     },
-    [Cycle.hasKey]: has
+    has 
   })
 }
 
@@ -71,7 +71,7 @@ const parseOptions = pipe(
     defaultTo(false),
     Boolean
   )),
-  over(lensProp('kind'), pipe(
+  over(lensProp('sel'), pipe(
     unless(isString, always(''))
   )),
 )

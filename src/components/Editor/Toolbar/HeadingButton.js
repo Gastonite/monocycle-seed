@@ -10,7 +10,7 @@
 //   .map(WithSetReducer({ key: 'active', from: 'isTypeActive$' }))
 
 //   .listener({
-//     kind: 'EditorHeadingToggler',
+//     name: 'EditorHeadingToggler',
 //     from: (sinks, { codemirror$ = $.empty() }) => codemirror$
 //       .map(editor => {
 
@@ -68,7 +68,7 @@ Cycle()
   .map(WithSetReducer({ key: 'active', from: 'isTypeActive$' }))
 
   .listener({
-    kind: 'EditorHeadingToggler',
+    name: 'EditorHeadingToggler',
     from: (sinks, { codemirror$ = $.empty() }) => codemirror$
       .map(editor => {
 

@@ -10,8 +10,8 @@ const Factory = require('utilities/factory')
 const WithNavigation = (options = {}) => {
 
   const {
-    kind = '',
-    [Cycle.hasKey]: has = Cycle.Empty,
+    sel = '',
+    has = Cycle.Empty,
     ...layoutOptions
   } = Cycle.coerce(options)
 
@@ -30,14 +30,14 @@ const WithNavigation = (options = {}) => {
 
   return WithLayout({
     ...layoutOptions,
-    kind: 'nav' + kind,
+    sel: 'nav' + sel,
     classes: mergeClasses(classes, {
       Layout: classes.Navigation
     }),
-    [Cycle.hasKey]: has
+    has: has 
       .map(unless(isFunction, pipe(
         Cycle.coerce,
-        ({ [Cycle.hasKey]: has, ...layoutOptions }) =>
+        ({ has, ...layoutOptions }) =>
           Cycle([
             makeLayout({
               classes,
@@ -45,7 +45,7 @@ const WithNavigation = (options = {}) => {
             }),
             makeLinkList({
               classes,
-              [Cycle.hasKey]: has
+              has 
             })
           ])
       )))

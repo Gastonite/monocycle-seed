@@ -6,14 +6,14 @@ const Factory = require('utilities/factory')
 const WithFieldInput = options => {
 
   const {
-    [Cycle.hasKey]: has
+    has 
   } = options = Cycle.coerce(options)
 
   const classes = { FieldInput: 'FieldInput', ...options.classes }
 
   return component => Cycle(component)
     .map(WithInput({
-      kind: '.' + classes.FieldInput,
+      sel: '.' + classes.FieldInput,
       from: (sinks, sources) =>
         sources.onion.state$
           .compose(dropRepeats())         

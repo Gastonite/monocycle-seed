@@ -13,7 +13,7 @@ const makeItalicButton = ({ classes  = {}}) =>
     }
   })
     .map(WithIconButton({ classes, has: italicIcon }))
-    // .isolated({
+    // .isolation({
     //   DOM: 'ItalicButton',
     //   '*': null
     // })

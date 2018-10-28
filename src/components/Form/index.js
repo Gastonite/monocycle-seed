@@ -45,13 +45,14 @@ const parseOptions = pipe(
   ),
 )
 
+
 const WithForm = (options = {}) => {
 
   const {
     classes = {},
     requestOptions,
     formatData,
-    [Cycle.hasKey]: has,
+    has,
   } = options = parseOptions(options)
 
   return component => Cycle(component)
@@ -72,10 +73,10 @@ const WithForm = (options = {}) => {
 
     .map(WithView({
       kind: 'form',
-      [Cycle.hasKey]: makeBar({
+      has: makeBar({
         gutter: false,
         classes,
-        [Cycle.hasKey]: [
+        has: [
 
           makeFlexible({ classes })
             .map(WithButton({
@@ -85,7 +86,7 @@ const WithForm = (options = {}) => {
               },
               has: 'Cancel'
             }))
-            .isolated({
+            .isolation({
               DOM: 'ResetButton',
               '*': null
             }),
@@ -98,7 +99,7 @@ const WithForm = (options = {}) => {
               },
               has: 'Send'
             }))
-            .isolated({
+            .isolation({
               DOM: 'SubmitButton',
               '*': null
             }),
@@ -154,7 +155,7 @@ const WithForm = (options = {}) => {
               data: reduce(
                 (before, field) => assoc(field.name, field.viewValue, before),
                 state.value.id ? { id: state.value.id } : {},
-                state[Cycle.hasKey]
+                state.has
               )
             }
           })
