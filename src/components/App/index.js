@@ -119,6 +119,7 @@
 //   }).transition()
 
 const { Stream: $ } = require('xstream')
+const { default: dropRepeats } = require('xstream/extra/dropRepeats')
 
 const pipe = require('ramda/src/pipe')
 const when = require('ramda/src/when')
@@ -130,8 +131,10 @@ const map = require('ramda/src/map')
 const complement = require('ramda/src/complement')
 const defaultTo = require('ramda/src/defaultTo')
 const lensIndex = require('ramda/src/lensIndex')
+const invoker = require('ramda/src/invoker')
 const either = require('ramda/src/either')
 const objOf = require('ramda/src/objOf')
+const tryCatch = require('ramda/src/tryCatch')
 const always = require('ramda/src/always')
 const filter = require('ramda/src/filter')
 const apply = require('ramda/src/apply')
@@ -150,7 +153,6 @@ const isPlainObject = require('lodash/isPlainObject')
 // const schema = require('./schema.json')
 const Cycle = require('component')
 const { div } = require('@cycle/dom')
-const log = require('utilities/log').Log('lab')
 // const { default: $ } = require('xstream')
 // const { footer } = require('@cycle/dom')
 // const { makeNavigation } = require('components/Navigation')
@@ -161,7 +163,8 @@ const log = require('utilities/log').Log('lab')
 // const PathToRegexp = require('path-to-regexp')
 // const { makeHeader } = require('components/Header')
 // const { makeRouter } = require('components/Router')
-const { DebugState } = require('components/Debug')
+const stringify = require('monocycle/utilities/stringify')
+const { DebugState } = require('monocycle-dom/Debug')
 // const { makeLink } = require('components/Link')
 // const { WithFlexible } = require('components/Flexible')
 // const Counter = require('components/Counter')
@@ -179,20 +182,28 @@ const { WithListener } = require('monocycle/operators/listener');
 const { WithButton, makeButton } = require('monocycle-dom/Button');
 const { WithDumbButton } = require('monocycle-dom/DumbButton');
 const { WithClickable } = require('monocycle-dom/Clickable');
+const { WithLayout } = require('monocycle-dom/Layout');
+const { WithFlexible } = require('monocycle-dom/Flexible');
 const { WithView } = require('monocycle-dom/View');
 const { WithTransition } = require('monocycle-state/Transition');
+const { WithCodemirror } = require('monocycle-dom/Codemirror');
+const { WithDebugState } = require('monocycle-dom/Debug');
+// const { WithEditor } = require('../Editor');
 const isNonEmptyString = both(isString, Boolean)
 
 // Cycle.define('Counter', () => sources => ({ DOM: sources.onion.state$ }))
+Cycle.define('DebugState', WithDebugState)
+Cycle.define('Layout', WithLayout)
+Cycle.define('Flexible', WithFlexible)
 Cycle.define('Transition', WithTransition)
 Cycle.define('View', WithView)
 Cycle.define('Listener', WithListener)
 Cycle.define('Clickable', WithClickable)
 Cycle.define('DumbButton', WithDumbButton)
 Cycle.define('Button', WithButton)
+Cycle.define('Codemirror', WithCodemirror)
+// Cycle.define('Editor', WithEditor)
 // const schema = require('./schema.json')
-
-const isFalsy = complement(Boolean)
 
 
 
@@ -251,20 +262,20 @@ const Test = Cycle.parse({
   ]
 })
 
-  // .map(WithTransition({
+// .map(WithTransition({
 
-  //   from: sinks => $.merge(sinks.remove$, sinks.add$),
-  //   name: 'update',
-  //   reducer: value => state => state + value
+//   from: sinks => $.merge(sinks.remove$, sinks.add$),
+//   name: 'update',
+//   reducer: value => state => state + value
 
-  // }, Cycle))
+// }, Cycle))
 
 // .listener({
 //   from: 'click$',
 //   to: 'Log'
 // })
 // // .map(WithTransition('return 0', Cycle))
-// .concat(DebugState, { View: div })
+// 
 
 console.log('Test:', Test)
 
@@ -281,9 +292,91 @@ module.exports = {
     .listener((sinks) => sinks.click$.debug('CLICK')),
 
 
-  default: ({ classes }) => Test
-    .concat(DebugState, { View: div }),
+  default: ({ classes }) => Cycle.get('Layout').make({
+    classes,
+    has: [
+      Cycle.get('Codemirror').make({
+        classes,
+        theme: 'darcula',
+        mode: 'application/json',
+        from: (sinks, sources) => sources.onion.state$
+        .map(prop('value'))
+        .compose(dropRepeats())
+        .map(x => JSON.stringify(x, null, 2))
+        .remember()
+        // has: ''
+      }).map(Cycle.get('Flexible').With({
+        classes
+      })),
+      Cycle.get('DebugState').make(),
+      Cycle.get('Flexible').make({
+        sel: 'pre',
+        classes,
+        style: {
+          backgroundColor: '#eee',
+          color: '#444'
+        },
+        from: (sinks, sources) => sources.onion.state$
+          .map(prop('value'))
+          .debug('oulala')
+          .compose(dropRepeats())
+          .map(x =>
+            $.of(x)
+            .map(Cycle.parse)
+            .replaceError(err => console.error('ParseError:', err.message) || $.empty())
 
+          )
+          .flatten()
+          .remember()
+        // .mapTo({
+        //   has: 'yo'
+        // })
+        // .map(stringify)
+
+        // from: (sinks, sources) => $.of('STATE'),
+        // has: 'pouic'
+      }),
+      // Cycle.get('View').make({
+      //   classes,
+      //   style: {
+      //     backgroundColor: '#eee'
+      //   },
+      //   from: (sinks, sources) => sources.onion.state$.debug('STATE')
+      // }).isolation('preview')
+
+
+    ]
+  }).transition([
+    () => ({ value: {"kind": "Button", "has": "teshht"} }),
+    {
+      from: (sinks, sources) => sinks.cursorActivity$
+        .compose(sources.Time.debounce(800))
+        .map(invoker(0, 'getValue'))
+        .map(x => $.of(x)
+          .map(JSON.parse)
+          // .map(x => JSON.stringify(x, null, 2))
+          // .map(JSON.parse)
+          .replaceError(err => console.error('ERR', err.message) || $.empty())
+        )
+        .flatten()
+      // .map(tryCatch(JSON.parse, ))
+
+      ,
+      // .map(apply()),
+      name: 'update',
+      reducer: value => state => ({
+        value
+      })
+    }, 
+    // {
+    //   from: 'prettify$',
+    //   name: 'prettify',
+    //   reducer: () => 
+    // }
+  ]),
+
+
+  // default: ({ classes }) => Cycle.parse({ kind: 'Button', has: 'coucou'})
   // makeApp
 }
 

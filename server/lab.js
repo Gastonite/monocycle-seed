@@ -22,7 +22,6 @@ const isString = require('lodash/isString')
 const capitalize = require('lodash/capitalize')
 const schema = require('./schema.json')
 const Cycle = require('../src/component')
-const log = require('../src/utilities/log').Log('lab')
 
 const { WithButton } = require('monocycle-dom/Button');
 const { WithView } = require('monocycle-dom/View');

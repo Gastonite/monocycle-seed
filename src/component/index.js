@@ -1,7 +1,7 @@
 const { default: $ } = require('xstream')
 const { makeComponent, defaultOperators } = require('monocycle/component')
 const merge = require('snabbdom-merge/merge-all')
-const { Log } = require('../utilities/log')
+const { Log } = require('monocycle/utilities/log')
 const pipe = require('ramda/src/pipe')
 const when = require('ramda/src/when')
 const over = require('ramda/src/over')
@@ -50,7 +50,7 @@ const WithParse = (options) => Cycle => {
 
   const parse = pipe(
     // path(['has', 0, 'has', 0]),
-    // when(isString, objOf('kind')),
+    when(isString, JSON.parse),
     Cycle.coerce,
 
 

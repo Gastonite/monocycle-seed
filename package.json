@@ -20,7 +20,7 @@
     "browser-assert": "^1.2.1",
     "browserify": "^16.2.2",
     "browserify-hmr": "^0.3.6",
-    "codemirror": "^5.40.2",
+    "codemirror": "^5.41.0",
     "csstips": "^0.3.0",
     "csx": "^9.0.0",
     "cycle-onionify": "^6.1.0",

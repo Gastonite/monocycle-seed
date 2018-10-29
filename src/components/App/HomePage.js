@@ -1,4 +1,3 @@
-const Factory = require('utilities/factory')
 const { WithLayout, makeLayout } = require('components/Layout')
 const { makeParagraph } = require('components/Paragraph')
 
@@ -38,10 +37,7 @@ const WithHomePage = ({ classes } = {}) => {
   })
 }
 
-const makeHomePage = Factory(WithHomePage)
-
 module.exports = {
-  default: makeHomePage,
-  makeHomePage,
+  default: WithHomePage,
   WithHomePage
 }

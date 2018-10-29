@@ -2,7 +2,6 @@ const { makeLayout, WithLayout } = require('components/Layout')
 const { makeCard } = require('components/Card')
 const { WithFlexible } = require('components/Flexible')
 const { makeParagraph } = require('components/Paragraph')
-const Factory = require('utilities/factory')
 
 
 const WithLayoutPage = ({ classes }) => {
@@ -139,10 +138,7 @@ const WithLayoutPage = ({ classes }) => {
   })
 }
 
-const makeLayoutPage = Factory(WithLayoutPage)
-
 module.exports = {
-  default: makeLayoutPage,
-  makeLayoutPage,
+  default: WithLayoutPage,
   WithLayoutPage
 }

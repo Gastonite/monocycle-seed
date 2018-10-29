@@ -1,6 +1,5 @@
 const { default: $ } = require('xstream')
 const Cycle = require('component')
-const Factory = require('utilities/factory')
 const { makeHeading } = require('components/Heading')
 const { makeCard } = require('components/Card')
 const { makeBar } = require('components/Bar')
@@ -21,7 +20,6 @@ const lensProp = require('ramda/src/lensProp')
 const over = require('ramda/src/over')
 const isString = require('lodash/isString')
 const isNonEmptyString = require('predicates/isNonEmptyString')
-const log = require('utilities/log').Log('ContactPage')
 
 const WithFormsPage = ({
   classes = {}
@@ -202,10 +200,7 @@ const WithFormsPage = ({
   return component => Cycle([component, FormsPage])
 }
 
-const makeFormsPage = Factory(WithFormsPage)
-
 module.exports = {
-  default: makeFormsPage,
-  makeFormsPage,
+  default: WithFormsPage,
   WithFormsPage
 }

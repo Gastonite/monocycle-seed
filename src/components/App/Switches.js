@@ -2,7 +2,6 @@ const { makeLayout, WithLayout } = require('components/Layout')
 const { makeCard } = require('components/Card')
 const { WithFlexible } = require('components/Flexible')
 const { makeParagraph } = require('components/Paragraph')
-const Factory = require('utilities/factory')
 
 const WithSwitchesPage = ({ classes }) => {
 
@@ -130,10 +129,7 @@ const WithSwitchesPage = ({ classes }) => {
   })
 }
 
-const makeSwitchesPage = Factory(WithSwitchesPage)
-
 module.exports = {
-  default: makeSwitchesPage,
-  makeSwitchesPage,
+  default: WithSwitchesPage,
   WithSwitchesPage
 }
