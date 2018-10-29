@@ -1,7 +1,6 @@
 
 const { default: $ } = require('xstream')
 const Cycle = require('component')
-const Factory = require('utilities/factory')
 const { makeField } = require('components/Form/Field')
 const { makeTextareaField } = require('components/TextareaField')
 const pipe = require('ramda/src/pipe')
@@ -115,10 +114,7 @@ const WithContactForm = (options = {}) => {
 
 }
 
-const makeContactForm = Factory(WithContactForm)
-
 module.exports = {
-  default: makeContactForm,
-  makeContactForm,
+  default: WithContactForm,
   WithContactForm
 }

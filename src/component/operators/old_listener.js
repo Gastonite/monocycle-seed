@@ -13,7 +13,6 @@ const castArray = require('lodash/castArray')
 const assert = require('assert')
 const isFunction = require('lodash/isFunction')
 const isString = require('lodash/isString')
-const Factory = require('../../utilities/factory')
 
 const coerceOptions = when(either(isFunction, isString), objOf('from'))
 
@@ -56,12 +55,7 @@ const WithListener = (options = {}) => {
   )(options)
 }
 
-
-
-const makeListener = Factory(WithListener)
-
 module.exports = {
   default: WithListener,
-  makeListener,
   WithListener
 }
