@@ -1,31 +1,46 @@
 {
   "kind": "View",
   "has": [
+    "coucou",
     {
       "kind": "View",
       "has": [
         {
           "kind": "Button",
           "has": "-",
+          "with": [
+            ["Listener", {
+              "from": "return sinks.click$.filter(Boolean).mapTo(-1)",
+              "to": "remove$"
+            }]
+          ],
           "scope": "removeButton"
         },
         {
           "kind": "Button",
           "has": "+",
+          "with": [
+            ["Listener", {
+              "from": "return sinks.click$.filter(Boolean).mapTo(+1)",
+              "to": "add$"
+            }]
+          ],
           "scope": "addButton"
+        },
+        {
+          "kind": "DebugState"
         }
-      ],
-      "with": [
-        ["Transition", [
-          "return 0",
-          {
-            "from": ["sinks", "return $.merge(sinks.add$, sinks.remove$)"],
-            "reducer": ["change", "return change => total => total + change"],
-            "name": "update"
-          }
-        ]]
       ]
-    },
-    "Counter"
+    }
+  ],
+  "with": [
+    ["Transition", [
+      "return 0",
+      {
+        "from": "return $.merge(sinks.remove$, sinks.add$)",
+        "name": "update",
+        "reducer": "return state + value"
+      }
+    ]]
   ]
 }

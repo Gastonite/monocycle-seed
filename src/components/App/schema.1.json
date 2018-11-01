@@ -1,0 +1,45 @@
+{
+  "kind": "View",
+  "has": [
+    "coucou",
+    {
+      "kind": "View",
+      "has": [
+        {
+          "kind": "Button",
+          "has": "-",
+          "with": [
+            [
+              "Listener",
+              {
+                "from": "return sinks.click$.filter(Boolean).mapTo(-1).debug('remove')"
+              }
+            ]
+          ],
+          "scope": "removeButton"
+        },
+        {
+          "kind": "Button",
+          "has": "+",
+          "with": [
+            [
+              "Listener",
+              {
+                "from": "return sinks.click$.filter(Boolean).mapTo(+1).debug('add')"
+              }
+            ]
+          ],
+          "scope": "addButton"
+        }
+      ]
+    }
+  ],
+  "with": [
+    [
+      "Transition",
+      [
+        "return 0"
+      ]
+    ]
+  ]
+}

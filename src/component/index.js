@@ -27,6 +27,7 @@ const prop = require('ramda/src/prop')
 const castArray = require('lodash/castArray')
 const isUndefined = require('lodash/isUndefined')
 const isFunction = require('lodash/isFunction')
+const isArray = require('lodash/isArray')
 const isString = require('lodash/isString')
 const isPlainObject = require('lodash/isPlainObject')
 
@@ -49,26 +50,41 @@ const WithParse = (options) => Cycle => {
 
 
   const parse = pipe(
-    // path(['has', 0, 'has', 0]),
-    when(isString, JSON.parse),
+    // x => {
+    //   console.log('parse 0.5', x)
+    //   return x
+    // },
+    Cycle.log.partial('parse 0'),
+    // unless(isString, always('{}')),
+    // when(isString, JSON.parse),
+
     Cycle.coerce,
-
-
+    Cycle.log.partial('parse 1'),
     over(lensProp('kind'), unless(isFunction,
       pipe(Cycle.get, prop('make')),
     )),
+    Cycle.log.partial('parse 2'),
+
     over(lensProp('with'), pipe(
       castArray,
       filter(Boolean),
-      map(pipe(
-        castArray,
-        over(lensIndex(0), either(pipe(Cycle.get, prop('With')), kind => {
-          throw new Error(`'${kind}' component is not defined`)
-        })),
-        ([Behavior, options]) => {
-          return Behavior(options)
-        }
-      )),
+      Cycle.log.partial('parse 22'),
+      map(([behaviorId, options]) => {
+        return Cycle.get(behaviorId, options)
+      }),
+      // map(pipe(
+      //   castArray,
+      //   // filter(isArray),
+
+      //   // over(lensIndex(0), Cycle.get),
+      //   Cycle.log.partial('parse 222'),
+
+      //   ([behaviorId, options]) => {
+      //     return Cycle.get(behaviorId, options)
+      //   }
+      // )),
+      Cycle.log.partial('parse 23'),
+
       ifElse(isEmpty, always(identity), apply(pipe))
 
 
@@ -81,13 +97,21 @@ const WithParse = (options) => Cycle => {
       //   throw new Error(`'${kind}' component is not defined`)
       // })
     )),
+    Cycle.log.partial('parse 3'),
 
     over(lensProp('has'), pipe(
       castArray,
       map(
-        when(isPlainObject, (x) => parse(x))
+        when(isPlainObject, (x) => {
+
+          Cycle.log('DEEPER_BEFORE', { x })
+          const parsed = parse(x)
+          Cycle.log('DEEPER_AFTER', { parsed })
+          return parsed
+        })
       )
     )),
+
     ({ kind, scope, with: behavior, ...options }) => {
 
       // console.log('YYYY', {
@@ -97,12 +121,9 @@ const WithParse = (options) => Cycle => {
       //   // ret: kind(options)
       // })
       // // let component = kind(options)
-
       // // component = pipe(...behaviors)(component)
-
       // const ga = behavior(kind(options))
       // console.log('là', ga)
-
 
       const component = behavior(kind(options))
 
@@ -140,8 +161,6 @@ const Component = makeComponent({
         .map(View)
   })
 })
-
-
 
 module.exports = pipe(
   WithParse({

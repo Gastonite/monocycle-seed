@@ -129,6 +129,7 @@ const path = require('ramda/src/path')
 const applyTo = require('ramda/src/applyTo')
 const map = require('ramda/src/map')
 const complement = require('ramda/src/complement')
+const eqProps = require('ramda/src/eqProps')
 const defaultTo = require('ramda/src/defaultTo')
 const lensIndex = require('ramda/src/lensIndex')
 const invoker = require('ramda/src/invoker')
@@ -150,7 +151,6 @@ const isUndefined = require('lodash/isUndefined')
 const isFunction = require('lodash/isFunction')
 const isString = require('lodash/isString')
 const isPlainObject = require('lodash/isPlainObject')
-// const schema = require('./schema.json')
 const Cycle = require('component')
 const { div } = require('@cycle/dom')
 // const { default: $ } = require('xstream')
@@ -163,8 +163,6 @@ const { div } = require('@cycle/dom')
 // const PathToRegexp = require('path-to-regexp')
 // const { makeHeader } = require('components/Header')
 // const { makeRouter } = require('components/Router')
-const stringify = require('monocycle/utilities/stringify')
-const { DebugState } = require('monocycle-dom/Debug')
 // const { makeLink } = require('components/Link')
 // const { WithFlexible } = require('components/Flexible')
 // const Counter = require('components/Counter')
@@ -188,6 +186,7 @@ const { WithView } = require('monocycle-dom/View');
 const { WithTransition } = require('monocycle-state/Transition');
 const { WithCodemirror } = require('monocycle-dom/Codemirror');
 const { WithDebugState } = require('monocycle-dom/Debug');
+const { WithRepl } = require('monocycle-dom/Repl');
 // const { WithEditor } = require('../Editor');
 const isNonEmptyString = both(isString, Boolean)
 
@@ -202,181 +201,82 @@ Cycle.define('Clickable', WithClickable)
 Cycle.define('DumbButton', WithDumbButton)
 Cycle.define('Button', WithButton)
 Cycle.define('Codemirror', WithCodemirror)
+Cycle.define('Repl', WithRepl)
 // Cycle.define('Editor', WithEditor)
-// const schema = require('./schema.json')
+const schema = require('./schema.json')
+const schema1 = require('./schema.1.json')
+const schema2 = require('./schema.2.json')
 
 
-
-
-
-
-
-// const parse = pipe(
-//   Cycle.coerce,
-//   ({ kind }) => Cycle.get('View').make()
-// )
-
-
-
-const Test = Cycle.parse({
-  "kind": "View",
-  "has": [
-    "coucou",
-    {
-      "kind": "View",
-      "has": [
-        {
-          "kind": "Button",
-          "has": "-",
-          "with": [
-            ["Listener", {
-              "from": "return sinks.click$.filter(Boolean).mapTo(-1)",
-              "to": "remove$"
-            }]
-          ],
-          "scope": "removeButton"
-        },
-        {
-          "kind": "Button",
-          "has": "+",
-          "with": [
-            ["Listener", {
-              "from": "return sinks.click$.filter(Boolean).mapTo(+1)",
-              "to": "add$"
-            }]
-          ],
-          "scope": "addButton"
-        }
-      ]
-    },
-  ],
-  "with": [
-    ["Transition", [
-      "return 0",
-      {
-        "from": "return $.merge(sinks.remove$, sinks.add$)",
-        "name": "update",
-        "reducer": "return state => state + value"
-      },
-    ]]
-  ]
-})
-
-// .map(WithTransition({
-
-//   from: sinks => $.merge(sinks.remove$, sinks.add$),
-//   name: 'update',
-//   reducer: value => state => state + value
-
-// }, Cycle))
-
-// .listener({
-//   from: 'click$',
-//   to: 'Log'
+// const Test = Cycle.parse({
+//   "kind": "View",
+//   "has": [
+//     "coucou",
+//     {
+//       "kind": "View",
+//       "has": [
+//         {
+//           "kind": "Button",
+//           "has": "-",
+//           "with": [
+//             ["Listener", {
+//               "from": "return sinks.click$.filter(Boolean).mapTo(-1)",
+//               "to": "remove$"
+//             }]
+//           ],
+//           "scope": "removeButton"
+//         },
+//         {
+//           "kind": "Button",
+//           "has": "+",
+//           "with": [
+//             ["Listener", {
+//               "from": "return sinks.click$.filter(Boolean).mapTo(+1)",
+//               "to": "add$"
+//             }]
+//           ],
+//           "scope": "addButton"
+//         }
+//       ]
+//     },
+//   ],
+//   "with": [
+//     ["Transition", [
+//       "return 0",
+//       {
+//         "from": "return $.merge(sinks.remove$, sinks.add$)",
+//         "name": "update",
+//         "reducer": "return state => state + value"
+//       },
+//     ]]
+//   ]
 // })
-// // .map(WithTransition('return 0', Cycle))
-// 
-
-console.log('Test:', Test)
 
 module.exports = {
-  // default: ({ classes }) =>  makeBoldButton({ classes }).isolation({
-  //   DOM: 'boldButton',
-  //   '*': null
-  // }),
-  // default: makeEditor,
+
   // default: makeApp,
 
   default: ({ classes }) => Cycle.get('Button')
-    .make('yo')
-    .listener((sinks) => sinks.click$.debug('CLICK')),
+    .make({
+      from: (sinks, sources) => sources.onion.state$.debug('state'),
+      has: 'yo'
+    })
+    // .listener(`return sinks.click$.debug('CLICK')`)
+    .transition([
+      'return 0',
+      // {
+        //         "from": "return $.merge(sinks.remove$, sinks.add$)",
+        //         "name": "update",
+        //         "reducer": "return state => state + value"
+        //       },
+    ])
+    .concat(Cycle.get('DebugState').make()),
+    // .listener((sinks) => sinks.click$.debug('CLICK')),
 
 
-  default: ({ classes }) => Cycle.get('Layout').make({
+  default: ({ classes }) => Cycle.get('Repl').make({
     classes,
-    has: [
-      Cycle.get('Codemirror').make({
-        classes,
-        theme: 'darcula',
-        mode: 'application/json',
-        from: (sinks, sources) => sources.onion.state$
-        .map(prop('value'))
-        .compose(dropRepeats())
-        .map(x => JSON.stringify(x, null, 2))
-        .remember()
-        // has: ''
-      }).map(Cycle.get('Flexible').With({
-        classes
-      })),
-      Cycle.get('DebugState').make(),
-      Cycle.get('Flexible').make({
-        sel: 'pre',
-        classes,
-        style: {
-          backgroundColor: '#eee',
-          color: '#444'
-        },
-        from: (sinks, sources) => sources.onion.state$
-          .map(prop('value'))
-          .debug('oulala')
-          .compose(dropRepeats())
-          .map(x =>
-            $.of(x)
-            .map(Cycle.parse)
-            .replaceError(err => console.error('ParseError:', err.message) || $.empty())
-
-          )
-          .flatten()
-          .remember()
-        // .mapTo({
-        //   has: 'yo'
-        // })
-        // .map(stringify)
-
-        // from: (sinks, sources) => $.of('STATE'),
-        // has: 'pouic'
-      }),
-      // Cycle.get('View').make({
-      //   classes,
-      //   style: {
-      //     backgroundColor: '#eee'
-      //   },
-      //   from: (sinks, sources) => sources.onion.state$.debug('STATE')
-      // }).isolation('preview')
-
-
-    ]
-  }).transition([
-    () => ({ value: {"kind": "Button", "has": "teshht"} }),
-    {
-      from: (sinks, sources) => sinks.cursorActivity$
-        .compose(sources.Time.debounce(800))
-        .map(invoker(0, 'getValue'))
-        .map(x => $.of(x)
-          .map(JSON.parse)
-          // .map(x => JSON.stringify(x, null, 2))
-          // .map(JSON.parse)
-          .replaceError(err => console.error('ERR', err.message) || $.empty())
-        )
-        .flatten()
-      // .map(tryCatch(JSON.parse, ))
-
-      ,
-      // .map(apply()),
-      name: 'update',
-      reducer: value => state => ({
-        value
-      })
-    }, 
-    // {
-    //   from: 'prettify$',
-    //   name: 'prettify',
-    //   reducer: () => 
-    // }
-  ]),
-
-
-  // default: ({ classes }) => Cycle.parse({ kind: 'Button', has: 'coucou'})
-  // makeApp
+    value: schema
+  })
 }
 

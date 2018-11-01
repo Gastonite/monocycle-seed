@@ -1,0 +1,14 @@
+{
+  "kind": "View",
+  "has": [
+    "coucou",
+    {
+      "kind": "DebugState"
+    }
+  ],
+  "with": [
+    ["Transition", [
+      "return 0"
+    ]]
+  ]
+}
