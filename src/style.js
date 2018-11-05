@@ -19,7 +19,7 @@ const FieldLabelStyle = require('monocycle-dom/Form/Field/Label/style')
 const FieldMessageStyle = require('monocycle-dom/Form/Field/Message/style')
 const LinkListStyle = require('monocycle-dom/LinkList/style')
 const ListItemStyle = require('monocycle-dom/ListItem/style')
-const ButtonStyle = require('monocycle-dom/DumbButton/style').default
+const ButtonStyle = require('monocycle-dom/Button/style').default
 const CardStyle = require('monocycle-dom/Card/style')
 const ImageStyle = require('monocycle-dom/Image/style')
 const SvgIconStyle = require('monocycle-dom/SvgIcon/style').default
@@ -104,6 +104,8 @@ const defineStyle = ({
   })
 
   cssRule(`html, body, .${rootClass}`, fillParent)
+
+  console.error('defineStyle()')
 
   return classes
 }

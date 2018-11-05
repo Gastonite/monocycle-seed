@@ -1,5 +1,15 @@
 {
   "kind": "View",
+  "with": [
+    ["Transition", [
+      "return 0",
+      {
+        "from": "return $.merge(sinks.remove$, sinks.add$)",
+        "name": "update",
+        "reducer": "return state + value"
+      }
+    ]]
+  ],
   "has": [
     "coucou",
     {
@@ -32,15 +42,5 @@
         }
       ]
     }
-  ],
-  "with": [
-    ["Transition", [
-      "return 0",
-      {
-        "from": "return $.merge(sinks.remove$, sinks.add$)",
-        "name": "update",
-        "reducer": "return state + value"
-      }
-    ]]
   ]
 }

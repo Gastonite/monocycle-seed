@@ -9,6 +9,5 @@ module.exports = ({ root } = {}) => ({
   History,
   Time,
   HTTP,
-  Log: log$ => { log$.debug('LOG').addListener(x => x) },
-  onion: StateDriver(),
+  Log: log$ => { log$.debug('LOG').addListener(x => x) }
 })

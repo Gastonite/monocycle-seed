@@ -1,8 +1,8 @@
 const { setup, run } = require('@cycle/run')
 const { rerunner, restartable } = require('cycle-restart')
 const { default: $ } = require('xstream')
-const Cycle = require('component')
 const insertRoot = require('./utilities/root')
+const pipe = require('ramda/src/pipe')
 
 
 
@@ -34,12 +34,11 @@ const withCounters = component => {
       .map(x => {
 
 
-        Cycle.log('COUNTERS:', counters)
+        console.log('COUNTERS:', counters)
       })
       .addListener(x => x)
 
     const sinks = component(sources)
-
 
     return Object.keys(sinks).reduce((before, key) => ({
       ...before,
@@ -52,10 +51,33 @@ const withCounters = component => {
   }
 }
 
+const WithViewLogger = (...args) => component => {
+
+  return sources => {
+
+    const sinks = component(sources)
+
+    const view$ = sinks.DOM || $.empty()
+
+
+    return {
+      ...sinks, 
+      DOM: view$.map(view => {
+        console.warn(...args, view)
+        return view
+      }) 
+    }
+  }
+}
+
 
 const requireApp = (classes) => {
 
-  return withCounters(require('./components/App').default({ classes }))
+  return pipe(
+    withCounters,
+    WithViewLogger('render')
+    withState
+  )(require('./components/App').default({ classes }))
 }
 
 
@@ -75,6 +97,7 @@ const Rerun = ({ root } = {}) => rerunner(setup, () => {
 
 
 let _classes = requireStyle()
+let _dispose
 
 const startApp = ({
   classes = { ..._classes },
@@ -84,12 +107,19 @@ const startApp = ({
   // Cycle.log('===============================================================')
   // Cycle.log('')
   // 
+  if (_dispose) {
+
+    _dispose()
+    _dispose = void 0
+  }
 
   insertRoot()
 
   const { sources, sinks, dispose } = Rerun({ root: `.${rootClass}` })(
     requireApp(classes)
   )
+
+  _dispose = dispose
 }
 
 startApp()

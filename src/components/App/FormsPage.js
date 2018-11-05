@@ -122,7 +122,7 @@ const WithFormsPage = ({
 
                     makeBar({
                       classes,
-                      from: (sinks, sources) => sources.onion.state$
+                      from: (sinks, sources) => sources.state.stream
                         .map(prop('message'))
                         .map(when(Boolean, pipe(
                           when(isString, objOf('text')),
