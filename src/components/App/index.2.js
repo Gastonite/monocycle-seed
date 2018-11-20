@@ -1,7 +1,7 @@
 const { Stream: $ } = require('xstream')
 const { mergeSinks } = require('cyclejs-utils')
 const { div } = require('@cycle/dom')
-const isString = require('lodash/isString')
+const isString = require('ramda-adjunct/lib/isString').default
 const when = require('ramda/src/when')
 const identical = require('ramda/src/identical')
 const prop = require('ramda/src/prop')
@@ -21,9 +21,9 @@ const isPlainObj = require('ramda-adjunct/lib/isPlainObj').default
 const objOf = require('ramda/src/objOf')
 const applyTo = require('ramda/src/applyTo')
 const map = require('ramda/src/map')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const complement = require('ramda/src/complement')
-const { Empty } = require('monocycle/empty')
+const { Empty } = require('monocycle/utilities/empty')
 const log = require('monocycle/utilities/log').Log('app').partial
 const mergeVnodes = require('snabbdom-merge/merge-all')
 
@@ -33,12 +33,12 @@ const mergeViews = pipe(
   apply(mergeVnodes),
 )
 
-const fromString = string => {
+// const fromString = string => {
 
-  const Text = () => ({ DOM: $.of(string) })
+//   const Text = () => ({ DOM: $.of(string) })
 
-  return Text
-}
+//   return Text
+// }
 
 const Combiners = pipe(
   prop('View'),

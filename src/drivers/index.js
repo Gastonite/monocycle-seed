@@ -1,13 +1,12 @@
-const Time = require('drivers/Time')
 const History = require('./History')
-const StateDriver = require('drivers/State')
 const DOMDriver = require('./DOM')
 const HTTP = require('./HTTP')
+const { timeDriver } = require('@cycle/time')
 
 module.exports = ({ root } = {}) => ({
   DOM: DOMDriver({ root }),
   History,
-  Time,
+  Time: timeDriver,
   HTTP,
   Log: log$ => { log$.debug('LOG').addListener(x => x) }
 })

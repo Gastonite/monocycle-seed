@@ -2,14 +2,13 @@ module.exports = function () {
   return {
     files: [
       'src/**/*.js',
-      '!src/**/test.js',
-      '!src/**/test/index.js',
+      '!src/**/*spec.js',
       '!node_modules/**/*',
+      '!old/**/*',
     ],
 
     tests: [
-      'src/**/test.js',
-      'src/**/test/index.js',
+      'src/**/*spec.js',
     ],
     env: {
       type: 'node'
@@ -18,7 +17,7 @@ module.exports = function () {
       // console.log('setup', wallaby)
       var mocha = wallaby.testFramework;
       mocha.ui('tdd');
-      mocha.timeout(5000);
+      mocha.timeout(10000);
       // etc.
       // require('module-alias/register')
 

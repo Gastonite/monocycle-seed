@@ -1,5 +1,5 @@
 const assert = require('browser-assert')
-const isFunction = require('lodash/isFunction')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 
 const Memoize = (...args) => {
 

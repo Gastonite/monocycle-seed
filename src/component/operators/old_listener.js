@@ -11,8 +11,8 @@ const either = require('ramda/src/either')
 const objOf = require('ramda/src/objOf')
 const castArray = require('lodash/castArray')
 const assert = require('assert')
-const isFunction = require('lodash/isFunction')
-const isString = require('lodash/isString')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
+const isString = require('ramda-adjunct/lib/isString').default
 
 const coerceOptions = when(either(isFunction, isString), objOf('from'))
 

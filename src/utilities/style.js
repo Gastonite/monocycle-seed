@@ -1,5 +1,5 @@
 const intersection = require('lodash/intersection')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const { classes } = require('typestyle')
 
 

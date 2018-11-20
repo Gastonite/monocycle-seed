@@ -7,7 +7,7 @@ const filter = require('ramda/src/filter')
 const unless = require('ramda/src/unless')
 const union = require('ramda/src/union')
 const isArray = require('lodash/isArray')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const isNotEmpty = require('predicates/isNotEmpty')
 const castArray = require('lodash/castArray')
 

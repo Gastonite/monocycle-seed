@@ -1,6 +1,6 @@
 const { style, cssRule, reinit } = require('typestyle/lib')
 const { hsla } = require('csx/lib')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const isPlainObject = require('lodash/isPlainObject')
 const castArray = require('lodash/castArray')
 const when = require('ramda/src/when')

@@ -18,8 +18,8 @@ const always = require('ramda/src/always')
 const when = require('ramda/src/when')
 const lensProp = require('ramda/src/lensProp')
 const over = require('ramda/src/over')
-const isString = require('lodash/isString')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isString = require('ramda-adjunct/lib/isString').default
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 
 const WithFormsPage = ({
   classes = {}
@@ -79,7 +79,7 @@ const WithFormsPage = ({
                 classes,
                 gutter: false,
                 has: [
-                  
+
                   makeCodemirror().isolation({
                     DOM: 'Codemirror',
                     '*': null,
@@ -191,7 +191,7 @@ const WithFormsPage = ({
             direction: 'column',
             spaced: true
           }))
-          
+
         ]
       })
     ]

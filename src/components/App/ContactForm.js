@@ -11,7 +11,7 @@ const unless = require('ramda/src/unless')
 const lensProp = require('ramda/src/lensProp')
 const { Empty } = require('monocycle/component')
 const isPlainObject = require('lodash/isPlainObject')
-const isNonEmptyString = require('predicates/isNonEmptyString')
+const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const { WithForm } = require('components/Form')
 const lt = require('ramda/src/lt')
 const both = require('ramda/src/both')
@@ -67,7 +67,7 @@ const WithContactForm = (options = {}) => {
         to: 'resetForm$'
       }
     ])
-    
+
     .map(WithForm({
       ...formOptions,
       classes,

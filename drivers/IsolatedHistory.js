@@ -1,5 +1,5 @@
 const prop = require('ramda/src/prop')
-const isString = require('lodash/isString')
+const isString = require('ramda-adjunct/lib/isString').default
 const pipe = require('ramda/src/pipe')
 const startsWith = require('lodash/fp/startsWith')
 const { default: $ } = require('xstream')

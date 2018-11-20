@@ -24,7 +24,6 @@ suite('Counter', () => {
 
   test('should interact correctly', () => {
 
-
     const property = forall(diagramArbitrary, diagramArbitrary, (addDiagram, subtractDiagram) => withTime(Time => {
       const add$ = Time.diagram(addDiagram);
       const subtract$ = Time.diagram(subtractDiagram);
@@ -34,7 +33,7 @@ suite('Counter', () => {
         '.remove': { click: subtract$ }
       });
 
-
+P
       const app = withState(Counter)({ DOM });
       const html$ = app.DOM
         .map(toHtml)
@@ -46,7 +45,7 @@ suite('Counter', () => {
         .map(count => `
           <div>
               <h2>Counter</h2>
-              <span>value: ${count}</span>
+              <span>vlue: ${count}</span>
               <button class="add">+</button>
               <button class="remove">-</button>
           </div>

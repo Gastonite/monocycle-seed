@@ -1,23 +1,6 @@
 {
   "presets": [
-    "env",
-    "stage-3"
+    "@babel/env"
   ],
-  "plugins": [
-    [
-      "module-resolver",
-      {
-        "root": [
-          "."
-        ],
-        "alias": {
-          "component": "./src/component",
-          "components": "./src/components",
-          "utilities": "./src/utilities",
-          "predicates": "./src/predicates",
-          "style": "./src/style"
-        }
-      }
-    ]
-  ]
+  "plugins": []
 }

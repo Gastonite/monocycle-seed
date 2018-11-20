@@ -2,6 +2,7 @@ const { setup, run } = require('@cycle/run')
 const { rerunner, restartable } = require('cycle-restart')
 const { default: $ } = require('xstream')
 const insertRoot = require('./utilities/root')
+const { withState } = require('@cycle/state')
 const pipe = require('ramda/src/pipe')
 
 
@@ -61,11 +62,11 @@ const WithViewLogger = (...args) => component => {
 
 
     return {
-      ...sinks, 
+      ...sinks,
       DOM: view$.map(view => {
         console.warn(...args, view)
         return view
-      }) 
+      })
     }
   }
 }
@@ -74,8 +75,9 @@ const WithViewLogger = (...args) => component => {
 const requireApp = (classes) => {
 
   return pipe(
-    withCounters,
-    WithViewLogger('render')
+    x => x,
+    // withCounters,
+    // WithViewLogger('render'),
     withState
   )(require('./components/App').default({ classes }))
 }

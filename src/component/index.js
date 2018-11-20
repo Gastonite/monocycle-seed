@@ -1,5 +1,5 @@
 const { default: $ } = require('xstream')
-const { makeComponent, defaultOperators } = require('monocycle/component')
+const { makeComponent: _makeComponent, defaultOperators } = require('monocycle/component')
 const { Log } = require('monocycle/utilities/log')
 const when = require('ramda/src/when')
 const over = require('ramda/src/over')
@@ -10,16 +10,9 @@ const filter = require('ramda/src/filter')
 const apply = require('ramda/src/apply')
 const ifElse = require('ramda/src/ifElse')
 const unless = require('ramda/src/unless')
+const { WithStore } = require('monocycle/store');
 const lensProp = require('ramda/src/lensProp')
-const isFunction = require('lodash/isFunction')
-const isString = require('lodash/isString')
-const isPlainObject = require('lodash/isPlainObject')
-const { WithListener } = require('monocycle/operators/listener');
-
-const { WithIsolation } = require('monocycle/operators/isolation')
-const { WithTransition } = require('monocycle-state/Transition')
-const { mergeOptions: mergeViewOptions } = require('monocycle-dom/utilities/mergeOptions')
-const { mergeSinks } = require('cyclejs-utils')
+const isFunction = require('ramda-adjunct/lib/isFunction').default
 const prop = require('ramda/src/prop')
 const both = require('ramda/src/both')
 const pipe = require('ramda/src/pipe')
@@ -33,7 +26,7 @@ const isEmpty = require('ramda/src/isEmpty')
 const ensureArray = require('ramda-adjunct/lib/ensureArray').default
 const isPlainObj = require('ramda-adjunct/lib/isPlainObj').default
 const complement = require('ramda/src/complement')
-const { Empty: EmptyObject } = require('monocycle/empty')
+const { Empty: EmptyObject } = require('monocycle/utilities/empty')
 const log = require('monocycle/utilities/log').Log('app').partial
 const mergeViews = require('snabbdom-merge/merge-all')
 
@@ -188,6 +181,11 @@ const different = compose(complement, identical)
 //     }
 //   })
 // )(Cycle)
+
+const makeComponent = pipe(
+  // withComponentAsArgument,
+  withComponentStore,
+)(_makeComponent)
 
 
 module.exports = makeComponent({
