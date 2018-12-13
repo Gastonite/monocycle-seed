@@ -1,57 +1,56 @@
 // Placeholder test file - DOES NOT PASS
 
-const { forall, assert, nat, Options } = require('jsverify')
-const { diagramArbitrary, withTime } = require('cyclejs-test-helpers')
-const htmlLooksLike = require('html-looks-like')
-const { Counter } = require('./index')
+const test = require('ava')
+const jsc = require('jsverify')
+const { withTime, diagramArbitrary: diagramArb } = require('cyclejs-test-helpers')
 const toHtml = require('snabbdom-to-html') //snabbdom-to-html's typings are broken
 const { Stream: $ } = require('xstream')
-const { mockDOMSource, VNode } = require('@cycle/dom')
-const { mockTimeSource } = require('@cycle/time')
+const { mockDOMSource } = require('@cycle/dom')
 const { withState } = require('@cycle/state')
+const { WithCounter } = require('./Counter')
 
-const testOptions = {
-  tests: 100,
-  size: 100
-}
+const minify = x => x.replace(/\n/g, '').replace(/\s{2,}/g, '').replace(/>\s{1}</g, '')
 
+test('Counter: updates the value when clicking addButton or removeButton', () => withTime(Time => {
 
-suite('Counter', () => {
+  const property = jsc.forall(diagramArb, diagramArb, (a, b) => {
 
-  const expectedHTML = (count) => `
-    <div>
-      <h2>Counter</h2>
-      <span>value: ${count}</span>
-      <button class="remove">-</button>
-      <button class="add">+</button>
-    </div>
-  `
-  test('should interact correctly', () => {
+    const add$ = Time.diagram(a)
+    const remove$ = Time.diagram(b)
 
-    const property = forall(diagramArbitrary, diagramArbitrary, (addDiagram, subtractDiagram) => withTime(Time => {
+    const DOM = mockDOMSource({
+      '.___addButton': { click: add$ },
+      '.___removeButton': { click: remove$ }
+    })
 
-      const add$ = Time.diagram(addDiagram)
-      const subtract$ = Time.diagram(subtractDiagram)
+    const Counter = WithCounter()()
 
-      const DOM = mockDOMSource({
-        '.add': { click: add$ },
-        '.remove': { click: subtract$ }
-      })
+    const sinks = withState(Counter)({ DOM, Time })
 
-      const app = withState(Counter)({ DOM })
-      const html$ = app.DOM.map(toHtml)
+    const html$ = sinks.DOM.map(toHtml)
 
-      const expected$ = $.merge(add$.mapTo(+1), subtract$.mapTo(-1))
-        .fold((acc, curr) => acc + curr, 0)
-        .map(expectedHTML)
+    const expected$ = $.merge(add$.mapTo(+1), remove$.mapTo(-1))
+      .fold((acc, curr) => acc + curr, 0)
+      .map((count) => `
+        <div>
+          <div>Counter: ${count}</div>
+          <div>
+            <button class="Button ___removeButton">-</button>
+            <button class="Button ___addButton">+</button>
+          </div>
+        </div>
+      `)
 
-      Time.assertEqual(
-        html$,
-        expected$,
-        htmlLooksLike
-      )
-    }))
+    Time.assertEqual(
+      html$,
+      expected$.map(minify),
+    )
 
-    return assert(property, testOptions)
+    return true
   })
-})
+
+  jsc.assert(property, {
+    tests: 100,
+  })
+
+})())

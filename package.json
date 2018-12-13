@@ -41,18 +41,26 @@
     "reinstall": "rm -fr node_modules && npm i"
   },
   "author": "Clément Pasquier <clement@n00sphere.net>",
-  "license": "ISC",
+  "license": "GPL",
   "dependencies": {
+    "@cycle/history": "^7.0.0",
+    "@cycle/http": "^15.0.0",
     "monocycle": "git+https://github.com/gastonite/monocycle.git#dev",
-    "monocycle-dom": "git+https://github.com/gastonite/monocycle-dom.git#dev"
+    "monocycle-abstract": "git+https://github.com/gastonite/monocycle-abstract.git#dev",
+    "monocycle-dom": "git+https://github.com/gastonite/monocycle-dom.git#dev",
+    "monocycle-state": "git+https://github.com/gastonite/monocycle-state.git#dev"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-stage-3": "^7.0.0",
+    "ava": "^0.25.0",
     "babelify": "^10.0.0",
     "browserify-hmr": "^0.3.7",
     "budo": "^11.5.0",
-    "cycle-restart": "^0.2.3"
+    "cycle-restart": "^0.2.3",
+    "cyclejs-test-helpers": "^4.0.0",
+    "html-looks-like": "^1.0.3",
+    "xml-but-prettier": "^1.0.1"
   }
 }

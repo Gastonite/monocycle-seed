@@ -7,7 +7,6 @@ const { WithClickable } = require('monocycle-dom/Clickable');
 const { WithLayout } = require('monocycle-dom/Layout');
 const { WithFlexible } = require('monocycle-dom/Flexible');
 const { WithView } = require('monocycle-dom/View');
-// const { WithTransition } = require('monocycle-state/Transition');
 const { WithCodemirror } = require('monocycle-dom/Codemirror');
 // const { WithDebugState } = require('monocycle-dom/Debug');
 const { WithRepl } = require('monocycle-repl');

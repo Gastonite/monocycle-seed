@@ -13,7 +13,7 @@ Budo('./src/dev.js', {
     plugin: 'browserify-hmr'
   },
   middleware: (req, res, next) => {
-    
+
     if (req.method !== 'POST')
       return next()
 

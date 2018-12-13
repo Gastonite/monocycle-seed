@@ -4,6 +4,7 @@ const { default: $ } = require('xstream')
 const insertRoot = require('./utilities/root')
 const { withState } = require('@cycle/state')
 const pipe = require('ramda/src/pipe')
+// const test = require('./components/Counter/Counter.spec')
 
 
 
@@ -13,17 +14,18 @@ global.require = (...args) => {
   const ret = _req(...args)
 
   if (ret && ret.__esModule)
-    throw new Error('YOO', args)
+    throw new Error('NO ES6 MODULES !', args)
 
   return ret
 }
+
 const requireStyle = () => require('./style')()
 const requireDrivers = ({ root } = {}) => require('./drivers')({
   root
 })
 
 
-const withCounters = component => {
+const withSinksCounters = component => {
 
   return sources => {
     const counters = {
@@ -76,8 +78,8 @@ const requireApp = (classes) => {
 
   return pipe(
     x => x,
-    // withCounters,
-    // WithViewLogger('render'),
+    // withSinksCounters,
+    WithViewLogger('render'),
     withState
   )(require('./components/App').default({ classes }))
 }
@@ -105,10 +107,7 @@ const startApp = ({
   classes = { ..._classes },
   rootClass = 'root'
 } = {}) => {
-  // Cycle.log('')
-  // Cycle.log('===============================================================')
-  // Cycle.log('')
-  // 
+
   if (_dispose) {
 
     _dispose()
@@ -127,6 +126,7 @@ const startApp = ({
 startApp()
 
 if (module.hot) {
+
   module.hot.accept([
     './components/App',
     './drivers',
@@ -134,7 +134,6 @@ if (module.hot) {
     console.clear()
     startApp()
   })
-
 
   module.hot.accept('./style', () => {
     _classes = requireStyle()

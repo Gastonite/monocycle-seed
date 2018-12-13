@@ -8,19 +8,15 @@ module.exports = function () {
     ],
 
     tests: [
-      'src/**/*spec.js',
+      'src/components/Counter/*.spec.js',
+      // 'src/**/*spec.js',
     ],
     env: {
       type: 'node'
     },
-    setup: function (wallaby) {
-      // console.log('setup', wallaby)
-      var mocha = wallaby.testFramework;
-      mocha.ui('tdd');
-      mocha.timeout(10000);
-      // etc.
-      // require('module-alias/register')
+    testFramework: 'ava',
+    setup: wallaby => {
 
     }
-  };
-};
+  }
+}
