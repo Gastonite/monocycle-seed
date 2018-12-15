@@ -1,4 +1,4 @@
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 const Cycle = require('component')
 const { makeHeading } = require('components/Heading')
 const { makeCard } = require('components/Card')

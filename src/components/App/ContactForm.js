@@ -1,5 +1,5 @@
 
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 const Cycle = require('component')
 const { makeField } = require('components/Form/Field')
 const { makeTextareaField } = require('components/TextareaField')
@@ -10,7 +10,8 @@ const always = require('ramda/src/always')
 const unless = require('ramda/src/unless')
 const lensProp = require('ramda/src/lensProp')
 const { Empty } = require('monocycle/component')
-const isPlainObject = require('lodash/isPlainObject')
+const isPlainObj = require('ramda-adjunct/lib/isPlainObj').default
+
 const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
 const { WithForm } = require('components/Form')
 const lt = require('ramda/src/lt')
@@ -28,7 +29,7 @@ const defaultValidators = {
 const parseOptions = pipe(
   Cycle.coerce,
   over(lensProp('requestOptions'), pipe(
-    unless(isPlainObject, Empty),
+    unless(isPlainObj, Empty),
     over(lensProp('url'), pipe(
       unless(isNonEmptyString, always('contact'))
     )),

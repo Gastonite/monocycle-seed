@@ -1,4 +1,3 @@
-const { Stream: $ } = require('xstream')
 const { div } = require('@cycle/dom')
 // const { default: isolate } = require('@cycle/isolate')
 const { makeComponent } = require('monocycle/component')
@@ -55,117 +54,117 @@ const Cycle = pipe(
 }))
 
 module.exports = {
-  default: ({ classes }) => {
+  // default: ({ classes }) => {
 
-    Cycle.set('View', WithView)
-    Cycle.set('Dynamic', WithDynamic)
-    Cycle.set('Switch', WithSwitch)
-
-
-    // const WithSwitch = ({ from, resolve }) => {
-
-    //   return (component = () => ({})) => {
+  //   Cycle.set('View', WithView)
+  //   Cycle.set('Dynamic', WithDynamic)
+  //   Cycle.set('Switch', WithSwitch)
 
 
-    //     return sources => {
+  //   // const WithSwitch = ({ from, resolve }) => {
 
-    //       const sinks = component(sources)
-    //       const sinks$ = from(sinks, sources)
-    //         .compose(sources.Time.debounce(0))
-    //         .map(value => {
-    //           console.log('from', value)
-
-    //           return Cycle.get('View').make(resolve
-    //             .map(applyTo(value))
-    //             .filter(Boolean))
-    //         })
-    //         .map(applyTo(sources))
-    //         .remember()
+  //   //   return (component = () => ({})) => {
 
 
-    //       // return sinks$.map(sinks => {
+  //   //     return sources => {
+
+  //   //       const sinks = component(sources)
+  //   //       const sinks$ = from(sinks, sources)
+  //   //         .compose(sources.Time.debounce(0))
+  //   //         .map(value => {
+  //   //           console.log('from', value)
+
+  //   //           return Cycle.get('View').make(resolve
+  //   //             .map(applyTo(value))
+  //   //             .filter(Boolean))
+  //   //         })
+  //   //         .map(applyTo(sources))
+  //   //         .remember()
+
+
+  //   //       // return sinks$.map(sinks => {
 
 
 
-    //       // })
+  //   //       // })
 
-    //       return ['DOM', 'state']
-    //         .reduce((before, key, i) => ({
-    //           ...before,
-    //           [key]: sinks$
-    //             .map(sinks => {
+  //   //       return ['DOM', 'state']
+  //   //         .reduce((before, key, i) => ({
+  //   //           ...before,
+  //   //           [key]: sinks$
+  //   //             .map(sinks => {
 
-    //               console.log('extractSinks.sinks(' + i + ')=', {
-    //                 sinks
-    //               })
+  //   //               console.log('extractSinks.sinks(' + i + ')=', {
+  //   //                 sinks
+  //   //               })
 
-    //               return sinks[key]
-    //             })
-    //             .filter(b => !!b)
-    //             // .map(b => b.remember())
-    //             .flatten()
-    //             .debug('gna')
-    //         }), {})
-    //       return extractSinks(
-    //         component$.map(applyTo(sources)),
+  //   //               return sinks[key]
+  //   //             })
+  //   //             .filter(b => !!b)
+  //   //             // .map(b => b.remember())
+  //   //             .flatten()
+  //   //             .debug('gna')
+  //   //         }), {})
+  //   //       return extractSinks(
+  //   //         component$.map(applyTo(sources)),
 
-    //       )
-    //     }
-    //   }
-
-
-    //   const withSwitch = Cycle.get('Dynamic', {
-    //     SinksKeys: () => ['DOM', 'ga', 'bu'],
-    //     from: (component, sources) => {
-
-    //       const sinks = component(sources)
-    //       const component$ = from(sinks, sources)
-    //         .map(value => {
-    //           console.log('from', value)
-
-    //           return Cycle.get('View').make(cases
-    //             .map(applyTo(value))
-    //             .filter(Boolean))
-    //         })
-
-    //       return sources => extractSinks(
-    //         component$.map(applyTo(sources)),
-    //         ['DOM', 'ga', 'bu']
-    //       )
-    //     }
-    //   })
+  //   //       )
+  //   //     }
+  //   //   }
 
 
-    //   return withSwitch
-    // }
+  //   //   const withSwitch = Cycle.get('Dynamic', {
+  //   //     SinksKeys: () => ['DOM', 'ga', 'bu'],
+  //   //     from: (component, sources) => {
 
-    return Cycle.get('Switch').make({
-      // merge: Cycle.get('View').make,
-      from: (sinks, sources) => {
-        console.log('from()')
-        return $.of(42).compose(sources.Time.debounce(0))
-      },
-      resolve: [
-        Case({
-          resolve: x => {
+  //   //       const sinks = component(sources)
+  //   //       const component$ = from(sinks, sources)
+  //   //         .map(value => {
+  //   //           console.log('from', value)
 
-            console.log('resolveA', x)
-            return x > 41
-          },
-          value: Cycle(() => ({ DOM: $.of(div('caseA')) }))
-        }),
-        Case({
-          resolve: x => {
+  //   //           return Cycle.get('View').make(cases
+  //   //             .map(applyTo(value))
+  //   //             .filter(Boolean))
+  //   //         })
 
-            console.log('resolveB', x)
+  //   //       return sources => extractSinks(
+  //   //         component$.map(applyTo(sources)),
+  //   //         ['DOM', 'ga', 'bu']
+  //   //       )
+  //   //     }
+  //   //   })
 
-            return true
-          },
-          value: Cycle(() => ({ DOM: $.of(div('caseB')) }))
-        }),
-      ]
-    })
-  },
+
+  //   //   return withSwitch
+  //   // }
+
+  //   return Cycle.get('Switch').make({
+  //     // merge: Cycle.get('View').make,
+  //     from: (sinks, sources) => {
+  //       console.log('from()')
+  //       return $.of(42).compose(sources.Time.debounce(0))
+  //     },
+  //     resolve: [
+  //       Case({
+  //         resolve: x => {
+
+  //           console.log('resolveA', x)
+  //           return x > 41
+  //         },
+  //         value: Cycle(() => ({ DOM: $.of(div('caseA')) }))
+  //       }),
+  //       Case({
+  //         resolve: x => {
+
+  //           console.log('resolveB', x)
+
+  //           return true
+  //         },
+  //         value: Cycle(() => ({ DOM: $.of(div('caseB')) }))
+  //       }),
+  //     ]
+  //   })
+  // },
   default: ({ classes }) => {
 
     Cycle.set('Counter', WithCounter)

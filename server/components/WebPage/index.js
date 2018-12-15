@@ -1,5 +1,5 @@
 const { base, html, head, style, title: TitleView, body, div, script } = require('@cycle/dom')
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 
 const makeWebPage = ({
   title = 'Example',

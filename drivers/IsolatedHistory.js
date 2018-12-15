@@ -1,8 +1,8 @@
 const prop = require('ramda/src/prop')
 const isString = require('ramda-adjunct/lib/isString').default
 const pipe = require('ramda/src/pipe')
-const startsWith = require('lodash/fp/startsWith')
-const { default: $ } = require('xstream')
+const startsWith = require('ramda/src/startsWith')
+const { Stream: $ } = require('xstream')
 
 
 const IsolatedHistorySource = (sink, prefix = '') => {

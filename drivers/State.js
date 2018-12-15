@@ -1,4 +1,4 @@
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 const quicktask = require('quicktask').default
 const concat = require('xstream/extra/concat').default;
 const { StateSource } = require('cycle-onionify/lib/StateSource')

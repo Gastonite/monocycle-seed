@@ -43,12 +43,23 @@
   "author": "Clément Pasquier <clement@n00sphere.net>",
   "license": "GPL",
   "dependencies": {
+    "@cycle/dom": "^22.3.0",
     "@cycle/history": "^7.0.0",
     "@cycle/http": "^15.0.0",
-    "monocycle": "git+https://github.com/gastonite/monocycle.git#dev",
-    "monocycle-abstract": "git+https://github.com/gastonite/monocycle-abstract.git#dev",
-    "monocycle-dom": "git+https://github.com/gastonite/monocycle-dom.git#dev",
-    "monocycle-state": "git+https://github.com/gastonite/monocycle-state.git#dev"
+    "@cycle/run": "^5.2.0",
+    "@cycle/state": "^1.1.0",
+    "@cycle/time": "^0.19.0",
+    "codemirror": "^5.42.0",
+    "csstips": "^0.3.0",
+    "csx": "^9.0.0",
+    "monocycle": "github:gastonite/monocycle#dev",
+    "monocycle-abstract": "https://github.com/gastonite/monocycle-abstract.git#dev",
+    "monocycle-dom": "github:gastonite/monocycle-dom#dev",
+    "monocycle-state": "https://github.com/gastonite/monocycle-state.git#dev",
+    "ramda": "^0.26.1",
+    "ramda-adjunct": "^2.13.0",
+    "typestyle": "^2.0.1",
+    "xstream": "^11.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

@@ -1,8 +1,8 @@
 const { style, cssRule, reinit } = require('typestyle/lib')
 const { hsla } = require('csx/lib')
 const isNonEmptyString = require('ramda-adjunct/lib/isNonEmptyString').default
-const isPlainObject = require('lodash/isPlainObject')
-const castArray = require('lodash/castArray')
+const ensureArray = require('ramda-adjunct/lib/ensureArray').default
+const isPlainObj = require('ramda-adjunct/lib/isPlainObj').default
 const when = require('ramda/src/when')
 const reduce = require('ramda/src/reduce')
 const assoc = require('ramda/src/assoc')
@@ -60,10 +60,10 @@ const defineStyle = ({
     options = {}
   }) => {
 
-    const styles = castArray(Styles({
+    const styles = ensureArray(Styles({
       ...globalOptions,
       ...options,
-      ...castArray(needs)
+      ...ensureArray(needs)
         .filter(isNonEmptyString)
         .reduce((needs, need) => ({
           ...needs,
@@ -81,7 +81,7 @@ const defineStyle = ({
     return {
       ...classes,
       [name]: style(...(debug ? styles : styles.map(
-        when(isPlainObject, assoc('$debugName', void 0)),
+        when(isPlainObj, assoc('$debugName', void 0)),
         // when(isPlainObject, ({ $debugName, ...style }) => ({
         //   ...style,
         //   $debugName: process.env.NODE_ENV === 'production'

@@ -1,4 +1,4 @@
-const { default: $ } = require('xstream')
+const { Stream: $ } = require('xstream')
 const { makeComponent: _makeComponent, defaultOperators } = require('monocycle/component')
 const { Log } = require('monocycle/utilities/log')
 const when = require('ramda/src/when')

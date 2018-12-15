@@ -1,4 +1,3 @@
-const { Stream: $ } = require('xstream')
 const { div } = require('@cycle/dom')
 const { default: isolate } = require('@cycle/isolate')
 const { makeComponent } = require('monocycle/component')
